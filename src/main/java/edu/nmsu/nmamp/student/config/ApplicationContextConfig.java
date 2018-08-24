@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
  
 @Configuration
-@ComponentScan("edu.nmsu.nmamp.*")
+@ComponentScan("edu.nmsu.nmamp.student.*")
 @EnableTransactionManagement
 // Load to Environment.
 @PropertySource("classpath:database-cfg.properties")
