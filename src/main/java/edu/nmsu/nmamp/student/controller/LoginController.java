@@ -23,8 +23,15 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String loginPage(BindingResult errors, Model model) {
+	public String loginPage(Model model) {
 		System.out.println("aaaaaaaaaaaaaaaaaaaa");
+		return HomePage;
+	}
+	
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String loginPageTest(Model model) {
+		System.out.println("cccccccccccccccc");
 		return HomePage;
 	}
 }

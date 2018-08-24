@@ -15,10 +15,15 @@
  */
 package edu.nmsu.nmamp.student.config;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -26,40 +31,44 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
- 
- 
+
 @Configuration
 @EnableWebMvc
-public class ThymeleafConfig {
- 
-	@Bean(name ="templateResolver")
-	public ITemplateResolver templateResolver(){
-        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("/WEB-INF/views/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCharacterEncoding("UTF-8");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }
-	
-	@Bean(name ="templateEngine")	    
-    public SpringTemplateEngine templateEngine() {
-    	SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    	templateEngine.setTemplateResolver(templateResolver());
-    	
-        templateEngine.addDialect(new SpringSecurityDialect());
-        templateEngine.addDialect(new Java8TimeDialect());
-    	return templateEngine;
-    }
-	
-	@Bean(name="viewResolver")
-    public ThymeleafViewResolver getViewResolver(){
-    	ThymeleafViewResolver viewResolver = new ThymeleafViewResolver(); 
-    	viewResolver.setTemplateEngine(templateEngine());
-    	viewResolver.setCharacterEncoding("UTF-8");
-    	viewResolver.setContentType("text/html; charset=UTF-8");
-    	return viewResolver;
+@ComponentScan({"edu.nmsu.nmamp.student"})
+public class ThymeleafConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+
+	private static final String UTF8 = "UTF-8";
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
-} 
+	@Bean
+	public ViewResolver viewResolver() {
+		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+		resolver.setTemplateEngine(templateEngine());
+		resolver.setCharacterEncoding("UTF-8");
+		return resolver;
+	}
+
+	@Bean
+	public TemplateEngine templateEngine() {
+		SpringTemplateEngine engine = new SpringTemplateEngine();
+		engine.setEnableSpringELCompiler(true);
+		engine.setTemplateResolver(templateResolver());
+		return engine;
+	}
+
+	private ITemplateResolver templateResolver() {
+		SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
+		resolver.setApplicationContext(applicationContext);
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".html");
+		resolver.setTemplateMode(TemplateMode.HTML);
+		return resolver;
+	}
+
+}

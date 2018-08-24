@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
  
 @Configuration
-@ComponentScan("edu.nmsu.nmamp.student.*")
+@ComponentScan("edu.nmsu.nmamp.student")
 @EnableTransactionManagement
 // Load to Environment.
 @PropertySource("classpath:database-cfg.properties")
@@ -42,8 +42,8 @@ public class ApplicationContextConfig {
   @Bean(name = "viewResolver")
   public InternalResourceViewResolver getViewResolver() {
       InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-      viewResolver.setPrefix("/WEB-INF/pages/");
-      viewResolver.setSuffix(".jsp");
+      viewResolver.setPrefix("/WEB-INF/views/");
+      viewResolver.setSuffix(".html");
       return viewResolver;
   }
  

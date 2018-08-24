@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Users in memory.
 
-		auth.inMemoryAuthentication().withUser("user1").password("12345").roles("USER");
-		auth.inMemoryAuthentication().withUser("admin1").password("12345").roles("USER, ADMIN");
+//		auth.inMemoryAuthentication().withUser("user1").password("12345").roles("USER");
+//		auth.inMemoryAuthentication().withUser("admin1").password("12345").roles("USER, ADMIN");
 
 		// For User in database.
 		auth.userDetailsService(myDBAauthenticationService);
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		// The pages does not require login
-//		http.authorizeRequests().antMatchers("/", "/welcome","/login").permitAll();
-		http.authorizeRequests().anyRequest().authenticated().and().httpBasic();	
+		http.authorizeRequests().antMatchers("/", "/welcome","/login").permitAll();
+//		http.authorizeRequests().anyRequest().authenticated().and().httpBasic();	
 		}
 }
