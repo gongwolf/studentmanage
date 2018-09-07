@@ -41,7 +41,7 @@ public class MyDBAuthenticationService implements UserDetailsService {
             }
         }        
          
-        UserDetails userDetails = (UserDetails) new User(userInfo.getUserName(), //
+        UserDetails userDetails = new User(userInfo.getUserName(), //
                 userInfo.getPassword(),grantList);
  
         return userDetails;

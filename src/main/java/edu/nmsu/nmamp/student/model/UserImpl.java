@@ -77,6 +77,7 @@ public class UserImpl extends org.springframework.security.core.userdetails.User
 	public String getConfirmPassword() {
 		return user.getConfirmPassword();
 	}
+	@Override
 	public String getPassword() {
 		return user.getPassword();
 	}
