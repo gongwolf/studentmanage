@@ -34,7 +34,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		
-		String targetUrl = determineTargetUrl(authentication);
+//		String targetUrl = determineTargetUrl(authentication);
+		String targetUrl = "/home/homepage";
 		
 		if (response.isCommitted()) {
 			LOGGER.error("Response has already been committed. Unable to redirect to " + targetUrl); 
@@ -44,46 +45,46 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		 
 	}
 
-	protected String determineTargetUrl(Authentication authentication){
-		
-		boolean isUser = false; 
-		boolean isAdmin = false; 
-		boolean isStaff = false; 
-		boolean isMentor = false; 
-		
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); 
-		for(GrantedAuthority authority: authorities){
-			switch(authority.getAuthority()){
-			case "ROLE_USER": 
-				isUser = true; break; 
-			case "ROLE_ADMIN": 
-				isAdmin = true; break; 
-			case "ROLE_STAFF":
-				isStaff = true; break; 
-			case "ROLE_MENTOR":
-				isMentor = true; break; 
-			}
-		}
-		
-	    String targetUrl = ""; 
-	    if(isUser){
-	    	targetUrl = "/home"; 
-	    }else if(isAdmin || isStaff){
-	    	targetUrl = "/admin/home"; 
-	    }else if(isMentor){
-	    	targetUrl = "/mentor/home"; 
-	    }else{
-	    	targetUrl = "/accessDenied";
-	    }
-		return targetUrl; 
-	}
-	 
-	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
- 
-    protected RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
-    } 
+//	protected String determineTargetUrl(Authentication authentication){
+//		
+//		boolean isUser = false; 
+//		boolean isAdmin = false; 
+//		boolean isStaff = false; 
+//		boolean isMentor = false; 
+//		
+//		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); 
+//		for(GrantedAuthority authority: authorities){
+//			switch(authority.getAuthority()){
+//			case "ROLE_USER": 
+//				isUser = true; break; 
+//			case "ROLE_ADMIN": 
+//				isAdmin = true; break; 
+//			case "ROLE_STAFF":
+//				isStaff = true; break; 
+//			case "ROLE_MENTOR":
+//				isMentor = true; break; 
+//			}
+//		}
+//		
+//	    String targetUrl = ""; 
+//	    if(isUser){
+//	    	targetUrl = "/home"; 
+//	    }else if(isAdmin || isStaff){
+//	    	targetUrl = "/admin/home"; 
+//	    }else if(isMentor){
+//	    	targetUrl = "/mentor/home"; 
+//	    }else{
+//	    	targetUrl = "/accessDenied";
+//	    }
+//		return targetUrl; 
+//	}
+//	 
+//	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+//        this.redirectStrategy = redirectStrategy;
+//    }
+// 
+//    protected RedirectStrategy getRedirectStrategy() {
+//        return redirectStrategy;
+//    } 
 
 }
