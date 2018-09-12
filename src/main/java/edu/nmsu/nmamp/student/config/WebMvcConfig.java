@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -61,14 +62,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
+	
+	@Autowired
+	private Environment env;
 
 	@Bean(name = "dataSource")
 	public DriverManagerDataSource getDataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		driverManagerDataSource.setUrl("jdbc:mysql://128.123.63.83:3306/nmamp_student?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false");
-		driverManagerDataSource.setUsername("root");
-		driverManagerDataSource.setPassword("1987114gqx");
+		driverManagerDataSource.setUsername(env.getProperty("ds.username"));
+		driverManagerDataSource.setPassword(env.getProperty("ds.password"));
 		return driverManagerDataSource;
 	}
 
