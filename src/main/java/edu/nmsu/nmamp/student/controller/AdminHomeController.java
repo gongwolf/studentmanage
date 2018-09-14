@@ -26,8 +26,8 @@ public class AdminHomeController {
 	@ResponseBody
 	public String SynPortalData() {
 		System.out.println("I am in SynPortalData in home page");
-//		pd.SynPortalStudenData();
-		return "{\"text\":\"TFinished the sync of student profile data\"}";
+		pd.SynPortalStudenData();
+		return "{\"text\":\"Finished the sync of student profile data\"}";
 	}
 	
 	@GetMapping(value = { "home/SynPortalApplicationData"})

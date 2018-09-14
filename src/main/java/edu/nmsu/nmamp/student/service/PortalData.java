@@ -63,6 +63,7 @@ public class PortalData {
 			this.connectClose();
 		}
 	}
+
 	private void SyncStudentProfile(HashSet<String> userlist) {
 		for (String userid : userlist) {
 			StringBuilder sql = new StringBuilder();
@@ -93,14 +94,13 @@ public class PortalData {
 
 					boolean isExisted = existedInStudentDBProfile(user_id);
 					System.out.println(userid + "   ======>   " + isExisted);
-					
-					
+
 					StringBuilder updateSql = new StringBuilder();
 					StringBuilder insertSql = new StringBuilder();
 					updateSql.append("update profile_student set first_name=?,middle_name=?,last_name=?,birth_date=?,"
 							+ "current_address_line1=?,current_address_line2=?,current_address_city=?,current_address_county=?,current_address_state=?,current_address_zip=?,"
 							+ "phone_num=?,ssn_last_four=?,first_gen_college_student=?,gender=?,ethnicity=?,race=?,disability=? where user_id='"
-							+ user_id+"'");
+							+ user_id + "'");
 					insertSql.append("insert into profile_student (user_id,first_name,middle_name,last_name,birth_date,"
 							+ "current_address_line1,current_address_line2,current_address_city,current_address_county,current_address_state,current_address_zip,"
 							+ "phone_num,ssn_last_four,first_gen_college_student,gender,ethnicity,race,disability) values "
@@ -110,7 +110,7 @@ public class PortalData {
 						jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 							@Override
 							public void setValues(PreparedStatement ps) throws SQLException {
-//								ps.setInt(1, user_id);
+								// ps.setInt(1, user_id);
 								ps.setString(1, first_name);
 								ps.setString(2, middle_name);
 								ps.setString(3, last_name);
@@ -128,8 +128,9 @@ public class PortalData {
 								ps.setString(15, ethnicity);
 								ps.setString(16, race);
 								ps.setString(17, disability);
-							}});
-					}else {
+							}
+						});
+					} else {
 						jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 							@Override
 							public void setValues(PreparedStatement ps) throws SQLException {
@@ -151,8 +152,9 @@ public class PortalData {
 								ps.setString(16, ethnicity);
 								ps.setString(17, race);
 								ps.setString(18, disability);
-							}});
-						
+							}
+						});
+
 					}
 				}
 			} catch (SQLException e) {
@@ -175,11 +177,10 @@ public class PortalData {
 		}
 	}
 
-
 	private void SyncApplicationListTable(HashSet<String> userlist) {
 		for (String userid : userlist) {
 			StringBuilder sql = new StringBuilder();
-			sql.append("select * from application_list where user_id='" + userid + "'");
+			sql.append("select * from application_list where decision='Admit' and user_id='" + userid + "'");
 			System.out.println(sql.toString());
 			try {
 				Statement stmt = this.con.createStatement();
@@ -187,7 +188,7 @@ public class PortalData {
 				while (rs.next()) {
 					int application_id = Integer.parseInt(rs.getString("application_id"));
 					int user_id = Integer.parseInt(rs.getString("user_id"));
-					Date school_year = rs.getDate("school_year");
+					int school_year = rs.getInt("school_year");
 					String school_semester = rs.getString("school_semester");
 					String program = rs.getString("program");
 					Timestamp start_date = rs.getTimestamp("start_date");
@@ -201,28 +202,84 @@ public class PortalData {
 					Timestamp recommender_submit_date = rs.getTimestamp("recommender_submit_date");
 					Timestamp medical_submit_date = rs.getTimestamp("medical_submit_date");
 					Timestamp complete_date = rs.getTimestamp("complete_date");
-					
+
 					String decision = rs.getString("decision");
 					Timestamp notified_date = rs.getTimestamp("notified_date");
 					String accept_school = rs.getString("accept_school");
 					int accept_status = rs.getInt("accept_status");
-					
+
 					boolean isExisted = existedInApplicationList(application_id);
-					System.out.println(userid+":"+application_id + "   ======>   " + isExisted+"--"+school_year+" ## "+mentor_submit_date);
-				
+					System.out.println(userid + ":" + application_id + "   ======>   " + isExisted + "--" + school_year
+							+ " ## " + mentor_submit_date);
+
 					StringBuilder updateSql = new StringBuilder();
 					StringBuilder insertSql = new StringBuilder();
 					updateSql.append("update application_list set user_id=?,school_year=?,school_semester=?,program=?,"
 							+ "start_date=?,applicant_submit_date=?,applicant_signature=?,applicant_signature_date=?,transcript_date=?,mentor_info_date=?,"
 							+ "mentor_id=?,mentor_submit_date=?,recommender_submit_date=?,medical_submit_date=?,complete_date=?,"
 							+ "decision=?,notified_date=?,accept_school=?,accept_status=? where application_id='"
-							+ application_id+"'");
-					insertSql.append("insert into profile_student (user_id,first_name,middle_name,last_name,birth_date,"
-							+ "current_address_line1,current_address_line2,current_address_city,current_address_county,current_address_state,current_address_zip,"
-							+ "phone_num,ssn_last_four,first_gen_college_student,gender,ethnicity,race,disability) values "
-							+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
-				
-				
+							+ application_id + "'");
+					insertSql.append(
+							"insert into application_list (application_id,user_id,school_year,school_semester,program,"
+									+ "start_date,applicant_submit_date,applicant_signature,applicant_signature_date,transcript_date,mentor_info_date,"
+									+ "mentor_id,mentor_submit_date,recommender_submit_date,medical_submit_date,complete_date,"
+									+ "decision,notified_date,accept_school,accept_status) values "
+									+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+
+					if (isExisted) {
+						jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+							@Override
+							public void setValues(PreparedStatement ps) throws SQLException {
+								ps.setInt(1, user_id);
+								ps.setInt(2, school_year);
+								ps.setString(3, school_semester);
+								ps.setString(4, program);
+								ps.setTimestamp(5, start_date);
+								ps.setTimestamp(6, applicant_submit_date);
+								ps.setString(7, applicant_signature);
+								ps.setTimestamp(8, applicant_signature_date);
+								ps.setTimestamp(9, transcript_date);
+								ps.setTimestamp(10, mentor_info_date);
+								ps.setInt(11, mentor_id);
+								ps.setTimestamp(12, mentor_submit_date);
+								ps.setTimestamp(13, recommender_submit_date);
+								ps.setTimestamp(14, medical_submit_date);
+								ps.setTimestamp(15, complete_date);
+								ps.setString(16, decision);
+								ps.setTimestamp(17, notified_date);
+								ps.setString(18, accept_school);
+								ps.setInt(19, accept_status);
+
+							}
+						});
+					} else {
+						jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+							@Override
+							public void setValues(PreparedStatement ps) throws SQLException {
+								ps.setInt(1, application_id);
+								ps.setInt(2, user_id);
+								ps.setInt(3, school_year);
+								ps.setString(4, school_semester);
+								ps.setString(5, program);
+								ps.setTimestamp(6, start_date);
+								ps.setTimestamp(7, applicant_submit_date);
+								ps.setString(8, applicant_signature);
+								ps.setTimestamp(9, applicant_signature_date);
+								ps.setTimestamp(10, transcript_date);
+								ps.setTimestamp(11, mentor_info_date);
+								ps.setInt(12, mentor_id);
+								ps.setTimestamp(13, mentor_submit_date);
+								ps.setTimestamp(14, recommender_submit_date);
+								ps.setTimestamp(15, medical_submit_date);
+								ps.setTimestamp(16, complete_date);
+								ps.setString(17, decision);
+								ps.setTimestamp(18, notified_date);
+								ps.setString(19, accept_school);
+								ps.setInt(20, accept_status);
+							}
+						});
+
+					}
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -230,18 +287,23 @@ public class PortalData {
 			}
 
 		}
-		
+
 	}
+
 	private boolean existedInApplicationList(int application_id) {
-		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM application_list where user_id='"+application_id+"'", Integer.class);
+		int result = jdbcTemplate.queryForObject(
+				"SELECT COUNT(*) FROM application_list where decision='Admit' and application_id='" + application_id + "'",
+				Integer.class);
 		if (result != 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 	private boolean existedInStudentDBProfile(int user_id) {
-		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM profile_student where user_id='"+user_id+"'", Integer.class);
+		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM profile_student where user_id='" + user_id + "'",
+				Integer.class);
 		if (result != 0) {
 			return true;
 		} else {

@@ -2,3 +2,4 @@
 target
 .setting
 .project
+src/main/webapp/vendor
