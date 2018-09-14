@@ -22,7 +22,7 @@ function updateStudentDB(){
 	});
 }
 
-function updateStudentDB(){
+function updateApplications(){
 	$("#content-wrapper > div").html("Begin Sync portal Data");
 	$.ajax({url: "SynPortalApplicationData",
 		type: "GET", 
