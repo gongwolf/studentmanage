@@ -11,11 +11,23 @@ $("#syncportal").click(function() {
 });
 
 function updateStudentDB(){
+	$("#content-wrapper > div").html("Begin Sync portal Data");
 	$.ajax({url: "SynPortalData",
 		type: "GET", 
         dataType:'json',
 		success: function(result){
-			console.log(JSON.stringify(result));
+			$("#content-wrapper > div").html(result.text);
+			updateApplications();
+        }
+	});
+}
+
+function updateStudentDB(){
+	$("#content-wrapper > div").html("Begin Sync portal Data");
+	$.ajax({url: "SynPortalApplicationData",
+		type: "GET", 
+        dataType:'json',
+		success: function(result){
 			$("#content-wrapper > div").html(result.text);
         }
 	});

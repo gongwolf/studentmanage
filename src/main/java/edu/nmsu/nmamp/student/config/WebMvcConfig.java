@@ -3,6 +3,7 @@ package edu.nmsu.nmamp.student.config;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import javax.naming.NamingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +71,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 	public DriverManagerDataSource getDataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		driverManagerDataSource.setUrl("jdbc:mysql://128.123.63.83:3306/nmamp_student?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false");
+		driverManagerDataSource.setUrl("jdbc:mysql://128.123.63.83:3306/nmamp_student");
 		driverManagerDataSource.setUsername(env.getProperty("ds.username"));
 		driverManagerDataSource.setPassword(env.getProperty("ds.password"));
+		
+		Properties connectionProperties = new Properties();
+		connectionProperties.setProperty("autoReconnect", "true");
+		connectionProperties.setProperty("useSSL", "false");
+		connectionProperties.setProperty("useUnicode", "true");
+		connectionProperties.setProperty("characterEncoding", "UTF-8");
+		connectionProperties.setProperty("serverTimezone", "UTC");
+		driverManagerDataSource.setConnectionProperties(connectionProperties);
+		
 		return driverManagerDataSource;
 	}
 
