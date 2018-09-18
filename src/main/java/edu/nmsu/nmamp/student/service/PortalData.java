@@ -1,5 +1,6 @@
 package edu.nmsu.nmamp.student.service;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -178,6 +179,8 @@ public class PortalData {
 	}
 
 	private void SyncApplicationListTable(HashSet<String> userlist) {
+		int count =0;
+
 		for (String userid : userlist) {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select * from application_list where decision='Admit' and user_id='" + userid + "'");
@@ -210,7 +213,10 @@ public class PortalData {
 
 					boolean isExisted = existedInApplicationList(application_id);
 					System.out.println(userid + ":" + application_id + "   ======>   " + isExisted + "--" + school_year
-							+ " ## " + mentor_submit_date);
+							+ " ## " + mentor_submit_date + "##" + program);
+
+					SyncApplicationDetails(user_id, application_id, program);
+					count++;
 
 					StringBuilder updateSql = new StringBuilder();
 					StringBuilder insertSql = new StringBuilder();
@@ -249,7 +255,6 @@ public class PortalData {
 								ps.setTimestamp(17, notified_date);
 								ps.setString(18, accept_school);
 								ps.setInt(19, accept_status);
-
 							}
 						});
 					} else {
@@ -287,13 +292,212 @@ public class PortalData {
 			}
 
 		}
+		System.out.println("application total:"+count);
+
 
 	}
 
+	private void SyncApplicationDetails(int user_id, int application_id, String program) {
+		String tablename = ProgramCode.TABLE_APPLICATION_DETAIL.get(program);
+		switch (program) {
+		case "URS":
+			SyncApplicationDetailsURS(user_id, application_id, program, tablename);
+			break;
+		default:
+			System.out.println(ProgramCode.TABLE_APPLICATION_DETAIL.get(program));
+		}
+	}
+
+	private void SyncApplicationDetailsURS(int user_id, int application_id, String program, String tablename) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from "+tablename+" where application_id='"+application_id+"' and user_id='" + user_id + "'");
+		System.out.println(sql.toString());
+		try {
+			Statement stmt = this.con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql.toString());
+			while (rs.next()) {
+				String academic_school= rs.getString("academic_school");
+				String academic_year= rs.getString("academic_year");
+				Date academic_grad_date= rs.getDate("academic_grad_date");
+				String academic_banner_id= rs.getString("academic_banner_id");
+				String academic_major= rs.getString("academic_major");
+				String academic_minor= rs.getString("academic_minor");
+				float academic_gpa= rs.getFloat("academic_gpa");
+				int program_ever_in= rs.getInt("program_ever_in");
+				String program_ever_in_semesters= rs.getString("program_ever_in_semesters");
+				int amp_scholarship= rs.getInt("amp_scholarship");
+				String amp_scholarship_school= rs.getString("amp_scholarship_school");
+				String amp_scholarship_type= rs.getString("amp_scholarship_type");
+				String amp_scholarship_semester= rs.getString("amp_scholarship_semester");
+				String amp_scholarship_year= rs.getString("amp_scholarship_year");
+				String amp_scholarship_amount= rs.getString("amp_scholarship_amount");
+				String other_scholarship= rs.getString("other_scholarship");
+				String list_other_scholarship= rs.getString("list_other_scholarship");
+				String mentor_first_name= rs.getString("mentor_first_name");
+				String mentor_last_name= rs.getString("mentor_last_name");
+				String mentor_prefix= rs.getString("mentor_prefix");
+				String mentor_email= rs.getString("mentor_email");
+				String transcript_name= rs.getString("transcript_name");
+				String transcript_type= rs.getString("transcript_type");
+				long transcript_size= rs.getLong("transcript_size");
+				Blob transcript_content= rs.getBlob("transcript_content");
+				String project_title= rs.getString("project_title");
+				int project_is_external= rs.getInt("project_is_external");
+				String project_external_agency= rs.getString("project_external_agency");
+				String project_external_title= rs.getString("project_external_title");
+				String project_external_duration= rs.getString("project_external_duration");
+				String project_goal= rs.getString("project_goal");
+				String project_method= rs.getString("project_method");
+				String project_result= rs.getString("project_result");
+				String project_task= rs.getString("project_task");
+				String project_mentor_signature= rs.getString("project_mentor_signature");
+				Timestamp project_mentor_signature_date= rs.getTimestamp("project_mentor_signature_date");
+				String project_mentee_signature= rs.getString("project_mentee_signature");
+				Timestamp project_mentee_signature_date= rs.getTimestamp("project_mentee_signature_date");
+				String essay_educational_goal= rs.getString("essay_educational_goal");
+
+
+
+				boolean isExisted = existedInApplicationDetails(user_id,application_id,tablename);
+				System.out.println(isExisted);
+				StringBuilder updateSql = new StringBuilder();
+				StringBuilder insertSql = new StringBuilder();
+				updateSql.append("update "+tablename+" set academic_school=?,academic_year=?,academic_grad_date=?,"
+						+ "academic_banner_id=?,academic_major=?,academic_minor=?,academic_gpa=?,program_ever_in=?,program_ever_in_semesters=?,"
+						+ "amp_scholarship=?,amp_scholarship_school=?,amp_scholarship_type=?,amp_scholarship_semester=?,amp_scholarship_year=?,"
+						+ "amp_scholarship_amount=?,other_scholarship=?,list_other_scholarship=?,mentor_first_name=?,mentor_last_name=?,"
+						+ "mentor_prefix=?,mentor_email=?,transcript_name=?,transcript_type=?,transcript_size=?,transcript_content=?,"
+						+ "project_title=?,project_is_external=?,project_external_agency=?,project_external_title=?,project_external_duration=?,"
+						+ "project_goal=?,project_method=?,project_result=?,project_task=?,project_mentor_signature=?,project_mentor_signature_date=?,"
+						+ "project_mentee_signature=?,project_mentee_signature_date=?,essay_educational_goal=? "+
+						" where application_id='"+application_id+"' and user_id='" + user_id + "'");
+				insertSql.append(
+						"insert into "+tablename+" (user_id,application_id,academic_school,academic_year,academic_grad_date,academic_banner_id,"
+						+ "academic_major,academic_minor,academic_gpa,program_ever_in,program_ever_in_semesters,amp_scholarship,amp_scholarship_school,"
+						+ "amp_scholarship_type,amp_scholarship_semester,amp_scholarship_year,amp_scholarship_amount,other_scholarship,"
+						+ "list_other_scholarship,mentor_first_name,mentor_last_name,mentor_prefix,mentor_email,transcript_name,transcript_type,"
+						+ "transcript_size,transcript_content,project_title,project_is_external,project_external_agency,project_external_title,"
+						+ "project_external_duration,project_goal,project_method,project_result,project_task,project_mentor_signature,project_mentor_signature_date,"
+						+ "project_mentee_signature,project_mentee_signature_date,essay_educational_goal) values "
+						+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+				
+				if(isExisted)
+				{
+					jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+						@Override
+						public void setValues(PreparedStatement ps) throws SQLException {
+							ps.setString(1,academic_school);
+							ps.setString(2,academic_year);
+							ps.setDate(3,academic_grad_date);
+							ps.setString(4,academic_banner_id);
+							ps.setString(5,academic_major);
+							ps.setString(6,academic_minor);
+							ps.setFloat(7,academic_gpa);
+							ps.setInt(8,program_ever_in);
+							ps.setString(9,program_ever_in_semesters);
+							ps.setInt(10,amp_scholarship);
+							ps.setString(11,amp_scholarship_school);
+							ps.setString(12,amp_scholarship_type);
+							ps.setString(13,amp_scholarship_semester);
+							ps.setString(14,amp_scholarship_year);
+							ps.setString(15,amp_scholarship_amount);
+							ps.setString(16,other_scholarship);
+							ps.setString(17,list_other_scholarship);
+							ps.setString(18,mentor_first_name);
+							ps.setString(19,mentor_last_name);
+							ps.setString(20,mentor_prefix);
+							ps.setString(21,mentor_email);
+							ps.setString(22,transcript_name);
+							ps.setString(23,transcript_type);
+							ps.setLong(24,transcript_size);
+							ps.setBlob(25,transcript_content);
+							ps.setString(26,project_title);
+							ps.setInt(27,project_is_external);
+							ps.setString(28,project_external_agency);
+							ps.setString(29,project_external_title);
+							ps.setString(30,project_external_duration);
+							ps.setString(31,project_goal);
+							ps.setString(32,project_method);
+							ps.setString(33,project_result);
+							ps.setString(34,project_task);
+							ps.setString(35,project_mentor_signature);
+							ps.setTimestamp(36,project_mentor_signature_date);
+							ps.setString(37,project_mentee_signature);
+							ps.setTimestamp(38,project_mentee_signature_date);
+							ps.setString(39,essay_educational_goal);
+						}
+					});
+					
+				}else {
+					jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+						@Override
+						public void setValues(PreparedStatement ps) throws SQLException {
+							ps.setInt(1,user_id);
+							ps.setInt(2,application_id);
+							ps.setString(3,academic_school);
+							ps.setString(4,academic_year);
+							ps.setDate(5,academic_grad_date);
+							ps.setString(6,academic_banner_id);
+							ps.setString(7,academic_major);
+							ps.setString(8,academic_minor);
+							ps.setFloat(9,academic_gpa);
+							ps.setInt(10,program_ever_in);
+							ps.setString(11,program_ever_in_semesters);
+							ps.setInt(12,amp_scholarship);
+							ps.setString(13,amp_scholarship_school);
+							ps.setString(14,amp_scholarship_type);
+							ps.setString(15,amp_scholarship_semester);
+							ps.setString(16,amp_scholarship_year);
+							ps.setString(17,amp_scholarship_amount);
+							ps.setString(18,other_scholarship);
+							ps.setString(19,list_other_scholarship);
+							ps.setString(20,mentor_first_name);
+							ps.setString(21,mentor_last_name);
+							ps.setString(22,mentor_prefix);
+							ps.setString(23,mentor_email);
+							ps.setString(24,transcript_name);
+							ps.setString(25,transcript_type);
+							ps.setLong(26,transcript_size);
+							ps.setBlob(27,transcript_content);
+							ps.setString(28,project_title);
+							ps.setInt(29,project_is_external);
+							ps.setString(30,project_external_agency);
+							ps.setString(31,project_external_title);
+							ps.setString(32,project_external_duration);
+							ps.setString(33,project_goal);
+							ps.setString(34,project_method);
+							ps.setString(35,project_result);
+							ps.setString(36,project_task);
+							ps.setString(37,project_mentor_signature);
+							ps.setTimestamp(38,project_mentor_signature_date);
+							ps.setString(39,project_mentee_signature);
+							ps.setTimestamp(40,project_mentee_signature_date);
+							ps.setString(41,essay_educational_goal);
+						}
+					});
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	private boolean existedInApplicationDetails(int user_id, int application_id, String tablename) {
+		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM " + tablename + " where user_id='" + user_id
+				+ "' and application_id='" + application_id + "'", Integer.class);
+		if (result != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private boolean existedInApplicationList(int application_id) {
-		int result = jdbcTemplate.queryForObject(
-				"SELECT COUNT(*) FROM application_list where decision='Admit' and application_id='" + application_id + "'",
-				Integer.class);
+		int result = jdbcTemplate
+				.queryForObject("SELECT COUNT(*) FROM application_list where decision='Admit' and application_id='"
+						+ application_id + "'", Integer.class);
 		if (result != 0) {
 			return true;
 		} else {
