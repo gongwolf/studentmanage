@@ -26,7 +26,7 @@ public class AdminHomeController {
 	@ResponseBody
 	public String SynPortalData() {
 		System.out.println("I am in SynPortalData in home page");
-//		pd.SynPortalStudenData();
+		pd.SynPortalStudenData();
 		return "{\"text\":\"Finished the sync of student profile data\"}";
 	}
 	
@@ -35,6 +35,21 @@ public class AdminHomeController {
 	public String SynPortaApplicationlData() {
 		pd.SynPortalApplicationData();
 		return "{\"text\":\"Finished the sync of application data\"}";
+	}
+	
+	
+	@GetMapping(value = { "home/SynPortalMentorData"})
+	@ResponseBody
+	public String SynPortalMentorData() {
+		pd.SynPortalMentorData();
+		return "{\"text\":\"Finished the sync of mentor data\"}";
+	}
+	
+	@GetMapping(value = { "home/SynPortalSelfReportData"})
+	@ResponseBody
+	public String SynPortalSelfReportData() {
+		pd.SynPortalSelfReportData();
+		return "{\"text\":\"Finished the sync of self report data\"}";
 	}
 
 }
