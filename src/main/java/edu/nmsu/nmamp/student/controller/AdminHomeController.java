@@ -1,27 +1,42 @@
 package edu.nmsu.nmamp.student.controller;
 
 import java.security.Principal;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.nmsu.nmamp.student.dao.UserDAO;
+import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.UserDAOImpl;
+import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.service.PortalData;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class AdminHomeController {
 	@Autowired
 	private PortalData pd;
-	
+
 	@Autowired
 	private UserDAO userDAO;
-	
+
+	@Autowired
+	private AdminDAOImpl adminDAO;
+	@Autowired private ObjectMapper objectMapper; 
+	private static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class); 
+
+
 	private static final String HomePage = "/base/home";
 	private static final String StudentListPage = "/student_manage/student-list";
 
@@ -61,9 +76,31 @@ public class AdminHomeController {
 	}
 
 	@GetMapping(value = { "home/student-all-list" })
-	public String studentAllList(Principal principal) {
+	public String studentAllList(ModelMap model,Principal principal) {
 		User userDetails = userDAO.get(principal.getName()); 
 		System.out.println("Student all list " + principal.getName()+" "+userDetails.getPassword()+" "+userDetails.getRole());
+		
+		String ic = "";
+		if(userDetails.getRole().toString().equals("ADMIN")){
+			ic="admin";
+		}
+		
+		String condition="all";
+		
+		List<StudentSummaryBean> studentList = adminDAO.getStudentListSummary(ic,condition);
+		
+//		for(StudentSummaryBean sb:studentList)
+//		{
+//			System.out.println(sb);
+//		}
+		try {
+			model.addAttribute("studentList", objectMapper.writeValueAsString(studentList));
+			System.out.println(objectMapper.writeValueAsString(studentList));
+		} catch (JsonProcessingException e) {
+			logger.error(e.getMessage());
+		}
+		
+		
 		return StudentListPage;
 	}
 

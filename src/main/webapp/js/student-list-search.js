@@ -1,0 +1,49 @@
+/**
+ * 
+ */
+
+//moment.tz.add("America/Denver|MST MDT MWT MPT|70 60 60 60|01010101023010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-261r0 1nX0 11B0 1nX0 11B0 1qL0 WN0 mn0 Ord0 8x20 ix0 LCN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 s10 1Vz0 LB0 1BX0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0|26e5");
+ 
+$(document).ready(function(){
+	var table = $('#dataTable').DataTable( {
+		"aaData": studentList, 
+    	'columnDefs': [
+         {
+             'targets': 0,
+             'searchable':false,
+             'orderable':false,
+             'className': 'dt-body-center',
+             'render': function (data, type, full, meta){
+            	 	return meta.row+1; 
+            	 }
+          },
+          {
+        	  'targets': 1,
+              'searchable':false,
+              'orderable':false,
+              'className': 'dt-body-center',
+              'render': function (data, type, full, meta){
+              	return '<input class = "checkbox_input" type="checkbox" name="id[]" value="'+full.applicationID+'">';
+              }
+           }
+          ], 
+	
+          "aoColumns": [
+			{"mData":""},
+			{"mData": "" },
+			{"mData":"user_id"}, 
+			{"mData":"first_name"},
+			{ "mData": "middle_name"},
+			{ "mData": "last_name"},
+			{ "mData": "birthDate"},
+          ],
+          "paging":true,
+          "pageLength":10,
+          "ordering":true,
+          "order":[2,"asc"]
+	}); 
+	
+	$('#dataTable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+});
