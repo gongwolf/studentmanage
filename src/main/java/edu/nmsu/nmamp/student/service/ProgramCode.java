@@ -339,6 +339,35 @@ public class ProgramCode {
 			put("Ms.", "Ms.");
 		}
 	};
+	
+	
+	// School Level
+	public static final HashMap<String, String> SCHOOL_LEVEL = new HashMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+		{
+			//overall two years schools
+			put("CNMCC", "2 Years schools");
+			put("ENMUR", "2 Years schools");
+			put("LUNACC", "2 Years schools");
+			put("NMSUA", "2 Years schools"); 
+			put("NMSUC", "2 Years schools"); 
+			put("NMSUD", "2 Years schools"); 
+			put("NMSUG", "2 Years schools"); 
+			put("SFCC", "2 Years schools");
+			put("SIPI", "2 Years schools");
+            put("UNMTAOS", "2 Years schools");
+			put("SJCC","2 Years schools");
+
+			//overall four years schools
+			put("ENMU", "4 Years schools");
+			put("NMHU", "4 Years schools");
+			put("NMTECH", "4 Years schools");
+			put("NMSU", "4 Years schools");
+			put("NNMC", "4 Years schools");
+			put("UNM", "4 Years schools");
+			put("WNMU", "4 Years schools");
+		}
+	};
 
 	//Todo: Need to add withdraw massage
 	public static String getDecisionMessage(String program, String decision){

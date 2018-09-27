@@ -16,8 +16,8 @@ $(document).ready(function(){
              'render': function (data, type, full, meta){
             	 	return meta.row+1; 
             	 }
-          },
-          {
+          }
+          /**{
         	  'targets': 1,
               'searchable':false,
               'orderable':false,
@@ -25,17 +25,21 @@ $(document).ready(function(){
               'render': function (data, type, full, meta){
               	return '<input class = "checkbox_input" type="checkbox" name="id[]" value="'+full.applicationID+'">';
               }
-           }
+           }**/
           ], 
 	
           "aoColumns": [
 			{"mData":""},
-			{"mData": "" },
 			{"mData":"user_id"}, 
 			{"mData":"first_name"},
-			{ "mData": "middle_name"},
-			{ "mData": "last_name"},
-			{ "mData": "birthDate"},
+			{"mData": "middle_name"},
+			{"mData": "last_name"},
+			{"mData": "birthDate"},
+			{"mData": "",
+				"mRender":function(data, type, full){
+					return '<a href="../student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
+				 }
+			}
           ],
           "paging":true,
           "pageLength":10,

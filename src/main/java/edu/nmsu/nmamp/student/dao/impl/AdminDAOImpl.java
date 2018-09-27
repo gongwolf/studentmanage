@@ -29,7 +29,7 @@ public class AdminDAOImpl {
 			sql.append("select * from profile_student");
 		}
 		
-		System.out.println(sql);
+//		System.out.println(sql);
 		
 		
 		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<StudentSummaryBean>>() {

@@ -78,7 +78,7 @@ public class AdminHomeController {
 	@GetMapping(value = { "home/student-all-list" })
 	public String studentAllList(ModelMap model,Principal principal) {
 		User userDetails = userDAO.get(principal.getName()); 
-		System.out.println("Student all list " + principal.getName()+" "+userDetails.getPassword()+" "+userDetails.getRole());
+//		System.out.println("Student all list " + principal.getName()+" "+userDetails.getPassword()+" "+userDetails.getRole());
 		
 		String ic = "";
 		if(userDetails.getRole().toString().equals("ADMIN")){
