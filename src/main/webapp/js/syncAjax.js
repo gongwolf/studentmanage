@@ -13,7 +13,7 @@ $("#syncportal").click(function() {
 function updateStudentDB(){
 	$("#content-wrapper > div").html("Begin Sync portal Data");
 	$("#content-wrapper > div").append('<br> '+"Beginning sync portal student profile from portal ......");
-	$.ajax({url: "SynPortalData",
+	$.ajax({url: "../home/SynPortalData",
 		type: "GET", 
         dataType:'json',
 		success: function(result){
@@ -25,7 +25,7 @@ function updateStudentDB(){
 
 function updateApplications(){
 	$("#content-wrapper > div").append("<br> Beginning sync application list data from portal ......");
-	$.ajax({url: "SynPortalApplicationData",
+	$.ajax({url: "../home/SynPortalApplicationData",
 		type: "GET", 
         dataType:'json',
 		success: function(result){
@@ -38,7 +38,7 @@ function updateApplications(){
 
 function updateProfileMentor(){
 	$("#content-wrapper > div").append("<br> Beginning sync mentor data from portal ......");
-	$.ajax({url: "SynPortalMentorData",
+	$.ajax({url: "../home/SynPortalMentorData",
 		type: "GET", 
         dataType:'json',
 		success: function(result){
@@ -50,7 +50,7 @@ function updateProfileMentor(){
 
 function updateSelfReportData(){
 	$("#content-wrapper > div").append("<br> Beginning sync self report data from portal ......");
-	$.ajax({url: "SynPortalSelfReportData",
+	$.ajax({url: "../home/SynPortalSelfReportData",
 		type: "GET", 
         dataType:'json',
 		success: function(result){

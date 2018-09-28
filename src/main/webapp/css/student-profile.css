@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.form-group.required.row .control-label:after {
+  content:"*";
+  color:red;
+}

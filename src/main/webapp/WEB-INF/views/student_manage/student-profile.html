@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='student list')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
+		type="text/css">
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i> Student Profile
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										value="1234567890">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="first_name" placeholder="First Name" value="aaaa">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control form-control-sm"
+										id="middle_name">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="last_name">
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="control-label col-form-label-sm col-sm-1 date"
+									for="birthDate"> DOB: </label>
+								<div class="col-sm-3">
+									<input class="form-control form-control-sm" id="birthDate"
+										name="birthDate" placeholder="MM/DD/YYYY" type="text" /> <span
+										class="glyphicon glyphicon-th"></span>
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-1 col-form-label-sm" for="PhoNum">
+									Phone Number:</label>
+								<div class="col-sm-4">
+									<input class="form-control form-control-sm" id="PhoNum"
+										name="PhoNum" placeholder="Phone Numbe" type="text" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm " for="ssn_last_four">
+									Last 4 digital of SSN:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="ssn_last_four"
+										name="ssn_last_four" placeholder="Last 4 digital of SSN"
+										type="text" />
+								</div>
+							</div>
+							<hr>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm" for="C_Address_1">
+									Current Address: </label>
+								<div class="col-sm-4">
+									<input class="form-control form-control-sm" id="C_Address_1"
+										name="C_Address_1" placeholder="line1" type="text" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<div class="col-sm-4 offset-sm-2">
+									<input class="form-control form-control-sm" id="C_Address_2"
+										name="C_Address_2" placeholder="line2" type="text" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-1 col-form-label-sm" for="City">
+									City:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="City"
+										name="City" placeholder="city" type="text" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="County">
+									County:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="County"
+										name="County" placeholder="County" type="text" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="State">
+									State:</label>
+								<div class="col-sm-2">
+									<select class="form-control form-control-sm" id="State">
+										<option value="AL">Alabama</option>
+										<option value="AK">Alaska</option>
+										<option value="AZ">Arizona</option>
+										<option value="AR">Arkansas</option>
+										<option value="CA">California</option>
+										<option value="CO">Colorado</option>
+										<option value="CT">Connecticut</option>
+										<option value="DE">Delaware</option>
+										<option value="DC">District Of Columbia</option>
+										<option value="FL">Florida</option>
+										<option value="GA">Georgia</option>
+										<option value="HI">Hawaii</option>
+										<option value="ID">Idaho</option>
+										<option value="IL">Illinois</option>
+										<option value="IN">Indiana</option>
+										<option value="IA">Iowa</option>
+										<option value="KS">Kansas</option>
+										<option value="KY">Kentucky</option>
+										<option value="LA">Louisiana</option>
+										<option value="ME">Maine</option>
+										<option value="MD">Maryland</option>
+										<option value="MA">Massachusetts</option>
+										<option value="MI">Michigan</option>
+										<option value="MN">Minnesota</option>
+										<option value="MS">Mississippi</option>
+										<option value="MO">Missouri</option>
+										<option value="MT">Montana</option>
+										<option value="NE">Nebraska</option>
+										<option value="NV">Nevada</option>
+										<option value="NH">New Hampshire</option>
+										<option value="NJ">New Jersey</option>
+										<option value="NM">New Mexico</option>
+										<option value="NY">New York</option>
+										<option value="NC">North Carolina</option>
+										<option value="ND">North Dakota</option>
+										<option value="OH">Ohio</option>
+										<option value="OK">Oklahoma</option>
+										<option value="OR">Oregon</option>
+										<option value="PA">Pennsylvania</option>
+										<option value="RI">Rhode Island</option>
+										<option value="SC">South Carolina</option>
+										<option value="SD">South Dakota</option>
+										<option value="TN">Tennessee</option>
+										<option value="TX">Texas</option>
+										<option value="UT">Utah</option>
+										<option value="VT">Vermont</option>
+										<option value="VA">Virginia</option>
+										<option value="WA">Washington</option>
+										<option value="WV">West Virginia</option>
+										<option value="WI">Wisconsin</option>
+										<option value="WY">Wyoming</option>
+									</select>
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="ZipCode">
+									ZipCode:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="ZipCode"
+										name="ZipCode" placeholder="Zip" type="text" />
+								</div>
+							</div>
+							<hr>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm" for="P_Address_1">
+									Parent Address: </label>
+								<div class="col-sm-4">
+									<input class="form-control form-control-sm" id="P_Address_1"
+										name="C_Address_1" placeholder="line1" type="text" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<div class="col-sm-4 offset-sm-2">
+									<input class="form-control form-control-sm" id="P_Address_2"
+										name="C_Address_2" placeholder="line2" type="text" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-1 col-form-label-sm" for="PCity">
+										City:</label>
+									<div class="col-sm-2">
+										<input class="form-control form-control-sm" id="PCity"
+											name="PCity" placeholder="city" type="text" />
+									</div>
+
+									<label class="col-sm-1 col-form-label-sm" for="PCounty">
+										County:</label>
+									<div class="col-sm-2">
+										<input class="form-control form-control-sm" id="PCounty"
+											name="PCounty" placeholder="County" type="text" />
+									</div>
+
+									<label class="col-sm-1 col-form-label-sm" for="PState">
+										State:</label>
+									<div class="col-sm-2">
+										<select class="form-control form-control-sm" id="PState">
+											<option value="AL">Alabama</option>
+											<option value="AK">Alaska</option>
+											<option value="AZ">Arizona</option>
+											<option value="AR">Arkansas</option>
+											<option value="CA">California</option>
+											<option value="CO">Colorado</option>
+											<option value="CT">Connecticut</option>
+											<option value="DE">Delaware</option>
+											<option value="DC">District Of Columbia</option>
+											<option value="FL">Florida</option>
+											<option value="GA">Georgia</option>
+											<option value="HI">Hawaii</option>
+											<option value="ID">Idaho</option>
+											<option value="IL">Illinois</option>
+											<option value="IN">Indiana</option>
+											<option value="IA">Iowa</option>
+											<option value="KS">Kansas</option>
+											<option value="KY">Kentucky</option>
+											<option value="LA">Louisiana</option>
+											<option value="ME">Maine</option>
+											<option value="MD">Maryland</option>
+											<option value="MA">Massachusetts</option>
+											<option value="MI">Michigan</option>
+											<option value="MN">Minnesota</option>
+											<option value="MS">Mississippi</option>
+											<option value="MO">Missouri</option>
+											<option value="MT">Montana</option>
+											<option value="NE">Nebraska</option>
+											<option value="NV">Nevada</option>
+											<option value="NH">New Hampshire</option>
+											<option value="NJ">New Jersey</option>
+											<option value="NM">New Mexico</option>
+											<option value="NY">New York</option>
+											<option value="NC">North Carolina</option>
+											<option value="ND">North Dakota</option>
+											<option value="OH">Ohio</option>
+											<option value="OK">Oklahoma</option>
+											<option value="OR">Oregon</option>
+											<option value="PA">Pennsylvania</option>
+											<option value="RI">Rhode Island</option>
+											<option value="SC">South Carolina</option>
+											<option value="SD">South Dakota</option>
+											<option value="TN">Tennessee</option>
+											<option value="TX">Texas</option>
+											<option value="UT">Utah</option>
+											<option value="VT">Vermont</option>
+											<option value="VA">Virginia</option>
+											<option value="WA">Washington</option>
+											<option value="WV">West Virginia</option>
+											<option value="WI">Wisconsin</option>
+											<option value="WY">Wyoming</option>
+										</select>
+									</div>
+
+									<label class="col-sm-1 col-form-label-sm" for="PZipCode">
+										ZipCode:</label>
+									<div class="col-sm-2">
+										<input class="form-control form-control-sm" id="PZipCode"
+											name="PZipCode" placeholder="Zip" type="text" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="inlineFormCustomSelect"
+									class="col-sm-1 col-form-label">Middle name:</label> <select
+									class="custom-select col-sm-6" id="inlineFormCustomSelect">
+									<option selected>Choose...</option>
+									<option value="1">One</option>
+									<option value="2">Two</option>
+									<option value="3">Three</option>
+								</select>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<!-- Page level plugin JavaScript-->
+	<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/sb-admin.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/student-profile.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+</body>
+
+</html>

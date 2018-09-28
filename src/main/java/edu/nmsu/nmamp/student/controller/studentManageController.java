@@ -1,14 +1,20 @@
 package edu.nmsu.nmamp.student.controller;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.YearlyDaoImpl;
@@ -21,9 +27,18 @@ public class studentManageController {
 	YearlyDaoImpl YearDao = new YearlyDaoImpl();
 	@Autowired
 	private UserDAO userDAO;
-	@GetMapping(value = { "student/yearlyreport/{user_id}"})
 	
-	public ModelAndView searchApplicantByPersonProgram(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
+	@Autowired private ObjectMapper objectMapper; 
+	private static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class); 
+
+	
+	private static final String studentYearlyReport = "/student_manage/yearlyReport";
+	private static final String studentProfile = "/student_manage/student-profile";
+
+	
+	
+	@GetMapping(value = { "student/yearlyreport/{user_id}"})
+	public String searchApplicantByPersonProgram(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
 		User userDetails = userDAO.get(principal.getName()); 
 		String ic = "";
 		if(userDetails.getRole().toString().equals("ADMIN")){
@@ -32,14 +47,29 @@ public class studentManageController {
 		
 		List<Integer> YearList = YearDao.getSchoolYearList(ic, user_id);
 		
+		HashMap<Integer,YearlyBean> yearlybeans = new HashMap<>();
+		
 		for(int y:YearList)
 		{
 			System.out.println(y);
 			YearlyBean yb = YearDao.getYearlyBeanInfoByYear(y,user_id);
+			yearlybeans.put(y, yb);
 		}
 		
-		System.out.println(user_id);
-		return null;
+		try {
+			model.addAttribute("yearlyBeans", objectMapper.writeValueAsString(yearlybeans));
+			System.out.println(objectMapper.writeValueAsString(yearlybeans));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		System.out.println(studentYearlyReport);
+		return studentYearlyReport;
+	}
+	
+	@GetMapping(value = { "student/profile/{user_id}"})
+	public String studentProfile(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
+		System.out.println(studentProfile+"!!");
+		return studentProfile;
 	}
 
 }

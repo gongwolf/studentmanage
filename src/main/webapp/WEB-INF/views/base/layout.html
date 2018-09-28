@@ -108,7 +108,7 @@
 		<ul class="sidebar navbar-nav" th:fragment="siderFragment">
 			<li class="nav-item active">
 				<a class="nav-link"
-				href="home.html"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
+				href="/studentmanage/home/homepage"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
 				</a>
 			</li>
 			<li class="nav-item dropdown">
@@ -118,7 +118,7 @@
 				aria-expanded="false"> <i class="fas fa-fw fa-folder"></i> <span>Students Manage</span>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
-					<a class="dropdown-item" th:href="@{student-all-list}" >Student List<br>
+					<a class="dropdown-item" th:href="@{/home/student-all-list}" >Student List<br>
 					</a>
 				</div>
 			</li>
