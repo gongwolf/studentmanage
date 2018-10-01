@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.UserDAOImpl;
+import edu.nmsu.nmamp.student.model.MentorSummaryBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.service.PortalData;
@@ -33,12 +34,13 @@ public class AdminHomeController {
 
 	@Autowired
 	private AdminDAOImpl adminDAO;
-	@Autowired private ObjectMapper objectMapper; 
-	private static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class); 
-
+	@Autowired
+	private ObjectMapper objectMapper;
+	private static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class);
 
 	private static final String HomePage = "/base/home";
 	private static final String StudentListPage = "/student_manage/student-list";
+	private static final String MentorListPage = "/mentor_manage/mentor-list";
 
 	@GetMapping(value = { "home" })
 	public String homepage() {
@@ -76,32 +78,93 @@ public class AdminHomeController {
 	}
 
 	@GetMapping(value = { "home/student-all-list" })
-	public String studentAllList(ModelMap model,Principal principal) {
-		User userDetails = userDAO.get(principal.getName()); 
-//		System.out.println("Student all list " + principal.getName()+" "+userDetails.getPassword()+" "+userDetails.getRole());
-		
+	public String studentAllList(ModelMap model, Principal principal) {
+		User userDetails = userDAO.get(principal.getName());
+		// System.out.println("Student all list " + principal.getName()+"
+		// "+userDetails.getPassword()+" "+userDetails.getRole());
+
 		String ic = "";
-		if(userDetails.getRole().toString().equals("ADMIN")){
-			ic="admin";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
 		}
-		
-		String condition="all";
-		
-		List<StudentSummaryBean> studentList = adminDAO.getStudentListSummary(ic,condition);
-		
-//		for(StudentSummaryBean sb:studentList)
-//		{
-//			System.out.println(sb);
-//		}
+
+		String condition = "all";
+
+		List<StudentSummaryBean> studentList = adminDAO.getStudentListSummary(ic, condition);
+
+		// for(StudentSummaryBean sb:studentList)
+		// {
+		// System.out.println(sb);
+		// }
 		try {
 			model.addAttribute("studentList", objectMapper.writeValueAsString(studentList));
 			System.out.println(objectMapper.writeValueAsString(studentList));
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage());
 		}
-		
-		
+
 		return StudentListPage;
+	}
+
+	@GetMapping(value = { "home/mentor-all-list" })
+	public String MentorAllList(ModelMap model, Principal principal) {
+		User userDetails = userDAO.get(principal.getName());
+		// System.out.println("Student all list " + principal.getName()+"
+		// "+userDetails.getPassword()+" "+userDetails.getRole());
+
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		String condition = "all";
+
+		List<MentorSummaryBean> mentorList = adminDAO.getMentortListSummary(ic, condition);
+
+		// for(StudentSummaryBean sb:studentList)
+		// {
+		// System.out.println(sb);
+		// }
+		try {
+			model.addAttribute("MentorList", objectMapper.writeValueAsString(mentorList));
+			System.out.println(objectMapper.writeValueAsString(mentorList));
+		} catch (JsonProcessingException e) {
+			logger.error(e.getMessage());
+		}
+
+		return MentorListPage;
+	}
+	
+	@GetMapping(value = { "home/mentor-all-list-json" })
+	@ResponseBody
+	public String MentorAllListJson(ModelMap model, Principal principal) {
+		User userDetails = userDAO.get(principal.getName());
+		// System.out.println("Student all list " + principal.getName()+"
+		// "+userDetails.getPassword()+" "+userDetails.getRole());
+
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		String condition = "all";
+
+		List<MentorSummaryBean> mentorList = adminDAO.getMentortListSummary(ic, condition);
+
+		// for(StudentSummaryBean sb:studentList)
+		// {
+		// System.out.println(sb);
+		// }
+		String result = "";
+		try {
+			model.addAttribute("MentorList", objectMapper.writeValueAsString(mentorList));
+			System.out.println(objectMapper.writeValueAsString(mentorList));
+			result=objectMapper.writeValueAsString(mentorList);
+		} catch (JsonProcessingException e) {
+			logger.error(e.getMessage());
+		}
+
+		return result;
 	}
 
 }

@@ -35,6 +35,7 @@ public class studentManageController {
 	
 	private static final String studentYearlyReport = "/student_manage/yearlyReport";
 	private static final String studentProfile = "/student_manage/student-profile";
+	private static final String studentPostAMPActs = "/student_manage/student-post-activities";
 
 	
 	
@@ -72,6 +73,12 @@ public class studentManageController {
 	public String studentProfile(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
 		System.out.println(studentProfile+"!!");
 		return studentProfile;
+	}
+	
+	@GetMapping(value = { "student/postAMPActivities/{user_id}"})
+	public String studentPostAMPACTs(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
+		System.out.println(studentPostAMPActs+"!!");
+		return studentPostAMPActs;
 	}
 
 }

@@ -46,14 +46,18 @@
 										id="student_name" value="Tim Adam">
 								</div>
 								<label for="Mentor" class="col-sm-1 col-form-label-sm">Mentor:</label>
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="Mentor"
-										value="Tom Anderson">
+										value="Tom Anderson"> 
+									<input type="hidden" id="MentorID"
+										value="11111111">
 								</div>
-
+								<label id="addMentor"
+									class="col-sm-1 col-form-label-sm fa fa-plus"></label>
 							</div>
 							<hr>
+							<!-- College information -->
 							<div class="form-group row">
 								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
 								<div class="col-sm-3">
@@ -107,7 +111,6 @@
 									<input type="text" class="form-control form-control-sm "
 										id="Coursework"
 										placeholder=" Remedial Classes; Chinese Classes; .... Separated by ';'">
-
 								</div>
 							</div>
 							<!-- GPA and Credits -->
@@ -226,12 +229,408 @@
 									</select>
 								</div>
 							</div>
+							<!-- WithDrew -->
+							<div class="form-group row">
+								<label for="withdrewInYear" class="col-sm-2 col-form-label-sm">
+									Withdrew:</label>
+								<div class="col-sm-2">
+									<label class="radio-inline"> <input value="withdrew_Y"
+										type="radio" name="withdrewInYear"> Yes
+									</label> <label class="radio-inline"> <input value="withdrew_N"
+										type="radio" name="withdrewInYear"> No
+									</label>
+								</div>
+							</div>
+							<div class="form-group row" id="withdrew_reason_textarea"
+								style="display: none">
+								<label for="withdrew_reason" class="col-sm-2 col-form-label-sm">
+									Reason:</label>
+								<textarea class="form-control" id="withdrew_reason" rows="3"></textarea>
+							</div>
+							<!-- Financial Support -->
+							<div class="form-group row">
+								<label for="Financial_support"
+									class="col-sm-2 col-form-label-sm"> Financial Support:</label>
+								<div class="col-sm-2">
+									<label class="radio-inline"> <input value="Fin_sup_Y"
+										type="radio" name="Financial_support"> Yes
+									</label> <label class="radio-inline"> <input value="Fin_sup_N"
+										type="radio" name="Financial_support"> No
+									</label>
+								</div>
 
+								<label id="Fin_sup_selection_label" for="Fin_sup_selection"
+									style="display: none"
+									class="col-sm-1 col-form-label-sm text-right"> type:</label>
+								<div class="col-sm-2" style="display: none"
+									id="Fin_sup_selection_div">
+									<select class="form-control form-control-sm"
+										id="Fin_sup_selection">
+										<option value="ty_A">type A</option>
+										<option value="ty_B">type B</option>
+										<option value="ty_C">type C</option>
+										<option value="ty_D">type d</option>
+									</select>
+								</div>
+								<label for="summur_Financial_support"
+									class="col-sm-2 col-form-label-sm text-right"> Summer
+									Financial Support:</label>
+								<div class="col-sm-2">
+									<label class="radio-inline"> <input
+										value="Summ_Fin_sup_Y" type="radio"
+										name="summur_Financial_support"> Yes
+									</label> <label class="radio-inline"> <input
+										value="Summ_Fin_sup_N" type="radio"
+										name="summur_Financial_support"> No
+									</label>
+								</div>
+							</div>
+
+							<hr>
+							<!-- Activities checkboxes -->
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-2 " style="margin-bottom: 0px">Activities:</label>
+									<label class="col-sm-2  offset-sm-2" style="margin-bottom: 0px">Fall
+										2018:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Spring
+										2018:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Summer
+										2018:</label>
+								</div>
+								<!-- four years activities -->
+								<div class="row">
+									<label class="col-sm-2 text-left" style="margin-bottom: 0px">University:</label>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Undergraduate
+										Research Scholars :</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Professional
+										Development:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">International
+										Research Experience :</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+
+								<!-- two years activities -->
+								<div class="row">
+									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Community
+										College:</label>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Community
+										College Stipend:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">SCCORE:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Transfer
+										Scholarship:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<!-- other activities -->
+								<div class="row">
+									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Others:</label>
+								</div>
+								<div class="row">
+									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Internship
+										College Stipend:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+							</div>
+							<!-- Activities Comments -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Activities
+									Comments:</label>
+								<textarea class="form-control" id="activity_comments" rows="3"></textarea>
+							</div>
+							<hr>
+							<!-- Conference -->
+							<div class="form-group">
+								<label class="col-sm-2" for="Comments">Conferences:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableConferences">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 5%"></th>
+										<th style="width: 33%">Conference Name</th>
+										<th style="width: 12%">Date</th>
+										<th style="width: 33%">Presentation Title</th>
+										<th style="width: 12%">Presentation Type</th>
+
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newActitvity"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+											<td><select class="form-control form-control-sm">
+													<option value="Oral">Oral</option>
+													<option value="Oral">Poster</option>
+													<option value="Oral">Oral and Poster</option>
+													<option value="Oral">other</option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newActitvity"
+												name="newActitvity " placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+											<td><select class="form-control form-control-sm">
+													<option value="Oral">Oral</option>
+													<option value="Oral">Poster</option>
+													<option value="Oral">Oral and Poster</option>
+													<option value="Oral">other</option>
+											</select></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+							<!-- Publications -->
+							<div class="form-group">
+								<label class="col-sm-2" for="Comments">Publications:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableActitvities">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 80%">Publications</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td><textarea class="form-control"
+													id="activity_comments" rows="3"
+													placeholder="Mohammadlou, Hassan Beik, and Hamid Ekhteraei Toussi. “Parametric Studies on Elastoplastic Buckling of Rectangular FGM Thin Plates.” Aerospace Science and Technology, vol. 69, 2017.
+https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea></td>
+										</tr>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td><textarea class="form-control"
+													id="activity_comments" rows="3"
+													placeholder="Li, Feifei; Talipov, Marat; Dong, Chao; Bali, Sofia; Ding, Keying. Acid-Facilitated Product Release from a Mo(IV) Center: Relevance to Oxygen Atom Transfer Reactivity of Molybdenum. JCBI (In Review)"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+							<!-- Volunteer experiences -->
+							<div class="form-group">
+								<label class="col-sm-2" for="Volunteer_exp">Volunteer
+									experiences:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableVolunteerExps">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 5%"></th>
+										<th style="width: 30%">Organization Name</th>
+										<th style="width: 12%">Start Date</th>
+										<th style="width: 12%">End Date</th>
+										<th style="width: 36%">Duties</th>
+
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td><small>Environmental Science Student
+													Organization</small></td>
+											<td><input
+												class="form-control form-control-sm newVolunteerStartDate"
+												name="newVolunteerStartDate " placeholder="MM/DD/YYYY"
+												type="text" /></td>
+											<td><input
+												class="form-control form-control-sm newVolunteerEndDate"
+												name="newVolunteerEndDate " placeholder="MM/DD/YYYY"
+												type="text" /></td>
+											<td><small>Advances environmental knowledge and
+													awareness at NMSU and in the community.</small></td>
+										</tr>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td><small>Science Alliance</small></td>
+											<td><input
+												class="form-control form-control-sm newVolunteerStartDate"
+												name="newVolunteerStartDate " placeholder="MM/DD/YYYY"
+												type="text" /></td>
+											<td><input
+												class="form-control form-control-sm newVolunteerEndDate"
+												name="newVolunteerEndDate " placeholder="MM/DD/YYYY"
+												type="text" /></td>
+											<td><small>Science Alliance is a joint
+													organization combining the Society for the Advancement of
+													Chicanos and Native Americans in Science (SACNAS) and an
+													education program of the Ecological Society of America:
+													Strategies for Ecology Education, Diversity, and
+													Sustainability (SEEDS).</small></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+							<!-- International experiences -->
+							<div class="form-group">
+								<label class="col-sm-2" for="International_exp">International
+									experiences:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableInternationalExps">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 5%"></th>
+										<th style="width: 10%">City</th>
+										<th style="width: 10%">State</th>
+										<th style="width: 10%">Country</th>
+										<th style="width: 12%">Start Date</th>
+										<th style="width: 12%">End Date</th>
+										<th style="width: 36%">Purpose</th>
+
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newInterStartDate"
+												name="newInterStartDate " placeholder="MM/DD/YYYY"
+												type="text" /></td>
+											<td><input
+												class="form-control form-control-sm newInterEndDate"
+												name="newInterEndDate " placeholder="MM/DD/YYYY" type="text" /></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+							<!-- notes and comments -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Notes
+									and Comments:</label>
+								<textarea class="form-control" id="notes_and_comments" rows="3"></textarea>
+							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<!-- /#wrapper -->
@@ -265,6 +664,41 @@
 			</div>
 		</div>
 
+		<!-- Add Mentor Modal-->
+		<div class="modal fade 	" id="addMentorModel" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add New
+							Mentor?</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered" id="mentordataTable"
+							width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<td><strong>Mentor ID</strong></td>
+									<td><strong>Name</strong></td>
+									<td><strong>Institution</strong></td>
+									<td><strong>Department</strong></td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button"
+							data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="#">Confirm</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Bootstrap core JavaScript-->
 		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -283,6 +717,7 @@
 
 		<!-- Qixu Ajax script -->
 		<script th:src="@{/js/student-yearly-report.js}"></script>
+		<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
 		<script th:inline="javascript">
 		/*

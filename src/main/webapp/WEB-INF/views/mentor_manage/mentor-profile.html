@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='Mentor Profile')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
+		type="text/css">
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i> Student Profile
+					</div>
+					<div class="card-body">
+						<form>
+							<!-- Student id -->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">Mentor
+									ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="mentor_id"
+										value="1234567890">
+								</div>
+							</div>
+							<!-- Mentor Name -->
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm">Prefix:</label>
+								<div class="col-sm-1">
+									<select class="form-control form-control-sm" id="Prefix_select">
+										<option value="Null_pfx">Choose ....</option>
+										<option value="Dr">Dr.</option>
+										<option value="Ms.">Ms.</option>
+									</select>
+								</div>
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="first_name" placeholder="First Name" value="aaaa">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="last_name">
+								</div>
+							</div>
+							
+							<!-- Institution -->
+							<div class="form-group row">
+								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
+								<div class="col-sm-3">
+									<select class="form-control form-control-sm" id="Institution">
+										<option th:each="entry:${schools}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label for="Department" class="col-sm-1 col-form-label-sm">Department:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="Department">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<!-- Page level plugin JavaScript-->
+	<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/sb-admin.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/student-profile.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+</body>
+
+</html>

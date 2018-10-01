@@ -6,7 +6,7 @@
  
 $(document).ready(function(){
 	var table = $('#dataTable').DataTable( {
-		"aaData": studentList, 
+		"aaData": MentorList, 
     	'columnDefs': [
          {
              'targets': 0,
@@ -30,18 +30,18 @@ $(document).ready(function(){
 	
           "aoColumns": [
 			{"mData":""},
-			{"mData":"user_id",
+			{"mData":"mentor_id",
 				"mRender":function(data, type, full){
-				return '<a href="../student/profile/'+full.user_id+'" id="user_id" >'+full.user_id+'</a>';}
+				return '<a href="../mentor/profile/'+full.mentor_id+'" id="profile-mentor_id" >'+full.mentor_id+'</a>';}
 			}, 
-			{"mData":"first_name"},
-			{"mData": "middle_name"},
-			{"mData": "last_name"},
-			{"mData": "birthDate"},
+			{"mData":"name"},
+			{"mData":"intitution"},
+			{"mData":"deportment"},
 			{"mData": "",
 				"mRender":function(data, type, full){
-					var str = '<a href="../student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
-					str+='&nbsp;&nbsp;<a href="../student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
+//					var str = '<a href="../mentor/mentor-student-list/'+full.mentor_id+'" id="MentorStuList btn" class="btn btn-outline-secondary">Student List</a>';
+					var str = '<a href="../home/student-all-list" id="MentorStuList btn" class="btn btn-outline-secondary">Student List</a>';
+//					str+='<a href="../student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
 					return str;
 				 }
 			}
