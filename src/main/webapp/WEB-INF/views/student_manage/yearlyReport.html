@@ -7,6 +7,7 @@
 <link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
 	type="text/css">
 </head>
+
 <body id="page-top">
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
 		th:replace="base/layout :: header"></nav>
@@ -20,68 +21,276 @@
 
 		<div id="content-wrapper">
 			<div class="container-fluid">
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i> Student Yearly
+						Report&nbsp;&nbsp;&nbsp; <i class="fa fa-angle-double-left"></i> <a
+							href="#"><span>&nbsp;&nbsp;&nbsp;2018&nbsp;&nbsp;&nbsp;</span></a>
+						<i class="fa fa-angle-double-right"></i>
+					</div>
+					<div class="card-body">
+						<form>
+							<!-- Student id and name-->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
+									ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										value="1234567890">
+								</div>
+								<label for="student_name" class="col-sm-1 col-form-label-sm">Name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm"
+										id="student_name" value="Tim Adam">
+								</div>
+								<label for="Mentor" class="col-sm-1 col-form-label-sm">Mentor:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="Mentor"
+										value="Tom Anderson">
+								</div>
+
+							</div>
+							<hr>
+							<div class="form-group row">
+								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
+								<div class="col-sm-3">
+									<select class="form-control form-control-sm" id="Institution">
+										<option th:each="entry:${schools}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label for="Institution" class="col-sm-1 col-form-label-sm">College
+									Level:</label>
+								<div class="col-sm-3">
+									<select class="form-control form-control-sm" id="College_Level">
+										<option value="2years">2 years school</option>
+										<option value="2years">4 years school</option>
+									</select>
+								</div>
+							</div>
+							<!-- major, minor, changed major, course work -->
+							<div class="form-group row">
+								<label class="col-sm-1 col-form-label-sm">Discipline:</label> <label
+									for="major" class="col-sm-1 col-form-label-sm text-right">Major-</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm"
+										id="major" placeholder="Major">
+								</div>
+								<label for="minor" class="col-sm-1 col-form-label-sm text-right">Minor-</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm "
+										id="minor" placeholder="Minor">
+								</div>
+								<label for="Changed_Major"
+									class="col-sm-1 col-form-label-sm text-right"> Changed
+									Major:</label>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label-sm"> <input
+										class="form-check-input" type="checkbox"
+										id="Changed_Major_Yes" value="Yes"> Yes
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label-sm"> <input
+										class="form-check-input" type="checkbox" id="Changed_Major_No"
+										value="no"> No
+									</label>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="Coursework" class="col-sm-1 col-form-label-sm">
+									Course work:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control form-control-sm "
+										id="Coursework"
+										placeholder=" Remedial Classes; Chinese Classes; .... Separated by ';'">
+
+								</div>
+							</div>
+							<!-- GPA and Credits -->
+							<div class="form-group row">
+								<label for="Sem_Credits" class="col-form-label-sm"
+									style="padding-left: 15px;"> Credits earned in
+									Semester:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm "
+										id="Sem_Credits" placeholder="Credits">
+
+								</div>
+								<label for="Cum_Credits" class="col-form-label-sm text-right">
+									Cumulative earned Credits:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm "
+										id="Cum_Credits" placeholder="Credits">
+
+								</div>
+
+								<label for="Sem_GPA" class="col-form-label-sm text-right">
+									Semester GPA:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm "
+										id="Sem_GPA" placeholder="GPA">
+
+								</div>
+								<label for="Cum_GPA" class="col-form-label-sm text-right">
+									Cumulative GPA:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm "
+										id="Cum_GPA" placeholder="GPA">
+
+								</div>
+							</div>
+							<!-- Graduated -->
+							<div class="form-group row">
+								<label for="Graduated" class="col-sm-2 col-form-label-sm">
+									Graduated:</label>
+								<div class="col-sm-2">
+									<label class="radio-inline"> <input value="Graduated_Y"
+										type="radio" name="Graduated"> Yes
+									</label> <label class="radio-inline"> <input
+										value="Graduated_N" type="radio" name="Graduated"> No
+									</label>
+								</div>
+
+								<label id="Graduated_Degree_label" for="Graduated_Degree"
+									style="display: none"
+									class="col-sm-1 col-form-label-sm text-right"> Degree:</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control form-control-sm"
+										style="display: none" id="Graduated_Degree"
+										placeholder="Degree">
+								</div>
+								<label id="Graduated_Field_label" for="Graduated_Field"
+									style="display: none"
+									class="col-sm-1 col-form-label-sm text-right"> Field:</label>
+								<div class="col-sm-2">
+									<input type="text" class=" form-control form-control-sm"
+										style="display: none" id="Graduated_Field" placeholder="Field">
+								</div>
+							</div>
+
+							<!-- Transfered -->
+							<div class="form-group row">
+								<label for="Transfered" class="col-sm-2 col-form-label-sm">
+									Transfered:</label>
+								<div class="col-sm-2">
+									<label class="radio-inline"> <input
+										value="Transfered_Y" type="radio" name="Transfered">
+										Yes
+									</label> <label class="radio-inline"> <input
+										value="Transfered_N" type="radio" name="Transfered">
+										No
+									</label>
+								</div>
+							</div>
+							<!-- Transfered Information-->
+							<div class="form-group row" id="transfer_info"
+								style="display: none">
+								<label id="Transfered_Credited_label" for="Transfered_Credited"
+									class="col-sm-2 col-form-label-sm"> Number of credits
+									transferred:</label>
+								<div class="col-sm-1">
+									<input type="text" class=" form-control form-control-sm"
+										id="Transfered_Credited" placeholder="Credits">
+								</div>
+								<label id="Transfered_AA_label" for="Graduated_AA"
+									class="col-sm-1 col-form-label-sm text-right"> AA
+									Degree:</label>
+								<div class="col-sm-1" id="Graduated_AA">
+									<label class="radio-inline-sm"> <input
+										value="Transfered_AA_Y" type="radio" name="Transfered">
+										Yes
+									</label> <label class="radio-inline"> <input
+										value="Transfered_AA_N" type="radio" name="Transfered">
+										No
+									</label>
+								</div>
+								<label id="Transfered_From_label" for="Transfered_From"
+									class="col-form-label-sm text-right"> From:</label>
+								<div class="col-sm-3" id="Transfered_From_DIv">
+									<select class="form-control form-control-sm"
+										id="Transfered_From">
+										<option th:each="entry:${schools}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label id="Transfered_To_label" for="Transfered_To"
+									class="col-form-label-sm text-right"> To:</label>
+								<div class="col-sm-3" id="Transfered_To_DIv">
+									<select class="form-control form-control-sm" id="Transfered_to">
+										<option th:each="entry:${schools}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+
+
+		<!-- Logout Modal-->
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ready to
+							Leave?</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">Select "Logout" below if you are
+						ready to end your current session.</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button"
+							data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="login.html">Logout</a>
+					</div>
+				</div>
 			</div>
 		</div>
 
-	</div>
+		<!-- Bootstrap core JavaScript-->
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-	<!-- /#wrapper -->
-	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top"> <i
-		class="fas fa-angle-up"></i>
-	</a>
+		<!-- Core plugin JavaScript-->
+		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
+		<!-- Page level plugin JavaScript-->
+		<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+		<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+		<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+		<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
-				</div>
-			</div>
-		</div>
-	</div>
+		<!-- Custom scripts for all pages-->
+		<script th:src="@{/js/sb-admin.min.js}"></script>
 
-	<!-- Bootstrap core JavaScript-->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<!-- Qixu Ajax script -->
+		<script th:src="@{/js/student-yearly-report.js}"></script>
 
-	<!-- Core plugin JavaScript-->
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
-	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
-	<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script th:src="@{/js/sb-admin.min.js}"></script>
-	
-	<!-- Qixu Ajax script -->
-	<script th:src="@{/js/student-yearly-report.js}"></script>
-
-	<script th:inline="javascript">
+		<script th:inline="javascript">
 		/*
 		<![CDATA[*/
 		var yearlyBeans = /*[[${yearlyBeans}]]*/;
 		/*]]>
 		 */
 	</script>
-
 </body>
 
 </html>

@@ -32,6 +32,7 @@
 					</div>
 					<div class="card-body">
 						<form>
+							<!-- Student id -->
 							<div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
 								<div class="col-sm-3">
@@ -40,6 +41,7 @@
 										value="1234567890">
 								</div>
 							</div>
+							<!-- Student Name -->
 							<div class="form-group row">
 								<label for="
 								first_name"
@@ -62,6 +64,15 @@
 								</div>
 							</div>
 							<div class="form-group required row">
+								<label class="control-label col-form-label-sm col-sm-1"
+									for="Gender"> Gender: </label>
+								<div class="col-sm-3">
+									<label class="radio-inline"> <input type="radio"
+										name="optradio"> Male
+									</label> <label class="radio-inline"> <input type="radio"
+										name="optradio"> Female
+									</label>
+								</div>
 								<label class="control-label col-form-label-sm col-sm-1 date"
 									for="birthDate"> DOB: </label>
 								<div class="col-sm-3">
@@ -73,11 +84,48 @@
 							<div class="form-group required row">
 								<label class="col-sm-1 col-form-label-sm" for="PhoNum">
 									Phone Number:</label>
-								<div class="col-sm-4">
+								<div class="col-sm-3">
 									<input class="form-control form-control-sm" id="PhoNum"
 										name="PhoNum" placeholder="Phone Numbe" type="text" />
 								</div>
+								<label class="control-label col-form-label-sm col-sm-1"
+									for="Veteran"> Veteran: </label>
+								<div class="col-sm-1">
+									<label class="radio-inline"> <input type="radio"
+										name="Veteran"> Yes
+									</label> <label class="radio-inline"> <input type="radio"
+										name="Veteran"> No
+									</label>
+								</div>
+								<label class="control-label col-form-label-sm col-sm-4"
+									for="FirstGen"> Do either of your parents have a
+									college or University Bachelor's degree?: </label>
+								<div class="col-sm-1">
+									<label class="radio-inline"> <input type="radio"
+										name="FirstGen"> Yes
+									</label> <label class="radio-inline"> <input type="radio"
+										name="FirstGen"> No
+									</label>
+								</div>
 							</div>
+							<!-- Home language and Expected Highest Degree -->
+							<div class="form-group required row">
+								<label class="control-label col-form-label-sm col-sm-2"
+									for="LanguageatHome"> Language spoken at home: </label>
+								<div class="col-sm-3">
+									<input class="form-control form-control-sm" id="LanguageatHome"
+										name="LanguageatHome" placeholder="Language spoken at home"
+										type="text" />
+								</div>
+								<label class="control-label col-form-label-sm col-sm-2"
+									for="ExpectHighestDegree"> Expected highest degree?: </label>
+								<div class="col-sm-3">
+									<input class="form-control form-control-sm"
+										id="ExpectHighestDegree" name="ExpectHighestDegree"
+										placeholder="Expected highest degree" type="text" />
+								</div>
+							</div>
+							<!-- SSN last 4 digits and family income-->
 							<div class="form-group required row">
 								<label class="col-sm-2 col-form-label-sm " for="ssn_last_four">
 									Last 4 digital of SSN:</label>
@@ -85,6 +133,18 @@
 									<input class="form-control form-control-sm" id="ssn_last_four"
 										name="ssn_last_four" placeholder="Last 4 digital of SSN"
 										type="text" />
+								</div>
+								<label class="col-sm-2 col-form-label-sm " for="family_income">
+									Family Income:</label>
+								<div class="col-sm-2">
+									<select class="form-control form-control-sm" id="family_income">
+										<option value="income_10000">0 ~ 9999 / year</option>
+										<option value="income_20000">10000 ~ 19999 / year</option>
+										<option value="income_50000">19999 ~ 49999 / year</option>
+										<option value="income_10000">49999 ~ 99999 / year</option>
+										<option value="income_other">more than 99999 / year</option>
+										<option value="income_unkonw">Do not want to provide</option>
+									</select>
 								</div>
 							</div>
 							<hr>
@@ -279,15 +339,190 @@
 									</div>
 								</div>
 							</div>
+							<hr>
 							<div class="form-group row">
-								<label for="inlineFormCustomSelect"
-									class="col-sm-1 col-form-label">Middle name:</label> <select
-									class="custom-select col-sm-6" id="inlineFormCustomSelect">
-									<option selected>Choose...</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
+								<label for="Ethnicity" class="col-sm-3 col-form-label-sm">Do
+									you consider yourself Hispanic or Latino?</label>
+								<div class="col-sm-1">
+									<label class="radio-inline"> <input type="radio"
+										name="optradio" id="Ethnicity"> Yes
+									</label>
+								</div>
+								<div class="col-sm-1">
+									<label class="radio-inline"> <input type="radio"
+										id="Ethnicity" name="optradio"> No
+									</label>
+								</div>
+							</div>
+							<!-- Race -->
+							<div class="form-group">
+								<div class="row">
+									<label for="Race" class="col-sm-1 col-form-label-sm">
+										Race:</label>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_aab"
+											value="option1"> African American or Black
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_ai"
+											value="option2"> American Indian
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_an"
+											value="option3"> Alaska Native
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_Asian"
+											value="option4"> Asian
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_Other"
+											value="option5"> Native Hawaiian or Other Pacific
+											Islander
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label-sm"> <input
+											class="form-check-input" type="checkbox" id="race_White"
+											value="option6"> White
+										</label>
+									</div>
+								</div>
+							</div>
+							<!-- disability -->
+							<div class="form-group row">
+								<label for="Disability" class="col-sm-1 col-form-label-sm">
+									Disability:</label><select class="custom-select col-sm-2"
+									id="Disability">
+									<option value="1">No</option>
+									<option value="2">Yes</option>
+									<option value="3">Don't wish to provide</option>
 								</select>
+								<div id="div_disa_type" class="col-sm-9">
+									<label for="Disability_type" class="col-sm-2 col-form-label-sm">
+										Disability Type:</label><select class="custom-select col-sm-7"
+										id="Disability_type">
+										<option value="1">Deaf or serious difficulty hearing</option>
+										<option value="2">Blind or serious difficulty seeing
+											even when wearing glasses</option>
+										<option value="3">Serious difficulty walking or
+											climbing stairs</option>
+										<option value="4">Other serious difficulty related to
+											a physical, mental, or emotional condition</option>
+									</select>
+								</div>
+							</div>
+							<hr>
+							<!-- high school name, GPA and work Hours-->
+							<div class="form-group row">
+								<label for="highschool_name" class="col-sm-2 col-form-label-sm">
+									High School Name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="highschool_name" placeholder="High School Name">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="highschool_GPA" class="col-sm-2 col-form-label-sm">
+									High School GPA:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm"
+										id="highschool_GPA" placeholder="GPA">
+								</div>
+								<label for="highschool_workhours"
+									class="col-sm-2 col-form-label-sm"> Hours worked during
+									HS, college:</label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control form-control-sm"
+										id="highschool_workhours" placeholder="hours">
+								</div>
+								<label for="highschool_tesing"
+									class="col-sm-2 col-form-label-sm"> High school
+									attended Test:</label>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label-sm"> <input
+										class="form-check-input" type="checkbox" id="hs_test_act"
+										value="hs_test_act"> ACT
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label-sm"> <input
+										class="form-check-input" type="checkbox" id="hs_test_sat"
+										value="hs_test_sat"> SAT
+									</label>
+								</div>
+
+							</div>
+							<!-- high school transcript -->
+							<div class="custom-file">
+								<label class="col-sm-2 col-form-label-sm" for="Comments">Transcript:</label>
+								<input type="file" class="custom-file-input" id="TranscriptFile">
+								<label class="custom-file-label" for="TranscriptFile">Transcript</label>
+							</div>
+							<!-- Activities -->
+							<div class="form-group">
+								<label class="col-sm-2 col-form-label-sm" for="Comments">Activities:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableActitvities">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 5%"></th>
+										<th style="width: 33%">Activity Name</th>
+										<th style="width: 12%">Date</th>
+										<th style="width: 12%">Activity Type</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newActitvity"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newActitvity"
+												name="newActitvity " placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+							<!-- Recommendation Letter -->
+							<div class="custom-file">
+								<label class="col-sm-2 col-form-label-sm" for="Comments">Recommendation
+									Letter:</label> <input type="file" class="custom-file-input"
+									id="RecommendationFile"> <label
+									class="custom-file-label" for="RecommendationFile">Recommendation
+									Letter</label>
+							</div>
+							<hr>
+							<div class="form-group ">
+								<label class="col-sm-2 col-form-label-sm" for="Comments">Comments:</label>
+								<textarea class="form-control" id="Comments" rows="3"></textarea>
 							</div>
 						</form>
 					</div>

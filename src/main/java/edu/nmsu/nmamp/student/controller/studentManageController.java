@@ -20,6 +20,7 @@ import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.YearlyDaoImpl;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.model.YearlyBean;
+import edu.nmsu.nmamp.student.service.ProgramCode;
 
 @Controller
 public class studentManageController {
@@ -39,29 +40,30 @@ public class studentManageController {
 	
 	@GetMapping(value = { "student/yearlyreport/{user_id}"})
 	public String searchApplicantByPersonProgram(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
-		User userDetails = userDAO.get(principal.getName()); 
-		String ic = "";
-		if(userDetails.getRole().toString().equals("ADMIN")){
-			ic="admin";
-		}
-		
-		List<Integer> YearList = YearDao.getSchoolYearList(ic, user_id);
-		
-		HashMap<Integer,YearlyBean> yearlybeans = new HashMap<>();
-		
-		for(int y:YearList)
-		{
-			System.out.println(y);
-			YearlyBean yb = YearDao.getYearlyBeanInfoByYear(y,user_id);
-			yearlybeans.put(y, yb);
-		}
-		
-		try {
-			model.addAttribute("yearlyBeans", objectMapper.writeValueAsString(yearlybeans));
-			System.out.println(objectMapper.writeValueAsString(yearlybeans));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+//		User userDetails = userDAO.get(principal.getName()); 
+//		String ic = "";
+//		if(userDetails.getRole().toString().equals("ADMIN")){
+//			ic="admin";
+//		}
+//		
+//		List<Integer> YearList = YearDao.getSchoolYearList(ic, user_id);
+//		
+//		HashMap<Integer,YearlyBean> yearlybeans = new HashMap<>();
+//		
+//		for(int y:YearList)
+//		{
+//			System.out.println(y);
+//			YearlyBean yb = YearDao.getYearlyBeanInfoByYear(y,user_id);
+//			yearlybeans.put(y, yb);
+//		}
+//		
+//		try {
+//			model.addAttribute("yearlyBeans", objectMapper.writeValueAsString(yearlybeans));
+//			System.out.println(objectMapper.writeValueAsString(yearlybeans));
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+		model.addAttribute("schools", ProgramCode.CURRENT_ACADEMIC_SCHOOL);
 		System.out.println(studentYearlyReport);
 		return studentYearlyReport;
 	}
