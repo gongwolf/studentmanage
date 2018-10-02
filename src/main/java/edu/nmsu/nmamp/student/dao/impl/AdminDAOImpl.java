@@ -11,11 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import edu.nmsu.nmamp.student.dao.Schemacode;
 import edu.nmsu.nmamp.student.model.MentorSummaryBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 
 @Repository("AdminDAOImpl")
-public class AdminDAOImpl {
+public class AdminDAOImpl implements Schemacode {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -59,6 +60,157 @@ public class AdminDAOImpl {
 
 		// System.out.println(sql);
 
+		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<MentorSummaryBean>>() {
+
+			@Override
+			public List<MentorSummaryBean> extractData(ResultSet reSet) throws SQLException, DataAccessException {
+				List<MentorSummaryBean> mentorList = new ArrayList<>();
+				while (reSet.next()) {
+					MentorSummaryBean bean = new MentorSummaryBean();
+					bean.setMentor_id(reSet.getInt("mentor_id"));
+					String prefix = reSet.getString("mentor_prefix") == null ? "" : reSet.getString("mentor_prefix");
+					String first_name = reSet.getString("mentor_first_name") == null ? ""
+							: reSet.getString("mentor_first_name");
+					String last_name = reSet.getString("mentor_last_name") == null ? ""
+							: reSet.getString("mentor_last_name");
+					String mentor_name = "";
+					if (!prefix.equals("")) {
+						mentor_name = prefix + " " + first_name + " " + last_name;
+
+					} else {
+						mentor_name = first_name + " " + last_name;
+					}
+					bean.setName(mentor_name);
+					bean.setEmail(reSet.getString("mentor_email"));
+					bean.setDeportment(reSet.getString("mentor_department"));
+					bean.setIntitution(reSet.getString("mentor_institution"));
+					mentorList.add(bean);
+				}
+				return mentorList;
+			}
+		});
+	}
+
+	public List<StudentSummaryBean> getApplicantsByPerson(String firstName, String lastName, String birthDate,
+			String email) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT user_id, first_name, last_name, birth_date, middle_name \n");
+		sql.append("FROM ").append(TABLE_PROFILE_STUDENT).append(" \n");
+
+		if (!firstName.isEmpty() || !lastName.isEmpty() || !birthDate.isEmpty() || !email.isEmpty()) {
+
+			sql.append("WHERE");
+
+			if (!firstName.isEmpty()) {
+				sql.append(" first_name LIKE '%" + firstName + "%' AND");
+			}
+
+			if (!lastName.isEmpty()) {
+				sql.append(" last_name LIKE '%" + lastName + "%' AND");
+			}
+
+			if (!email.isEmpty()) {
+				sql.append(" email LIKE '%" + email + "%' AND");
+			}
+
+			if (!birthDate.isEmpty()) {
+				sql.append(" DATE_FORMAT(birth_date, '%m/%d/%Y')='" + birthDate + "' AND");
+			}
+
+			sql.delete(sql.length() - 3, sql.length());
+		}
+		Object[] params = new Object[] {};
+		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<StudentSummaryBean>>() {
+
+			@Override
+			public List<StudentSummaryBean> extractData(ResultSet reSet) throws SQLException, DataAccessException {
+				List<StudentSummaryBean> studentList = new ArrayList<>();
+				while (reSet.next()) {
+					StudentSummaryBean bean = new StudentSummaryBean();
+					bean.setUser_id(reSet.getInt("user_id"));
+					bean.setFirst_name(reSet.getString("first_name"));
+					bean.setLast_name(reSet.getString("last_name"));
+					bean.setMiddle_name(reSet.getString("middle_name"));
+					bean.setBirthDate(reSet.getDate("birth_date"));
+					studentList.add(bean);
+				}
+				return studentList;
+			}
+		});
+	}
+
+	public List<StudentSummaryBean> getApplicantsByProgram(String program) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT user_id, first_name, last_name, birth_date, middle_name \n");
+
+		sql.append("FROM ").append(TABLE_PROFILE_STUDENT).append(" \n");
+		sql.append("WHERE user_id in (SELECT user_id FROM ").append(TABLE_APPLICATION_LIST);
+
+		Object[] params;
+		if (program != null && program.length() > 1) {
+			sql.append(" WHERE program=?)\n");
+			params = new Object[] { program };
+		} else {
+			sql.append(" )\n");
+			params = new Object[] {};
+		}
+
+		System.out.println(sql);
+
+		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<StudentSummaryBean>>() {
+
+			@Override
+			public List<StudentSummaryBean> extractData(ResultSet reSet) throws SQLException, DataAccessException {
+				List<StudentSummaryBean> studentList = new ArrayList<>();
+				while (reSet.next()) {
+					StudentSummaryBean bean = new StudentSummaryBean();
+					bean.setUser_id(reSet.getInt("user_id"));
+					bean.setFirst_name(reSet.getString("first_name"));
+					bean.setLast_name(reSet.getString("last_name"));
+					bean.setMiddle_name(reSet.getString("middle_name"));
+					bean.setBirthDate(reSet.getDate("birth_date"));
+					studentList.add(bean);
+				}
+				return studentList;
+			}
+		});
+	}
+
+	public List<MentorSummaryBean> getMentorsByPerson(String firstName, String lastName, String email,
+			String intitutionAbbr, String department) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * \n");
+		sql.append("FROM ").append(TABLE_PROFILE_MENTOR).append(" \n");
+
+		if (!firstName.isEmpty() || !lastName.isEmpty() || !intitutionAbbr.isEmpty() || !email.isEmpty()
+				|| !department.isEmpty()) {
+
+			sql.append("WHERE");
+
+			if (!firstName.isEmpty()) {
+				sql.append(" mentor_first_name LIKE '%" + firstName + "%' AND");
+			}
+
+			if (!lastName.isEmpty()) {
+				sql.append(" mentor_last_name LIKE '%" + lastName + "%' AND");
+			}
+
+			if (!email.isEmpty()) {
+				sql.append(" mentor_email LIKE '%" + email + "%' AND");
+			}
+
+			if (!department.isEmpty()) {
+				sql.append(" mentor_department LIKE '%" + department + "%' AND");
+			}
+			
+			if (!intitutionAbbr.isEmpty()) {
+				sql.append(" mentor_institution = '" + intitutionAbbr + "' AND");
+			}
+
+			sql.delete(sql.length() - 3, sql.length());
+		}
+		Object[] params = new Object[] {};
+		System.out.println(sql);
 		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<MentorSummaryBean>>() {
 
 			@Override

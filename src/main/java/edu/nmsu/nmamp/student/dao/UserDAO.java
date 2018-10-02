@@ -17,10 +17,11 @@ package edu.nmsu.nmamp.student.dao;
 
 import java.util.List;
 
+import edu.nmsu.nmamp.student.model.ApplicationBean;
 import edu.nmsu.nmamp.student.model.User;
 
 public interface UserDAO {
 	
 	public User get(String email);
-	public List<User> list(); 
+	public List<User> list();
 }

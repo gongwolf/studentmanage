@@ -40,8 +40,8 @@ $(document).ready(function(){
 			{"mData": "birthDate"},
 			{"mData": "",
 				"mRender":function(data, type, full){
-					var str = '<a href="../student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
-					str+='&nbsp;&nbsp;<a href="../student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
+					var str = '<a href="/studentmanage/student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
+					str+='&nbsp;&nbsp;<a href="/studentmanage/student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
 					return str;
 				 }
 			}

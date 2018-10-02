@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org" lang="en">
 <head
-	th:include="base/layout :: headerFragment (pageTitle='student list')">
+	th:include="base/layout :: headerFragment (pageTitle='student search')">
 <title></title>
 <link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
 	type="text/css">
@@ -20,31 +20,62 @@
 
 		<div id="content-wrapper">
 			<div class="container-fluid">
-
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Student List
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-							<thead>
-									<tr>
-										<th></th>
-										<td><strong>User ID</strong></td>
-										<td><strong>First Name</strong></td>
-										<td><strong>Middle Name</strong></td>
-										<td><strong>Last Name</strong></td>
-										<td><strong>Date of Birth</strong></td>
-										<th></th>
-									</tr>
-								</thead>
-							</table>
-						</div>
+						<i class="fas fa-table"></i> Student Search
 					</div>
 				</div>
+				<div class="col-md-10 offset-md-1">
+					<div class="col-md-2" style="margin-left: -4%">
+						<strong>Search by person:</strong>
+					</div>
 
+					<form th:action="@{/mentor/search-mentor/person}" method="post"
+						th:object="${MentorSearchBean}">
+						<div class="form-group row">
+							<label class="col-md-2 col-form-label-md">First Name:</label>
+							<div class="col-md-3">
+								<input name="first_name" class="form-control" type="text"
+									th:field="*{firstName}">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2 col-form-label-md">Last Name:</label>
+							<div class="col-md-3">
+								<input name="last_name" class="form-control" type="text"
+									th:field="*{lastName}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-md-2 col-form-label-md">Email:</label>
+							<div class="col-md-3">
+								<input name="email" class="form-control" type="text"
+									th:field="*{email}">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-md-2 col-form-label-md">program:</label>
+							<div class="col-md-7">
+								<select class="form-control form-control-md" id="Institution"
+									name="select_school" th:field="*{intitutionAbbr}">
+									<option value="">-- Select One --</option>
+									<option th:each="entry:${schools}" th:value="${entry.key}"
+										th:text="${entry.value}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-md-2 col-form-label-md">Department:</label>
+							<div class="col-md-3">
+								<input name="department" type="text" class="form-control" th:field="*{department}">
+							</div>
+						</div>
+						
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
 			</div>
 		</div>
 
@@ -92,21 +123,22 @@
 	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
 	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
 	<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
 	<!-- Custom scripts for all pages-->
 	<script th:src="@{/js/sb-admin.min.js}"></script>
-	
-	<!-- Qixu Ajax script -->
-	<script th:src="@{/js/student-list-search.js}"></script>
 
-	<script th:inline="javascript">
-		/*
-		<![CDATA[*/
-		var studentList = eval(/*[[${studentList}]]*/);
-		/*]]>
-		 */
+	<script>
+		$(function() {
+			$("#birth_date").datepicker({
+				defaultDate : "+1w",
+				changeMonth : true,
+				changeYear : true,
+				numberOfMonths : 1,
+				dateFormat : 'mm/dd/yy',
+			});
+		});
 	</script>
-
 </body>
 
 </html>

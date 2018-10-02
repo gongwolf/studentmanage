@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.UserDAOImpl;
+import edu.nmsu.nmamp.student.model.ApplicationBean;
+import edu.nmsu.nmamp.student.model.MentorSearchBean;
 import edu.nmsu.nmamp.student.model.MentorSummaryBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.service.PortalData;
+import edu.nmsu.nmamp.student.service.ProgramCode;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +43,9 @@ public class AdminHomeController {
 
 	private static final String HomePage = "/base/home";
 	private static final String StudentListPage = "/student_manage/student-list";
+	private static final String StudentSearchPage = "/student_manage/student-search";
 	private static final String MentorListPage = "/mentor_manage/mentor-list";
+	private static final String MentorSearchPage = "/mentor_manage/mentor-search";
 
 	@GetMapping(value = { "home" })
 	public String homepage() {
@@ -134,7 +139,25 @@ public class AdminHomeController {
 
 		return MentorListPage;
 	}
+
+	@GetMapping(value = { "home/student-search" })
+	public String studentsearch(ModelMap model, Principal principal) {
+		model.addAttribute("programs", ProgramCode.PROGRAMS);
+		if (!model.containsAttribute("applicationBean")) {
+			model.addAttribute("applicationBean", new ApplicationBean());
+		}
+		return StudentSearchPage;
+	}
 	
+	@GetMapping(value = { "home/mentor-search" })
+	public String mentorsearch(ModelMap model, Principal principal) {
+		model.addAttribute("schools", ProgramCode.CURRENT_ACADEMIC_SCHOOL);
+		if (!model.containsAttribute("mentorSearchBean")) {
+			model.addAttribute("MentorSearchBean", new MentorSearchBean());
+		}
+		return MentorSearchPage;
+	}
+
 	@GetMapping(value = { "home/mentor-all-list-json" })
 	@ResponseBody
 	public String MentorAllListJson(ModelMap model, Principal principal) {
@@ -159,7 +182,7 @@ public class AdminHomeController {
 		try {
 			model.addAttribute("MentorList", objectMapper.writeValueAsString(mentorList));
 			System.out.println(objectMapper.writeValueAsString(mentorList));
-			result=objectMapper.writeValueAsString(mentorList);
+			result = objectMapper.writeValueAsString(mentorList);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage());
 		}

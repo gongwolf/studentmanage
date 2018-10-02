@@ -30,6 +30,8 @@
 <link th:href="@{/css/sb-admin.css}" rel="stylesheet">
 <link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet">
 <link th:href="@{/css/select.dataTables.min.css}" rel="stylesheet">
+<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
+	type="text/css">
 </head>
 
 <body id="page-top">
@@ -119,6 +121,8 @@
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<a class="dropdown-item" th:href="@{/home/student-all-list}">Student
 						List<br>
+					</a><a class="dropdown-item" th:href="@{/home/student-search}">Student
+						search<br>
 					</a>
 				</div></li>
 			<li class="nav-item dropdown"><a
@@ -130,6 +134,8 @@
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<a class="dropdown-item" th:href="@{/home/mentor-all-list}">Mentor
 						List<br>
+					</a></a><a class="dropdown-item" th:href="@{/home/mentor-search}">Mentor
+						search<br>
 					</a>
 				</div></li>
 			<li class="nav-item dropdown"><a
