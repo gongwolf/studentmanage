@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='student post AMP activities')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
+		type="text/css">
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+
+				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i> Student Report Category Selection
+					</div>
+					<div class="card-body">
+						<form th:action="@{/report/report-student/selectdCat}"
+							method="post" th:object="${ReportStudentSearchBean}">
+							<div class="form-row">
+								<label class="col-sm-2 col-form-label-sm"
+									for="studentReportSelect"> Student Report Category:</label>
+								<div class="col-md-7">
+									<select class="form-control form-control-md" id="category"
+										name="select_category" th:field="*{category}">
+										<option value="">-- Select One --</option>
+										<option value="rpStuNameF">Student First Name
+											Statistic</option>
+										<option value="rpStuNameL">Student Last Name
+											Statistic</option>
+									</select>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<div th:insert="base/layout :: scriptSegment"></div>
+
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/student-post-activities.js}"></script>
+</body>
+
+</html>

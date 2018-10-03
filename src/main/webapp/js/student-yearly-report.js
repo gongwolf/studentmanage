@@ -20,10 +20,6 @@ $(document).ready(
 			});
 			
 			
-			
-			
-			
-			
 			$('#addMentor').click(function(){
 				$('#addMentorModel').modal('toggle');				
 			});
@@ -58,7 +54,7 @@ $(document).ready(
 				var Transfered_val = $('input[name=Transfered]:checked').val();
 				if (Transfered_val == "Transfered_Y") {
 					$('#transfer_info').show();
-				} else {
+				} else if(Transfered_val == "Transfered_N"){
 					$('#transfer_info').hide();
 
 				}

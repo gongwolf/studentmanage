@@ -19,6 +19,7 @@ import edu.nmsu.nmamp.student.dao.impl.UserDAOImpl;
 import edu.nmsu.nmamp.student.model.ApplicationBean;
 import edu.nmsu.nmamp.student.model.MentorSearchBean;
 import edu.nmsu.nmamp.student.model.MentorSummaryBean;
+import edu.nmsu.nmamp.student.model.ReportStudentSearchBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.service.PortalData;
@@ -46,6 +47,7 @@ public class AdminHomeController {
 	private static final String StudentSearchPage = "/student_manage/student-search";
 	private static final String MentorListPage = "/mentor_manage/mentor-list";
 	private static final String MentorSearchPage = "/mentor_manage/mentor-search";
+	private static final String ReportStudentCatPage = "/report_manage/report-student-cat";
 
 	@GetMapping(value = { "home" })
 	public String homepage() {
@@ -148,7 +150,7 @@ public class AdminHomeController {
 		}
 		return StudentSearchPage;
 	}
-	
+
 	@GetMapping(value = { "home/mentor-search" })
 	public String mentorsearch(ModelMap model, Principal principal) {
 		model.addAttribute("schools", ProgramCode.CURRENT_ACADEMIC_SCHOOL);
@@ -188,6 +190,15 @@ public class AdminHomeController {
 		}
 
 		return result;
+	}
+
+	@GetMapping(value = { "home/report-student-selection" })
+	public String studentReportSelection(ModelMap model, Principal principal) {
+		model.addAttribute("programs", ProgramCode.PROGRAMS);
+		if (!model.containsAttribute("ReportStudentSearchBean")) {
+			model.addAttribute("ReportStudentSearchBean", new ReportStudentSearchBean());
+		}
+		return ReportStudentCatPage;
 	}
 
 }

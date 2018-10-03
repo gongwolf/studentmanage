@@ -32,6 +32,8 @@
 <link th:href="@{/css/select.dataTables.min.css}" rel="stylesheet">
 <link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
 	type="text/css">
+<link rel="shortcut icon" type="image/x-icon"
+	href="../../css/favicon.ico" th:href="@{/css/favicon.ico}">
 </head>
 
 <body id="page-top">
@@ -141,6 +143,15 @@
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> <i class="fas fa-fw fa-folder"></i> <span>Report</span>
+			</a>
+				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
+					<a class="dropdown-item"
+						th:href="@{/home/report-student-selection}">Student Report<br></a>
+				</div></li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="false"> <i class="fas fa-fw fa-folder"></i> <span>Administration</span>
 			</a>
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
@@ -203,27 +214,34 @@
 		</div>
 	</div>
 
-	<!-- Bootstrap core JavaScript-->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<div th:fragment="scriptSegment">
+		<!-- Bootstrap core JavaScript-->
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-	<!-- Core plugin JavaScript-->
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+		<!-- Core plugin JavaScript-->
+		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
-	<!-- Page level plugin JavaScript-->
-	<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
-	<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+		<!-- Page level plugin JavaScript-->
+		<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+		<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+		<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+		<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
+		<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
-	<!-- Custom scripts for all pages-->
-	<script th:src="@{/js/sb-admin.min.js}"></script>
+		<!-- Custom scripts for all pages-->
+		<script th:src="@{/js/sb-admin.min.js}"></script>
+
+
+
+		<!-- Qixu Ajax script -->
+		<script th:src="@{/js/syncAjax.js}"></script>
+	</div>
 
 	<!-- Demo scripts for this page-->
 	<script th:src="@{/js/demo/datatables-demo.js}"></script>
 	<script th:src="@{/js/demo/chart-area-demo.js}"></script>
 
-	<!-- Qixu Ajax script -->
-	<script th:src="@{/js/syncAjax.js}"></script>
 </body>
 
 </html>

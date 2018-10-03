@@ -49,9 +49,8 @@
 								<div class="col-sm-2">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="Mentor"
-										value="Tom Anderson"> 
-									<input type="hidden" id="MentorID"
-										value="11111111">
+										value="Tom Anderson"> <input type="hidden"
+										id="MentorID" value="11111111">
 								</div>
 								<label id="addMentor"
 									class="col-sm-1 col-form-label-sm fa fa-plus"></label>
@@ -204,10 +203,10 @@
 									Degree:</label>
 								<div class="col-sm-1" id="Graduated_AA">
 									<label class="radio-inline-sm"> <input
-										value="Transfered_AA_Y" type="radio" name="Transfered">
+										value="Transfered_AA_Y" type="radio" name="Transfered_AA">
 										Yes
 									</label> <label class="radio-inline"> <input
-										value="Transfered_AA_N" type="radio" name="Transfered">
+										value="Transfered_AA_N" type="radio" name="Transfered_AA">
 										No
 									</label>
 								</div>
@@ -699,25 +698,11 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 			</div>
 		</div>
 
-		<!-- Bootstrap core JavaScript-->
-		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<div th:insert="base/layout :: scriptSegment"></div>
 
-		<!-- Core plugin JavaScript-->
-		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-
-		<!-- Page level plugin JavaScript-->
-		<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
-		<script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
-		<script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
-		<script th:src="@{/vendor/datatables/dataTables.select.min.js}"></script>
-
-		<!-- Custom scripts for all pages-->
-		<script th:src="@{/js/sb-admin.min.js}"></script>
 
 		<!-- Qixu Ajax script -->
 		<script th:src="@{/js/student-yearly-report.js}"></script>
-		<script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
 		<script th:inline="javascript">
 		/*

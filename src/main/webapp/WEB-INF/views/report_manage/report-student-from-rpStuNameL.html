@@ -22,57 +22,33 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Student Search
+						<i class="fas fa-table"></i> Student First Name Analysis
 					</div>
 				</div>
-				<div class="col-md-10 offset-md-1">
-					<div class="col-md-2" style="margin-left: -4%">
-						<strong>Search by Program:</strong>
-					</div>
-
-					<form th:action="@{/student/search-student/program}" method="post"
-						th:object="${applicationBean}">
-						<div class="form-row">
-							<label class="col-md-1 col-form-label-md">program:</label>
-							<div class="col-md-7">
-								<select class="form-control form-control-md" id="Institution"
-									name="select_program" th:field="*{programNameAbbr}">
-									<option value="">-- Select One --</option>
-									<option th:each="entry:${programs}" th:value="${entry.key}"
-										th:text="${entry.value}"></option>
-								</select>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</form>
-				</div>
-				<hr>
 				<div class="col-md-10 offset-md-1">
 					<div class="col-md-2" style="margin-left: -4%">
 						<strong>Search by person:</strong>
 					</div>
 
-					<form th:action="@{/student/search-student/person}" method="post"
-						th:object="${applicationBean}">
+					<form th:action="@{/report/report-student/show/rpStuNameL}"
+						method="post">
 						<div class="form-group row">
 							<label class="col-md-2 col-form-label-md">First Name:</label>
 							<div class="col-md-3">
-								<input name="first_name" class="form-control" type="text"
-									th:field="*{firstName}">
+								<input name="first_name" class="form-control" type="text">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-2 col-form-label-md">Last Name:</label>
 							<div class="col-md-3">
-								<input name="last_name" class="form-control" type="text"
-									th:field="*{lastName}">
+								<input name="last_name" class="form-control" type="text">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-2 col-form-label-md">Date of Birth:</label>
 							<div class="col-md-3">
 								<input name="birth_date" id="birth_date" class="form-control"
-									title="MM/dd/yyyy" type="text" th:field="*{birthDate}">
+									title="MM/dd/yyyy" type="text">
 							</div>
 						</div>
 
@@ -80,8 +56,7 @@
 							<label class="col-md-2 col-form-label-md">Email:</label>
 							<div class="col-md-3">
 								<div class="accordion-input">
-									<input name="email" type="text" class="form-control"
-										th:field="*{email}">
+									<input name="email" type="text" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -125,9 +100,7 @@
 
 	<div th:insert="base/layout :: scriptSegment"></div>
 
-
 	<!-- Qixu Ajax script -->
-	<script th:src="@{/js/student-search.js}"></script>
 	<script>
 		$(function() {
 			$("#birth_date").datepicker({
