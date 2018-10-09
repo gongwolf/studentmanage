@@ -23,10 +23,11 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Student Yearly
+						<a href="/studentmanage/student/profile/1111" class="fas fa-table"></a> Student Yearly
 						Report&nbsp;&nbsp;&nbsp; <i class="fa fa-angle-double-left"></i> <a
 							href="#"><span>&nbsp;&nbsp;&nbsp;2018&nbsp;&nbsp;&nbsp;</span></a>
 						<i class="fa fa-angle-double-right"></i>
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong> on <Strong>10/08/2018 11:11:11</Strong></span>
 					</div>
 					<div class="card-body">
 						<form>
@@ -39,12 +40,6 @@
 										class="form-control-plaintext form-control-sm" id="user_id"
 										value="1234567890">
 								</div>
-								<label for="student_name" class="col-sm-1 col-form-label-sm">Name:</label>
-								<div class="col-sm-3">
-									<input type="text"
-										class="form-control-plaintext form-control-sm"
-										id="student_name" value="Tim Adam">
-								</div>
 								<label for="Mentor" class="col-sm-1 col-form-label-sm">Mentor:</label>
 								<div class="col-sm-2">
 									<input type="text"
@@ -55,11 +50,36 @@
 								<label id="addMentor"
 									class="col-sm-1 col-form-label-sm fa fa-plus"></label>
 							</div>
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="first_name" placeholder="First Name" value="aaaa">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control form-control-sm"
+										id="middle_name">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="last_name">
+								</div>
+							</div>
 							<hr>
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments"> Academic
+									Information:</label>
+							</div>
 							<!-- College information -->
 							<div class="form-group row">
 								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<select class="form-control form-control-sm" id="Institution">
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
@@ -67,10 +87,10 @@
 								</div>
 								<label for="Institution" class="col-sm-1 col-form-label-sm">College
 									Level:</label>
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<select class="form-control form-control-sm" id="College_Level">
-										<option value="2years">2 years school</option>
-										<option value="2years">4 years school</option>
+										<option value="2years">Community College</option>
+										<option value="4years">4-year Institution</option>
 									</select>
 								</div>
 							</div>
@@ -160,7 +180,7 @@
 								<label id="Graduated_Degree_label" for="Graduated_Degree"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> Degree:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm"
 										style="display: none" id="Graduated_Degree"
 										placeholder="Degree">
@@ -168,9 +188,21 @@
 								<label id="Graduated_Field_label" for="Graduated_Field"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> Field:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<input type="text" class=" form-control form-control-sm"
 										style="display: none" id="Graduated_Field" placeholder="Field">
+								</div>
+								<label id="Graduated_Semester_label" for="grad_semester"
+									style="display: none"
+									class="col-sm-1 col-form-label-sm text-right">
+									Semester:</label>
+								<div class="col-sm-2">
+									<select class="form-control form-control-sm" id="grad_semester"
+										style="display: none">
+										<option value="GFall">Fall</option>
+										<option value="GSpring">Spring</option>
+										<option value="GSummer">Summer</option>
+									</select>
 								</div>
 							</div>
 
@@ -246,10 +278,16 @@
 									Reason:</label>
 								<textarea class="form-control" id="withdrew_reason" rows="3"></textarea>
 							</div>
+							<hr>
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments"> AMP and Other
+									Activities:</label>
+							</div>
 							<!-- Financial Support -->
 							<div class="form-group row">
 								<label for="Financial_support"
-									class="col-sm-2 col-form-label-sm"> Financial Support:</label>
+									class="col-sm-2 col-form-label-sm"> AMP Financial
+									Support:</label>
 								<div class="col-sm-2">
 									<label class="radio-inline"> <input value="Fin_sup_Y"
 										type="radio" name="Financial_support"> Yes
@@ -261,7 +299,7 @@
 								<label id="Fin_sup_selection_label" for="Fin_sup_selection"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> type:</label>
-								<div class="col-sm-2" style="display: none"
+								<div class="col-sm-1" style="display: none"
 									id="Fin_sup_selection_div">
 									<select class="form-control form-control-sm"
 										id="Fin_sup_selection">
@@ -272,8 +310,8 @@
 									</select>
 								</div>
 								<label for="summur_Financial_support"
-									class="col-sm-2 col-form-label-sm text-right"> Summer
-									Financial Support:</label>
+									class="col-sm-2 col-form-label-sm text-right"> AMP
+									Summer Financial Support:</label>
 								<div class="col-sm-2">
 									<label class="radio-inline"> <input
 										value="Summ_Fin_sup_Y" type="radio"
@@ -285,38 +323,22 @@
 								</div>
 							</div>
 
-							<hr>
 							<!-- Activities checkboxes -->
 							<div class="form-group">
 								<div class="row">
 									<label class="col-sm-2 " style="margin-bottom: 0px">Activities:</label>
-									<label class="col-sm-2  offset-sm-2" style="margin-bottom: 0px">Fall
+									<label class="col-sm-2  offset-sm-3" style="margin-bottom: 0px">Fall
 										2018:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Spring
 										2018:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Summer
 										2018:</label>
 								</div>
-								<!-- four years activities -->
+								<!-- two years activities -->
 								<div class="row">
-									<label class="col-sm-2 text-left" style="margin-bottom: 0px">University:</label>
+									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Community
+										College:</label>
 								</div>
 								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Undergraduate
-										Research Scholars :</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Professional
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Professional
 										Development:</label>
 									<div class="form-check col-sm-2">
 										<input class="form-check-input text-center" type="checkbox"
@@ -332,8 +354,175 @@
 									</div>
 								</div>
 								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">International
-										Research Experience :</label>
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
+										Mexico AMP Student Research Conference:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Symposiums
+										and conferences, not including New Mexico AMP Student
+										Conference:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">SMET
+										101 (<i>Luna CC only</i>):
+									</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Student
+										Research Conference/Community College Pre- and Post-
+										Professional Development Workshops:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Transfer
+										Advising and Activities:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Transfer
+										Scholarship</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<!-- four years activities -->
+								<div class="row">
+									<label class="col-sm-2 text-left" style="margin-bottom: 0px">University:</label>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">International
+										Research and Education Participation (IREP):</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
+										Mexico AMP Student Research Conference:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
+										Mexico AMP Transfer Scholarsips:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
+										Mexico MESA Scholarsips:</label>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input text-center" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+									<div class="form-check col-sm-2">
+										<input class="form-check-input" type="checkbox"
+											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+									</div>
+								</div>
+								<div class="row">
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">NMSU
+										Undergraduate Research Scholars (URS):</label>
 									<div class="form-check col-sm-2">
 										<input class="form-check-input text-center" type="checkbox"
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
@@ -348,14 +537,9 @@
 									</div>
 								</div>
 
-								<!-- two years activities -->
 								<div class="row">
-									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Community
-										College:</label>
-								</div>
-								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Community
-										College Stipend:</label>
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">SCCORE
+										Host University:</label>
 									<div class="form-check col-sm-2">
 										<input class="form-check-input text-center" type="checkbox"
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
@@ -369,24 +553,10 @@
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
 									</div>
 								</div>
+
 								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">SCCORE:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-3 offset-sm-1" style="margin-bottom: 0px">Transfer
-										Scholarship:</label>
+									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">University
+										Professional Development:</label>
 									<div class="form-check col-sm-2">
 										<input class="form-check-input text-center" type="checkbox"
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
@@ -401,6 +571,7 @@
 									</div>
 								</div>
 								<!-- other activities -->
+								<!--  
 								<div class="row">
 									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Others:</label>
 								</div>
@@ -420,12 +591,80 @@
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
 									</div>
 								</div>
+								-->
 							</div>
 							<!-- Activities Comments -->
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Activities
 									Comments:</label>
 								<textarea class="form-control" id="activity_comments" rows="3"></textarea>
+							</div>
+							<hr>
+														<!-- Internship/Co-ops -->
+							<div class="form-group">
+								<label class="col-sm-2" for="Comments">Internship/Co-ops:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableIntern">
+									<tr class="tr-header">
+										<th style="width: 5%"><a href="javascript:void(0);"
+											id="addMoreActivities" title="Add Entry"><span><i
+													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+										<th style="width: 5%"></th>
+										<th style="width: 10%">Company Name</th>
+										<th style="width: 10%">City</th>
+										<th style="width: 10%">State</th>
+										<th style="width: 10%">Start Date</th>
+										<th style="width: 10%">End Date</th>
+										<th style="width: 10%">Job type</th>
+										<th style="width: 30%">Duties</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newInternStartDate"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td><input
+												class="form-control form-control-sm newInternEndDate"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td><a href='javascript:void(0);' id='removeActivity'
+												Title='Remove Entry'><span><i class='fa fa-times'
+														aria-hidden='true'></i></span></a></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><input
+												class="form-control form-control-sm newInternStartDate"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td><input
+												class="form-control form-control-sm newInternEndDate"
+												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
+											</td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- Internship comments -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Internship/Co-ops
+									Comments:</label>
+								<textarea class="form-control" id="intern_comments" rows="3"></textarea>
 							</div>
 							<hr>
 							<!-- Conference -->
@@ -518,6 +757,7 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 								</table>
 							</div>
 							<hr>
+
 							<!-- Volunteer experiences -->
 							<div class="form-group">
 								<label class="col-sm-2" for="Volunteer_exp">Volunteer

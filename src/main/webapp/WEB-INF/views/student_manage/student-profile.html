@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org" lang="en">
 <head
-	th:include="base/layout :: headerFragment (pageTitle='student list')">
+	th:include="base/layout :: headerFragment (pageTitle='Student Permanent Information')">
 <title></title>
 </head>
 <body id="page-top">
@@ -26,7 +26,10 @@
 
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Student Profile
+						<i class="fas fa-table"></i> Student Permanent Information <span
+							id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+
 					</div>
 					<div class="card-body">
 						<form>

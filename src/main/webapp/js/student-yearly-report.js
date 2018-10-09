@@ -7,6 +7,8 @@ $(document).ready(
 			$('#tableInternationalExps .form-control.form-control-sm.newInterStartDate').datepicker();	
 			$('#tableVolunteerExps .form-control.form-control-sm.newVolunteerStartDate').datepicker();	
 			$('#tableVolunteerExps .form-control.form-control-sm.newVolunteerEndDate').datepicker();
+			$('#tableIntern .form-control.form-control-sm.newInternStartDate').datepicker();
+			$('#tableIntern .form-control.form-control-sm.newInternEndDate').datepicker();
 			
 			
 			
@@ -31,11 +33,15 @@ $(document).ready(
 					$('#Graduated_Degree').show();
 					$('#Graduated_Field_label').show();
 					$('#Graduated_Field').show();
+					$('#Graduated_Semester_label').show();
+					$('#grad_semester').show();
 				} else {
 					$('#Graduated_Degree_label').hide();
 					$('#Graduated_Degree').hide();
 					$('#Graduated_Field_label').hide();
 					$('#Graduated_Field').hide();
+					$('#Graduated_Semester_label').hide();
+					$('#grad_semester').hide();
 
 				}
 			});
