@@ -4,3 +4,8 @@
   content:"*";
   color:red;
 }
+
+.radio-inline{
+	all:inital;
+	padding-right:3px;	
+}

@@ -32,14 +32,14 @@
 
 					</div>
 					<div class="card-body">
-						<form>
+						<form th:object="${studentBean}">
 							<!-- Student id -->
 							<div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
 								<div class="col-sm-3">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="user_id"
-										value="1234567890">
+										th:field="*{student_id}" th:value="${student_id}" disabled>
 								</div>
 							</div>
 							<!-- Student Name -->
@@ -49,29 +49,30 @@
 									class="col-sm-1 col-form-label-sm"> First name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="first_name" placeholder="First Name" value="aaaa">
+										id="first_name" placeholder="First Name"
+										th:field="*{firstName}" th:value="${firstName}">
 								</div>
 								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
 									name:</label>
 								<div class="col-sm-2">
 									<input type="text" class="form-control form-control-sm"
-										id="middle_name">
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
 								</div>
 								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
 									name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="last_name">
+										id="last_name" th:field="*{lastName}" th:value="${lastName}">
 								</div>
 							</div>
 							<div class="form-group required row">
 								<label class="control-label col-form-label-sm col-sm-1"
 									for="Gender"> Gender: </label>
 								<div class="col-sm-3">
-									<label class="radio-inline"> <input type="radio"
-										name="optradio"> Male
-									</label> <label class="radio-inline"> <input type="radio"
-										name="optradio"> Female
+									<label class="radio-inline" th:each="entry:${gender}"> <input type="radio"
+										name="Gender_radio" th:value="${entry.key}" th:field="*{gender}">
+										<span th:text="${entry.value}"></span>
 									</label>
 								</div>
 								<label class="control-label col-form-label-sm col-sm-1 date"
@@ -474,16 +475,17 @@
 								<label class="col-sm-2 col-form-label-sm" for="Comments">Activities:</label>
 								<table class="table table-hover table-bordered small-text"
 									id="tableActitvities">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 5%"></th>
-										<th style="width: 33%">Activity Name</th>
-										<th style="width: 12%">Date</th>
-										<th style="width: 12%">Activity Type</th>
-									</tr>
+
 									<tbody>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreActivities" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 33%">Activity Name</th>
+											<th style="width: 12%">Date</th>
+											<th style="width: 12%">Activity Type</th>
+										</tr>
 										<tr>
 											<td><a href='javascript:void(0);' id='removeActivity'
 												Title='Remove Entry'><span><i class='fa fa-times'
@@ -525,6 +527,9 @@
 								<label class="col-sm-2 col-form-label-sm" for="Comments">Comments:</label>
 								<textarea class="form-control" id="Comments" rows="3"></textarea>
 							</div>
+							<hr>
+							<button type="button" class="btn btn-primary float-right"
+								onClick='submitForm()'>Submit</button>
 						</form>
 					</div>
 				</div>

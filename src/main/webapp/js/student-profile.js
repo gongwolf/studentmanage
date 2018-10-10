@@ -16,7 +16,35 @@ jQuery(document).ready(function($) {
 	    }
 	  });
 	
+	
 	$('#addMoreActivities > span > i').click(function(){
-		
+//		alert("click add activity button");
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removeActivity'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td></td>"+
+					 "<td>"+
+					 "<input class='form-control form-control-sm newActitvity'"+
+					 "name='newActitvity' placeholder='MM/DD/YYYY' type='text' />"+
+					 "</td>"+
+					 "<td></td>"
+					 +"</tr>";
+		$("#tableActitvities > tbody ").append(markup);
+		$('#tableActitvities .form-control.form-control-sm.newActitvity').datepicker();	
+	});
+	
+	$('#tableActitvities').on('click','#removeActivity > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
 	});
 });
+
+function submitProfileForm()
+{
+	alert('submit');
+}
+
+
+
