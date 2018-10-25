@@ -23,14 +23,17 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<a href="/studentmanage/student/profile/1111" class="fas fa-table"></a> Student Yearly
-						Report&nbsp;&nbsp;&nbsp; <i class="fa fa-angle-double-left"></i> <a
-							href="#"><span>&nbsp;&nbsp;&nbsp;2018&nbsp;&nbsp;&nbsp;</span></a>
-						<i class="fa fa-angle-double-right"></i>
-						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong> on <Strong>10/08/2018 11:11:11</Strong></span>
+						<a href="/studentmanage/student/profile/1111" class="fas fa-table"></a>
+						Student Yearly Report&nbsp;&nbsp;&nbsp; <i
+							class="fa fa-angle-double-left"></i> <span
+							th:text="   ${queryYear}   ">&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;</span>
+						<i class="fa fa-angle-double-right"></i> <span id="edited_info"
+							class="float-right">Edited by <Strong>Admin</Strong> on <Strong>10/08/2018
+								11:11:11</Strong></span>
 					</div>
 					<div class="card-body">
-						<form>
+						<form id="yearlyForm"  th:object="${YearlyBean}"
+							th:action="@{/student/yearlyreport/update/}+${id}" method="post">
 							<!-- Student id and name-->
 							<div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
@@ -38,7 +41,8 @@
 								<div class="col-sm-3">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="user_id"
-										value="1234567890">
+										value="1234567890" th:field="*{student_id}"
+										th:value="${student_id}" disabled>
 								</div>
 								<label for="Mentor" class="col-sm-1 col-form-label-sm">Mentor:</label>
 								<div class="col-sm-2">
@@ -56,19 +60,21 @@
 									class="col-sm-1 col-form-label-sm"> First name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="first_name" placeholder="First Name" value="aaaa">
+										id="first_name" placeholder="First Name" value="aaaa"
+										th:field="*{firstName}" th:value="${firstName}">
 								</div>
 								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
 									name:</label>
 								<div class="col-sm-2">
 									<input type="text" class="form-control form-control-sm"
-										id="middle_name">
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
 								</div>
 								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
 									name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="last_name">
+										id="last_name" th:field="*{lastName}" th:value="${lastName}">
 								</div>
 							</div>
 							<hr>
@@ -80,48 +86,47 @@
 							<div class="form-group row">
 								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
 								<div class="col-sm-4">
-									<select class="form-control form-control-sm" id="Institution">
+									<select class="form-control form-control-sm" id="Institution"
+										th:field="*{acdemic_school}">
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
 								</div>
-								<label for="Institution" class="col-sm-1 col-form-label-sm">College
+								<label for="Institution" class="col-sm-2 col-form-label-sm">College
 									Level:</label>
 								<div class="col-sm-4">
-									<select class="form-control form-control-sm" id="College_Level">
+									<input type="text"
+										class="form-control-plaintext form-control-sm"
+										id="school_level" th:field="*{school_level}"
+										th:value="${school_level}" disabled>
+									<!-- <select class="form-control form-control-sm" id="College_Level">
 										<option value="2years">Community College</option>
 										<option value="4years">4-year Institution</option>
-									</select>
+									</select> -->
 								</div>
 							</div>
 							<!-- major, minor, changed major, course work -->
 							<div class="form-group row">
 								<label class="col-sm-1 col-form-label-sm">Discipline:</label> <label
 									for="major" class="col-sm-1 col-form-label-sm text-right">Major-</label>
-								<div class="col-sm-1">
+								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="major" placeholder="Major">
+										id="major" placeholder="Major" th:field="*{major}"
+										th:value="${major}">
 								</div>
 								<label for="minor" class="col-sm-1 col-form-label-sm text-right">Minor-</label>
-								<div class="col-sm-1">
-									<input type="text" class="form-control form-control-sm "
-										id="minor" placeholder="Minor">
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="minor" placeholder="Minor" th:field="*{minor}"
+										th:value="${minor}">
 								</div>
 								<label for="Changed_Major"
 									class="col-sm-1 col-form-label-sm text-right"> Changed
-									Major:</label>
-								<div class="form-check form-check-inline">
-									<label class="form-check-label-sm"> <input
-										class="form-check-input" type="checkbox"
-										id="Changed_Major_Yes" value="Yes"> Yes
-									</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<label class="form-check-label-sm"> <input
-										class="form-check-input" type="checkbox" id="Changed_Major_No"
-										value="no"> No
-									</label>
-								</div>
+									Major:</label> <label class="radio-inline" th:each="entry:${yesno}">
+									<input type="radio" name="changed_major_radio"
+									th:value="${entry.key}" th:field="*{changed_major}"><span
+									th:text=" ${entry.value} "></span>
+								</label>
 							</div>
 							<div class="form-group row">
 								<label for="Coursework" class="col-sm-1 col-form-label-sm">
@@ -129,7 +134,8 @@
 								<div class="col-sm-10">
 									<input type="text" class="form-control form-control-sm "
 										id="Coursework"
-										placeholder=" Remedial Classes; Chinese Classes; .... Separated by ';'">
+										placeholder=" Remedial Classes; Chinese Classes; .... Separated by ';'"
+										th:field="*{course_taken}" th:value="${course_taken}">
 								</div>
 							</div>
 							<!-- GPA and Credits -->
@@ -138,29 +144,32 @@
 									style="padding-left: 15px;"> Semester earned Credits:</label>
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm "
-										id="Sem_Credits" placeholder="Credits">
+										id="Sem_Credits" placeholder="Credits"
+										th:field="*{semester_credits}" th:value="${semester_credits}">
 
 								</div>
 								<label for="Cum_Credits" class="col-form-label-sm text-right">
 									Cumulative earned Credits:</label>
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm "
-										id="Cum_Credits" placeholder="Credits">
-
+										id="Cum_Credits" placeholder="Credits" th:field="*{credits}"
+										th:value="${credits}">
 								</div>
 
 								<label for="Sem_GPA" class="col-form-label-sm text-right">
 									Semester GPA:</label>
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm "
-										id="Sem_GPA" placeholder="GPA">
+										id="Sem_GPA" placeholder="GPA" th:field="*{semester_gpa}"
+										th:value="${semester_gpa}">
 
 								</div>
 								<label for="Cum_GPA" class="col-form-label-sm text-right">
 									Cumulative GPA:</label>
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm "
-										id="Cum_GPA" placeholder="GPA">
+										id="Cum_GPA" placeholder="GPA" th:field="*{gpa}"
+										th:value="${gpa}">
 
 								</div>
 							</div>
@@ -169,27 +178,28 @@
 								<label for="Graduated" class="col-sm-2 col-form-label-sm">
 									Graduated:</label>
 								<div class="col-sm-2">
-									<label class="radio-inline"> <input value="Graduated_Y"
-										type="radio" name="Graduated"> Yes
-									</label> <label class="radio-inline"> <input
-										value="Graduated_N" type="radio" name="Graduated"> No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="graduated" id="graduated" th:value="${entry.key}"
+										th:field="*{graduated}" th:text=" ${entry.value}">
 									</label>
 								</div>
-
 								<label id="Graduated_Degree_label" for="Graduated_Degree"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> Degree:</label>
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm"
 										style="display: none" id="Graduated_Degree"
-										placeholder="Degree">
+										placeholder="Degree" th:field="*{graduated_degree}"
+										th:value="${graduated_degree}">
 								</div>
 								<label id="Graduated_Field_label" for="Graduated_Field"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> Field:</label>
 								<div class="col-sm-1">
 									<input type="text" class=" form-control form-control-sm"
-										style="display: none" id="Graduated_Field" placeholder="Field">
+										style="display: none" id="Graduated_Field" placeholder="Field"
+										th:field="*{graduated_field}" th:value="${graduated_field}">
 								</div>
 								<label id="Graduated_Semester_label" for="grad_semester"
 									style="display: none"
@@ -197,10 +207,9 @@
 									Semester:</label>
 								<div class="col-sm-2">
 									<select class="form-control form-control-sm" id="grad_semester"
-										style="display: none">
-										<option value="GFall">Fall</option>
-										<option value="GSpring">Spring</option>
-										<option value="GSummer">Summer</option>
+										style="display: none" th:field="*{graduated_semester}">
+										<option th:each="entry:${gradu_semester}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
 									</select>
 								</div>
 							</div>
@@ -210,12 +219,10 @@
 								<label for="Transfered" class="col-sm-2 col-form-label-sm">
 									Transfered:</label>
 								<div class="col-sm-2">
-									<label class="radio-inline"> <input
-										value="Transfered_Y" type="radio" name="Transfered">
-										Yes
-									</label> <label class="radio-inline"> <input
-										value="Transfered_N" type="radio" name="Transfered">
-										No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="transfered" id="transfered" th:value="${entry.key}"
+										th:field="*{transfered}" th:text=" ${entry.value}">
 									</label>
 								</div>
 							</div>
@@ -227,25 +234,27 @@
 									transferred:</label>
 								<div class="col-sm-1">
 									<input type="text" class=" form-control form-control-sm"
-										id="Transfered_Credited" placeholder="Credits">
+										id="Transfered_Credited" placeholder="Credits"
+										th:field="*{transfered_credits}"
+										th:value="${transfered_credits}">
 								</div>
 								<label id="Transfered_AA_label" for="Graduated_AA"
 									class="col-sm-1 col-form-label-sm text-right"> AA
 									Degree:</label>
 								<div class="col-sm-1" id="Graduated_AA">
-									<label class="radio-inline-sm"> <input
-										value="Transfered_AA_Y" type="radio" name="Transfered_AA">
-										Yes
-									</label> <label class="radio-inline"> <input
-										value="Transfered_AA_N" type="radio" name="Transfered_AA">
-										No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="transfered" id="transfered_AA_degree"
+										th:value="${entry.key}" th:field="*{transfered_AA_degree}"
+										th:text=" ${entry.value}">
 									</label>
 								</div>
 								<label id="Transfered_From_label" for="Transfered_From"
 									class="col-form-label-sm text-right"> From:</label>
 								<div class="col-sm-3" id="Transfered_From_DIv">
 									<select class="form-control form-control-sm"
-										id="Transfered_From">
+										id="Transfered_From" th:field="*{transfered_from}">
+										<option value="">-- Select One --</option>
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
@@ -253,7 +262,9 @@
 								<label id="Transfered_To_label" for="Transfered_To"
 									class="col-form-label-sm text-right"> To:</label>
 								<div class="col-sm-3" id="Transfered_To_DIv">
-									<select class="form-control form-control-sm" id="Transfered_to">
+									<select class="form-control form-control-sm" id="Transfered_to"
+										th:field="*{transfered_from}">
+										<option value="">-- Select One --</option>
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
@@ -264,10 +275,10 @@
 								<label for="withdrewInYear" class="col-sm-2 col-form-label-sm">
 									Withdrew:</label>
 								<div class="col-sm-2">
-									<label class="radio-inline"> <input value="withdrew_Y"
-										type="radio" name="withdrewInYear"> Yes
-									</label> <label class="radio-inline"> <input value="withdrew_N"
-										type="radio" name="withdrewInYear"> No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="withdrew" id="withdrew" th:value="${entry.key}"
+										th:field="*{withdrew}" th:text=" ${entry.value}">
 									</label>
 								</div>
 							</div>
@@ -275,7 +286,8 @@
 								style="display: none">
 								<label for="withdrew_reason" class="col-sm-2 col-form-label-sm">
 									Reason:</label>
-								<textarea class="form-control" id="withdrew_reason" rows="3"></textarea>
+								<textarea class="form-control" id="withdrew_reason" rows="3"
+									th:field="*{withdrew_reason}" th:value="${withdrew_reason}"></textarea>
 							</div>
 							<hr>
 							<div class="form-group row">
@@ -288,36 +300,34 @@
 									class="col-sm-2 col-form-label-sm"> AMP Financial
 									Support:</label>
 								<div class="col-sm-2">
-									<label class="radio-inline"> <input value="Fin_sup_Y"
-										type="radio" name="Financial_support"> Yes
-									</label> <label class="radio-inline"> <input value="Fin_sup_N"
-										type="radio" name="Financial_support"> No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="fin_amp" id="fin_amp" th:value="${entry.key}"
+										th:field="*{fin_amp}" th:text=" ${entry.value}">
 									</label>
 								</div>
 
 								<label id="Fin_sup_selection_label" for="Fin_sup_selection"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> type:</label>
-								<div class="col-sm-1" style="display: none"
+								<div class="col-sm-2" style="display: none"
 									id="Fin_sup_selection_div">
 									<select class="form-control form-control-sm"
-										id="Fin_sup_selection">
-										<option value="ty_A">type A</option>
-										<option value="ty_B">type B</option>
-										<option value="ty_C">type C</option>
-										<option value="ty_D">type d</option>
+										id="Fin_sup_selection" th:field="*{fin_amp_type}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${fin_amp_sup_type}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
 									</select>
 								</div>
 								<label for="summur_Financial_support"
-									class="col-sm-2 col-form-label-sm text-right"> AMP
+									class="col-sm-3	 col-form-label-sm text-right"> AMP
 									Summer Financial Support:</label>
 								<div class="col-sm-2">
-									<label class="radio-inline"> <input
-										value="Summ_Fin_sup_Y" type="radio"
-										name="summur_Financial_support"> Yes
-									</label> <label class="radio-inline"> <input
-										value="Summ_Fin_sup_N" type="radio"
-										name="summur_Financial_support"> No
+									<label class="radio-inline" style="padding-right: 8px"
+										th:each="entry:${yesno}"> <input type="radio"
+										name="fin_amp_summer" id="fin_amp_summer"
+										th:value="${entry.key}" th:field="*{fin_amp_summer}"
+										th:text=" ${entry.value}">
 									</label>
 								</div>
 							</div>
@@ -336,119 +346,22 @@
 									<label class="col-sm-2 text-left" style="margin-bottom: 0px">Community
 										College:</label>
 								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Professional
-										Development:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
-										Mexico AMP Student Research Conference:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Symposiums
-										and conferences, not including New Mexico AMP Student
-										Conference:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">SMET
-										101 (<i>Luna CC only</i>):
-									</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Student
-										Research Conference/Community College Pre- and Post-
-										Professional Development Workshops:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Transfer
-										Advising and Activities:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">Transfer
-										Scholarship</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+								<div id="college_acts_div">
+									<div class="row" th:each="entry:${college_acts}">
+										<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px"
+											th:id="${entry.key}" th:text="${entry.value+':'}"></label>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input text-center" type="checkbox"
+												id="fall" value="fall" style="margin-left: 0px">
+										</div>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input" type="checkbox" id="spring"
+												value="spring" style="margin-left: 0px">
+										</div>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input" type="checkbox" id="summer"
+												value="summer" style="margin-left: 0px">
+										</div>
 									</div>
 								</div>
 								<!-- four years activities -->
@@ -569,6 +482,10 @@
 											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
 									</div>
 								</div>
+								<input type="hidden" id="activitiesList" name="activitiesList">
+								<input type="hidden" id="queryYear" name="queryYear" th:value="${queryYear}">
+								<button type="button" class="btn btn-primary float-right"
+									onClick='submitYearlyForm()'>Submit</button>
 								<!-- other activities -->
 								<!--  
 								<div class="row">
@@ -599,7 +516,7 @@
 								<textarea class="form-control" id="activity_comments" rows="3"></textarea>
 							</div>
 							<hr>
-														<!-- Internship/Co-ops -->
+							<!-- Internship/Co-ops -->
 							<div class="form-group">
 								<label class="col-sm-2" for="Comments">Internship/Co-ops:</label>
 								<table class="table table-hover table-bordered small-text"
@@ -668,7 +585,8 @@
 							<hr>
 							<!-- Conference -->
 							<div class="form-group">
-								<label class="col-sm-2" for="Comments">Conferences (other than AMP) :</label>
+								<label class="col-sm-2" for="Comments">Conferences
+									(other than AMP) :</label>
 								<table class="table table-hover table-bordered small-text"
 									id="tableConferences">
 									<tr class="tr-header">
@@ -946,7 +864,10 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 		<script th:inline="javascript">
 		/*
 		<![CDATA[*/
-		var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		//var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		var schools_level = [[${schools_level}]];
+		var schools_level_obj = JSON.parse(schools_level);
+		var activities_list = /*[[${activities_list}]]*/;
 		/*]]>
 		 */
 	</script>

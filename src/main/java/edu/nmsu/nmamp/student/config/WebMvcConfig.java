@@ -21,6 +21,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -63,7 +65,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
+
 	@Autowired
 	private Environment env;
 
@@ -74,7 +76,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 		driverManagerDataSource.setUrl("jdbc:mysql://128.123.63.83:3306/nmamp_student");
 		driverManagerDataSource.setUsername(env.getProperty("ds.username"));
 		driverManagerDataSource.setPassword(env.getProperty("ds.password"));
-		
+
 		Properties connectionProperties = new Properties();
 		connectionProperties.setProperty("autoReconnect", "true");
 		connectionProperties.setProperty("useSSL", "false");
@@ -82,7 +84,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 		connectionProperties.setProperty("characterEncoding", "UTF-8");
 		connectionProperties.setProperty("serverTimezone", "UTC");
 		driverManagerDataSource.setConnectionProperties(connectionProperties);
-		
+
 		return driverManagerDataSource;
 	}
 
@@ -162,5 +164,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebMvcConfi
 		viewResolver.setOrder(1);
 		return viewResolver;
 	}
-
+	
+	@Bean
+	public MultipartResolver multipartResolver() {
+	      CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	      multipartResolver.setMaxUploadSize(10485760); // 10MB
+	      multipartResolver.setMaxUploadSizePerFile(1048576); // 1MB
+	      return multipartResolver;
+	   }
 }

@@ -9,6 +9,7 @@ public class StudentSummaryBean {
 	private String first_name;
 	private String middle_name;
 	private String last_name;
+	private String recommendation_file_name;
 
 	@DateTimeFormat(pattern="MM/dd/yyyy")
 	private Date birthDate;
@@ -54,11 +55,14 @@ public class StudentSummaryBean {
 	}
 	
 	
-	public String toString()
-	{
-		return user_id+" "+first_name+" "+middle_name+" "+last_name+" "+birthDate;
-		
+	public String getRecommendation_file_name() {
+		return recommendation_file_name;
 	}
+
+	public void setRecommendation_file_name(String recommendation_file_name) {
+		this.recommendation_file_name = recommendation_file_name;
+	}
+
 
 
 

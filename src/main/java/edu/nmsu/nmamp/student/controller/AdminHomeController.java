@@ -183,7 +183,7 @@ public class AdminHomeController {
 		String result = "";
 		try {
 			model.addAttribute("MentorList", objectMapper.writeValueAsString(mentorList));
-			System.out.println(objectMapper.writeValueAsString(mentorList));
+//			System.out.println(objectMapper.writeValueAsString(mentorList));
 			result = objectMapper.writeValueAsString(mentorList);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage());

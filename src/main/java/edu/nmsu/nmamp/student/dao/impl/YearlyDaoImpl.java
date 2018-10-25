@@ -1,21 +1,18 @@
 package edu.nmsu.nmamp.student.dao.impl;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import edu.nmsu.nmamp.student.dao.Schemacode;
-import edu.nmsu.nmamp.student.model.YearlyBean;
+import edu.nmsu.nmamp.student.model.StudentProfileBean;
+import edu.nmsu.nmamp.student.model.StudentYearlyReportBean;
 import edu.nmsu.nmamp.student.service.ProgramCode;
 
 @Repository("YearlyDaoImpl")
@@ -24,182 +21,86 @@ public class YearlyDaoImpl implements Schemacode {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<Integer> getSchoolYearList(String ic, int user_id) {
-		HashSet<Integer> allyears = new HashSet<Integer>();
+	public StudentYearlyReportBean getYearBeanByUseIdAndYear(int student_id, String queryYear) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select school_year from application_list where user_id=" + user_id);
-		System.out.println(sql.toString());
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-		for (Map<String, Object> row : rows) {
-			Date d = (Date) row.get("school_year");
-			String year = d.toString().substring(0, 4);
-			allyears.add(Integer.parseInt(year));
+		sql.append("SELECT a.*,");
+		sql.append("b.first_name as b_first_name,b.middle_name as b_middle_name,b.last_name as b_last_name \n");
+		sql.append("FROM ").append(TABLE_SELFREPORT_DATA).append(" a,  \n");
+		sql.append(TABLE_PROFILE_STUDENT).append(" b \n");
+		sql.append("WHERE a.user_id = ? and a.semester=? and a.user_id = b.user_id");
+//		System.out.println(sql);
+		try {
+			StudentYearlyReportBean Bean = jdbcTemplate.queryForObject(sql.toString(),
+					new Object[] { student_id,queryYear}, new RowMapper<StudentYearlyReportBean>() {
+						@Override
+						public StudentYearlyReportBean mapRow(ResultSet reSet, int rowNum) throws SQLException {
+							StudentYearlyReportBean bean = new StudentYearlyReportBean();
+							bean.setStudent_id(reSet.getInt("user_id"));
+							bean.setFirstName(reSet.getString("b_first_name"));
+							bean.setMiddleName(reSet.getString("b_middle_name"));
+							bean.setLastName(reSet.getString("b_last_name"));
+							
+							bean.setAcdemic_school(reSet.getString("select_school"));
+							bean.setSchool_level(ProgramCode.SCHOOL_LEVEL.get(bean.getAcdemic_school()));
+							bean.setMajor(reSet.getString("major"));
+							bean.setMinor(reSet.getString("minor"));
+							bean.setChanged_major(reSet.getString("changed_major") == null ? -1 : reSet.getInt("changed_major"));
+							bean.setCourse_taken(reSet.getString("course_taken"));
+							bean.setGpa(reSet.getFloat("gpa"));
+							bean.setSemester_gpa(reSet.getFloat("semester_gpa"));
+							bean.setCredits(reSet.getInt("credits"));
+							bean.setSemester_credits(reSet.getInt("semester_credits"));
+							
+							String graduated=reSet.getString("graduated");
+							bean.setGraduated(graduated==null?"":graduated);
+							bean.setGraduated_degree(reSet.getString("graduated_degree"));
+							bean.setGraduated_field(reSet.getString("graduated_field"));
+							bean.setGraduated_semester(reSet.getString("graduated_semester"));
+							
+							String transfered=reSet.getString("transfered");
+							bean.setTransfered(transfered==null?"":transfered);
+							bean.setTransfered_AA_degree(reSet.getString("transfered_aa_degree"));
+							bean.setTransfered_from(reSet.getString("transfered_from"));
+							bean.setTransfered_to(reSet.getString("transfered_to"));
+							bean.setTransfered_credits(reSet.getString("transfered_credits"));
+							
+							String withdrew=reSet.getString("withdrew");
+							bean.setWithdrew(withdrew==null?"":withdrew);
+							bean.setWithdrew_reason(reSet.getString("withdrew_reason"));
+							
+							String fin_amp = reSet.getString("fin_amp");
+							String fin_amp_summer = reSet.getString("fin_amp");
+							bean.setFin_amp(fin_amp==null?"":fin_amp);
+							bean.setFin_amp_summer(fin_amp_summer==null?"":fin_amp_summer);
+							bean.setFin_amp_type(reSet.getString("fin_amp_type"));
+							
+							
+							bean.setActivities_list(reSet.getString("Activities_list"));
+							System.out.println(bean.getActivities_list());
+							
+							
+//							System.out.println(bean);
+							return bean;
+						}
+					});
+			return Bean;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
 		}
-		System.out.println("==========================");
-		sql.setLength(0);
-		sql.append("select semester from selfreport_data where user_id=" + user_id);
-		System.out.println(sql.toString());
-		rows = jdbcTemplate.queryForList(sql.toString());
-		for (Map<String, Object> row : rows) {
-			String endYear = (String) row.get("semester");
-			endYear = endYear.substring(endYear.lastIndexOf(" ") + 1, endYear.length());
-			allyears.add(Integer.parseInt(endYear));
-		}
-		List<Integer> list = new ArrayList<>(allyears);
-		return list;
 	}
-
-	public YearlyBean getYearlyBeanInfoByYear(int year, int user_id) {
-		YearlyBean yb = new YearlyBean();
-
-		yb.setYear(year);
-
-		// Get information from applications
-		StringBuilder sql = new StringBuilder();
-		sql.append("select application_id, program from application_list where user_id=" + user_id
-				+ " and school_year='" + year + "'");
-		HashMap<Long, String> app_program_map = new HashMap<>();
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-		HashSet<String> programs = new HashSet<>();
-		for (Map<String, Object> row : rows) {
-			String program = (String) row.get("program");
-			long application_id = (long) row.get("application_id");
-			System.out.println(application_id + "  " + program);
-			app_program_map.put(application_id, program);
-			programs.add(program);
-		}
-
-		yb.setInstitution(getInstitutionFromProgramByAppID(app_program_map));
-		yb.setMentor(getMentorFromProgramByAppID(app_program_map));
-		yb.setDiscipline(getDisciplineFromProgramByAppID(app_program_map));
-		yb.setCollege_Level(getCollegeLevelFromProgramByAppID(app_program_map));
-		getTransInfoFromProgramByAppID(app_program_map, yb);
-
-		
-		String str_pro="";
-		for(String e:programs) {
-			str_pro+=e+",";
-		}
-		
-		str_pro=str_pro.substring(0, str_pro.length()-1);
-		yb.setActivities(str_pro);
-		
-		// Get information from self-report
-
-		System.out.println("=========================================");
-
-		return yb;
-	}
-
-	private void getTransInfoFromProgramByAppID(HashMap<Long, String> app_program_map, YearlyBean yb) {
-		for (Map.Entry<Long, String> e : app_program_map.entrySet()) {
-			if (e.getValue().equals("TRANS")) {
-				String app_table = ProgramCode.TABLE_APPLICATION_DETAIL.get(e.getValue());
-				String sql = "select academic_school,academic_transfer_school from " + app_table
-						+ " where application_id='" + e.getKey() + "'";
-
-				List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-				for (Map<String, Object> row : rows) {
-					String academic_from = (String) row.get("academic_school");
-					String academic_to = (String) row.get("academic_to");
-					yb.setIfTransferred(1);
-					yb.setTransferred_from(academic_from);
-					yb.setTransferred_to(academic_to);
-					break;
-
-				}
+	
+	public int UpdateYearBeanByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList, int student_id,String queryYear) {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append("update selfreport_data set "
+				+ "Activities_list=?"
+				+ " where user_id='" + student_id + "' and semester='"+queryYear+"'");
+		System.out.println(activitiesList);
+		System.out.println(updateSql);
+		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, activitiesList);
 			}
-
-		}
-
+		});
 	}
-
-	private String getCollegeLevelFromProgramByAppID(HashMap<Long, String> app_program_map) {
-		HashSet<String> tlist = new HashSet<>();
-		for (Map.Entry<Long, String> e : app_program_map.entrySet()) {
-			String app_table = ProgramCode.TABLE_APPLICATION_DETAIL.get(e.getValue());
-			String sql = "select academic_year from " + app_table + " where application_id='" + e.getKey() + "'";
-
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-			for (Map<String, Object> row : rows) {
-				String academic_year = (String) row.get("academic_year");
-				tlist.add(academic_year);
-			}
-		}
-		List<String> list = new ArrayList<>(tlist);
-		String listString = list.stream().map(Object::toString).collect(Collectors.joining(", "));
-		System.out.println(listString);
-		return listString;
-	}
-
-	private String getDisciplineFromProgramByAppID(HashMap<Long, String> app_program_map) {
-		HashSet<String> tlist = new HashSet<>();
-		for (Map.Entry<Long, String> e : app_program_map.entrySet()) {
-			String app_table = ProgramCode.TABLE_APPLICATION_DETAIL.get(e.getValue());
-			String sql = "select academic_major,academic_minor from " + app_table + " where application_id='"
-					+ e.getKey() + "'";
-
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-			for (Map<String, Object> row : rows) {
-				String major = (String) row.get("academic_major");
-				String minor = (String) row.get("academic_minor");
-				String dis = "";
-				if (!major.equals("") && major != null) {
-					dis += "Major:" + major;
-				}
-
-				if (!minor.equals("") && minor != null) {
-					dis += " Minor:" + minor;
-				}
-				tlist.add(dis);
-			}
-		}
-		List<String> list = new ArrayList<>(tlist);
-		String listString = list.stream().map(Object::toString).collect(Collectors.joining(", "));
-		System.out.println(listString);
-		return listString;
-	}
-
-	private String getMentorFromProgramByAppID(HashMap<Long, String> app_program_map) {
-		HashSet<String> tlist = new HashSet<>();
-		for (Map.Entry<Long, String> e : app_program_map.entrySet()) {
-			if (e.getValue().equals("IREP") || e.getValue().equals("URS")) {
-				String app_table = ProgramCode.TABLE_APPLICATION_DETAIL.get(e.getValue());
-				String sql = "select mentor_first_name,mentor_last_name from " + app_table + " where application_id='"
-						+ e.getKey() + "'";
-
-				List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-				for (Map<String, Object> row : rows) {
-					String f_name = (String) row.get("mentor_first_name");
-					String l_name = (String) row.get("mentor_last_name");
-					tlist.add(f_name + " " + l_name);
-				}
-			}
-
-		}
-		List<String> list = new ArrayList<>(tlist);
-		String listString = list.stream().map(Object::toString).collect(Collectors.joining(", "));
-		System.out.println(listString);
-		return listString;
-	}
-
-	private String getInstitutionFromProgramByAppID(HashMap<Long, String> app_program_map) {
-		HashSet<String> tlist = new HashSet<>();
-		for (Map.Entry<Long, String> e : app_program_map.entrySet()) {
-			String app_table = ProgramCode.TABLE_APPLICATION_DETAIL.get(e.getValue());
-			String sql = "select academic_school from " + app_table + " where application_id='" + e.getKey() + "'";
-
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString());
-			for (Map<String, Object> row : rows) {
-				String academic_school = (String) row.get("academic_school");
-				tlist.add(ProgramCode.ACADEMIC_SCHOOL.get(academic_school));
-			}
-
-		}
-		List<String> list = new ArrayList<>(tlist);
-		String listString = list.stream().map(Object::toString).collect(Collectors.joining(", "));
-		System.out.println(listString);
-		return listString;
-	}
-
 }
