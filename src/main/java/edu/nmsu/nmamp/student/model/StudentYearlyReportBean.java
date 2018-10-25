@@ -41,6 +41,19 @@ public class StudentYearlyReportBean {
 	
 	//activitiesList
 	String activities_list;
+	String activities_comments;
+	
+	//Internship Json
+	String intern_json;
+	String intern_comments;
+	
+	//Conferences Json
+	String conference_json;
+	
+	//publication Json
+	String publication_json;
+	
+	
 	
 	public int getStudent_id() {
 		return student_id;
@@ -215,6 +228,36 @@ public class StudentYearlyReportBean {
 	}
 	public void setActivities_list(String activities_list) {
 		this.activities_list = activities_list;
+	}
+	public String getActivities_comments() {
+		return activities_comments;
+	}
+	public void setActivities_comments(String activities_comments) {
+		this.activities_comments = activities_comments;
+	}
+	public String getIntern_json() {
+		return intern_json;
+	}
+	public void setIntern_json(String intern_json) {
+		this.intern_json = intern_json;
+	}
+	public String getIntern_comments() {
+		return intern_comments;
+	}
+	public void setIntern_comments(String intern_comments) {
+		this.intern_comments = intern_comments;
+	}
+	public String getConference_json() {
+		return conference_json;
+	}
+	public void setConference_json(String conference_json) {
+		this.conference_json = conference_json;
+	}
+	public String getPublication_json() {
+		return publication_json;
+	}
+	public void setPublication_json(String publication_json) {
+		this.publication_json = publication_json;
 	}
 	@Override
 	public String toString() {

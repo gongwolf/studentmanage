@@ -507,13 +507,25 @@ public class ProgramCode {
 	
 	public static final TreeMap<String, String> COLLEGE_ACTIVITIES = new TreeMap<String, String>() {
 		{
-			put("PD","Professional Development");
-			put("NMASRC","New Mexico AMP Student Research Conference");
-			put("SAC","Symposiums and conferences, not including New Mexico AMP Student Conference");
-			put("SMET101","SMET 101 (Luna CC only)");
-			put("SRCCPDW","Student Research Conference/Community College Pre- and Post- Professional Development Workshops");
-			put("TAAA","Transfer Advising and Activities");
-			put("TS","Transfer Scholarship");
+			put("C_PD","Professional Development");
+			put("C_NMASRC","New Mexico AMP Student Research Conference");
+			put("C_SAC","Symposiums and conferences, not including New Mexico AMP Student Conference");
+			put("C_SMET101","SMET 101 (Luna CC only)");
+			put("C_SRCCPDW","Student Research Conference/Community College Pre- and Post- Professional Development Workshops");
+			put("C_TAAA","Transfer Advising and Activities");
+			put("C_TS","Transfer Scholarship");
+		}
+	};
+	
+	public static final TreeMap<String, String> UNIVERSITY_ACTIVITIES = new TreeMap<String, String>() {
+		{
+			put("U_IREP","International Research and Education Participation (IREP)");
+			put("U_NMASRC","New Mexico AMP Student Research Conference");
+			put("U_NMATS","New Mexico AMP Transfer Scholarsips");
+			put("U_MESA","New Mexico MESA Scholarsips");
+			put("U_URS","NMSU Undergraduate Research Scholars (URS)");
+			put("U_SCCORE","SCCORE Host University");
+			put("U_UPD","University Professional Development");
 		}
 	};
 }

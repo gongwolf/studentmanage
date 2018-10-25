@@ -124,6 +124,7 @@ public class studentManageController {
 		model.addAttribute("gradu_semester", ProgramCode.Graduated_Semeter);
 		model.addAttribute("fin_amp_sup_type", ProgramCode.Finacial_AMP_Type);
 		model.addAttribute("college_acts", ProgramCode.COLLEGE_ACTIVITIES);
+		model.addAttribute("university_acts", ProgramCode.UNIVERSITY_ACTIVITIES);
 
 		// System.out.println(studentYearlyReport);
 		return studentYearlyReport;
@@ -135,8 +136,12 @@ public class studentManageController {
 		System.out.println("=================  update yearly report:" + student_id + "=================");
 		String activitiesList = request.getParameter("activitiesList");
 		String queryYear = request.getParameter("queryYear");
+		String intern_json = request.getParameter("internList");
 		System.out.println(activitiesList);
 		System.out.println(queryYear);
+		bean.setIntern_json(intern_json);
+		bean.setConference_json(request.getParameter("confsList"));
+		bean.setPublication_json(request.getParameter("publicationList"));
 		YearDao.UpdateYearBeanByUseIdAndYear(bean, activitiesList, student_id, queryYear);
 		System.out.println("=========================================================");
 

@@ -32,7 +32,7 @@
 								11:11:11</Strong></span>
 					</div>
 					<div class="card-body">
-						<form id="yearlyForm"  th:object="${YearlyBean}"
+						<form id="yearlyForm" th:object="${YearlyBean}"
 							th:action="@{/student/yearlyreport/update/}+${id}" method="post">
 							<!-- Student id and name-->
 							<div class="form-group row">
@@ -368,124 +368,27 @@
 								<div class="row">
 									<label class="col-sm-2 text-left" style="margin-bottom: 0px">University:</label>
 								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">International
-										Research and Education Participation (IREP):</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
-										Mexico AMP Student Research Conference:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
-										Mexico AMP Transfer Scholarsips:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">New
-										Mexico MESA Scholarsips:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">NMSU
-										Undergraduate Research Scholars (URS):</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">SCCORE
-										Host University:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-								</div>
-
-								<div class="row">
-									<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px">University
-										Professional Development:</label>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input text-center" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
-									</div>
-									<div class="form-check col-sm-2">
-										<input class="form-check-input" type="checkbox"
-											id="inlineCheckbox1" value="option1" style="margin-left: 0px">
+								<div id="university_acts_div">
+									<div class="row" th:each="entry:${university_acts}">
+										<label class="col-sm-4 offset-sm-1" style="margin-bottom: 0px"
+											th:id="${entry.key}" th:text="${entry.value+':'}"></label>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input text-center" type="checkbox"
+												id="fall" value="fall" style="margin-left: 0px">
+										</div>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input" type="checkbox" id="spring"
+												value="spring" style="margin-left: 0px">
+										</div>
+										<div class="form-check col-sm-2">
+											<input class="form-check-input" type="checkbox" id="summer"
+												value="summer" style="margin-left: 0px">
+										</div>
 									</div>
 								</div>
 								<input type="hidden" id="activitiesList" name="activitiesList">
-								<input type="hidden" id="queryYear" name="queryYear" th:value="${queryYear}">
-								<button type="button" class="btn btn-primary float-right"
-									onClick='submitYearlyForm()'>Submit</button>
+								<input type="hidden" id="queryYear" name="queryYear"
+									th:value="${queryYear}">
 								<!-- other activities -->
 								<!--  
 								<div class="row">
@@ -513,7 +416,8 @@
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Activities
 									Comments:</label>
-								<textarea class="form-control" id="activity_comments" rows="3"></textarea>
+								<textarea class="form-control" id="activity_comments" rows="3"
+									th:field="*{activities_comments}" th:value="${activities_comments}"></textarea>
 							</div>
 							<hr>
 							<!-- Internship/Co-ops -->
@@ -521,66 +425,32 @@
 								<label class="col-sm-2" for="Comments">Internship/Co-ops:</label>
 								<table class="table table-hover table-bordered small-text"
 									id="tableIntern">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 5%"></th>
-										<th style="width: 10%">Company Name</th>
-										<th style="width: 10%">City</th>
-										<th style="width: 10%">State</th>
-										<th style="width: 10%">Start Date</th>
-										<th style="width: 10%">End Date</th>
-										<th style="width: 10%">Job type</th>
-										<th style="width: 30%">Duties</th>
-									</tr>
+									<thead class="tr-header">
+										<tr>
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreInterns" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 10%">Company Name</th>
+											<th style="width: 10%">City</th>
+											<th style="width: 10%">State</th>
+											<th style="width: 10%">Start Date</th>
+											<th style="width: 10%">End Date</th>
+											<th style="width: 10%">Job type</th>
+											<th style="width: 30%">Duties</th>
+										</tr>
+									</thead>
 									<tbody>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><input
-												class="form-control form-control-sm newInternStartDate"
-												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
-											</td>
-											<td><input
-												class="form-control form-control-sm newInternEndDate"
-												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
-											</td>
-											<td></td>
-											<td></td>
-										</tr>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><input
-												class="form-control form-control-sm newInternStartDate"
-												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
-											</td>
-											<td><input
-												class="form-control form-control-sm newInternEndDate"
-												name="newActitvity" placeholder="MM/DD/YYYY" type="text" />
-											</td>
-											<td></td>
-											<td></td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
+							<input type="hidden" id="internList" name="internList">
+
 							<!-- Internship comments -->
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Internship/Co-ops
 									Comments:</label>
-								<textarea class="form-control" id="intern_comments" rows="3"></textarea>
+								<textarea class="form-control" id="intern_comments" rows="3" th:field="*{intern_comments}" th:value="${intern_comments}"></textarea>
 							</div>
 							<hr>
 							<!-- Conference -->
@@ -589,20 +459,23 @@
 									(other than AMP) :</label>
 								<table class="table table-hover table-bordered small-text"
 									id="tableConferences">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 5%"></th>
-										<th style="width: 33%">Conference Name</th>
-										<th style="width: 12%">Date</th>
-										<th style="width: 33%">Presentation Title</th>
-										<th style="width: 12%">Presentation Type</th>
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreConferences" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 33%">Conference Name</th>
+											<th style="width: 12%">Date</th>
+											<th style="width: 33%">Presentation Title</th>
+											<th style="width: 12%">Presentation Type</th>
 
-									</tr>
+										</tr>
+									</thead>
 									<tbody>
+										<!-- 
 										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
+											<td><a href='javascript:void(0);' id='removeConferences'
 												Title='Remove Entry'><span><i class='fa fa-times'
 														aria-hidden='true'></i></span></a></td>
 											<td></td>
@@ -613,46 +486,35 @@
 											</td>
 											<td></td>
 											<td><select class="form-control form-control-sm">
+													<option value="">-- select one --</option>
 													<option value="Oral">Oral</option>
-													<option value="Oral">Poster</option>
-													<option value="Oral">Oral and Poster</option>
-													<option value="Oral">other</option>
+													<option value="Poster">Poster</option>
+													<option value="OralandPoster">Oral and Poster</option>
+													<option value="Other">other</option>
 											</select></td>
 										</tr>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td></td>
-											<td><input
-												class="form-control form-control-sm newActitvity"
-												name="newActitvity " placeholder="MM/DD/YYYY" type="text" />
-											</td>
-											<td></td>
-											<td><select class="form-control form-control-sm">
-													<option value="Oral">Oral</option>
-													<option value="Oral">Poster</option>
-													<option value="Oral">Oral and Poster</option>
-													<option value="Oral">other</option>
-											</select></td>
-										</tr>
+										 -->
 									</tbody>
 								</table>
 							</div>
+							<input type="hidden" id="confsList" name="confsList">
+
 							<hr>
 							<!-- Publications -->
 							<div class="form-group">
 								<label class="col-sm-2" for="Comments">Publications:</label>
 								<table class="table table-hover table-bordered small-text"
-									id="tableActitvities">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 80%">Publications</th>
-									</tr>
+									id="tablePublications">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMorePublications" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 80%">Publications</th>
+										</tr>
+									</thead>
 									<tbody>
+										<!-- 
 										<tr>
 											<td><a href='javascript:void(0);' id='removeActivity'
 												Title='Remove Entry'><span><i class='fa fa-times'
@@ -670,9 +532,13 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 													id="activity_comments" rows="3"
 													placeholder="Li, Feifei; Talipov, Marat; Dong, Chao; Bali, Sofia; Ding, Keying. Acid-Facilitated Product Release from a Mo(IV) Center: Relevance to Oxygen Atom Transfer Reactivity of Molybdenum. JCBI (In Review)"></textarea></td>
 										</tr>
+										 -->
 									</tbody>
 								</table>
 							</div>
+							<input type="hidden" id="publicationList" name="publicationList">
+							<button type="button" class="btn btn-primary float-right"
+								onClick='submitYearlyForm()'>Submit</button>
 							<hr>
 
 							<!-- Volunteer experiences -->
@@ -868,6 +734,9 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 		var schools_level = [[${schools_level}]];
 		var schools_level_obj = JSON.parse(schools_level);
 		var activities_list = /*[[${activities_list}]]*/;
+		var intern_list = /*[[${YearlyBean.intern_json}]]*/;
+		var conferences_list = /*[[${YearlyBean.conference_json}]]*/;
+		var publication_list = /*[[${YearlyBean.publication_json}]]*/;
 		/*]]>
 		 */
 	</script>

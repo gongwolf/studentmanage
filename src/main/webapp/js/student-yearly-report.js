@@ -94,8 +94,266 @@ $(document).ready(
 				$('#school_level').val(schools_level_obj[school]);
 			});
 			
+			initActionsOfJsonTables();
+			parseJsonTables();
+			
+			
 		});
 
+function parseJsonTables(){
+	parseJsonInternTables();
+	parseJsonConferenceTables();
+	parseJsonPublicationTables();
+}
+
+function initActionsOfJsonTables(){
+	initActionsOfInternTabls();
+	initActionsOfConferencesTables();
+	initActopmsOfPublicationsTables();
+}
+
+function initActionsOfInternTabls(){
+	$('#addMoreInterns > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removeinterns'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInterCN' name='newInterCN' placeholder='Company Name' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInterCity' name='newInterCity' placeholder='city' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInterState' name='newInterState' placeholder='state' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInternStartDate' name='newInternStartDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInternEndDate' name='newInternEndDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInterType' name='newInterType' placeholder='job type' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newInterDuty' name='newInterDuty' placeholder='duty' type='text' /></td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tableIntern > tbody ").append(markup);
+		$('#tableIntern #newInternStartDate').datepicker();	
+		$('#tableIntern #newInternEndDate').datepicker();	
+	});
+	
+	$('#tableIntern').on('click','#removeinterns > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
+}
+
+function initActionsOfConferencesTables(){
+	$('#addMoreConferences > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removeconferences'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td><input class='form-control form-control-sm' id='newConfsN' name='newConfsN' placeholder='Conference Name' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newConfsDate' name='newConfsDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newConfsPreTitle' name='newConfsPreTitle' placeholder='Presentation Title' type='text' /></td>"+
+					 "<td>" +
+					 "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+							"<option value=''>-- select one --</option>"+
+							"<option value='Oral'>Oral</option>"+
+							"<option value='Poster'>Poster</option>"+
+							"<option value='OralandPoster'>Oral and Poster</option>"+
+							"<option value='Other'>other</option>"+
+					 "</select>"+
+					 "</td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tableConferences > tbody ").append(markup);
+		$('#tableConferences #newConfsDate').datepicker();	
+	});
+	
+	$('#tableConferences').on('click','#removeconferences > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
+}
+
+function initActopmsOfPublicationsTables(){
+	$('#addMorePublications > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removepublications'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td><textarea class='form-control' id='newpublications' rows='2'"+
+					 "placeholder='Example: Mohammadlou, Hassan Beik, and Hamid Ekhteraei Toussi. “Parametric Studies on Elastoplastic Buckling of Rectangular FGM Thin Plates.” " +
+					 "Aerospace Science and Technology, vol. 69, 2017. https://www.sciencedirect.com/science/article/pii/S127096381730651X'"+
+					 "></textarea></td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tablePublications > tbody ").append(markup);
+	});
+	
+	$('#tablePublications').on('click','#removepublications > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
+	
+}
+
+function handleJsonInternTable(){
+	
+	var activitiesList="[";
+	var i = 0;
+	$("#tableIntern > tbody > tr").each(function(index){
+		
+		var aName = $(this).find("#newInterCN").val();
+	    var aCity = $(this).find("#newInterCity").val();
+	    var aState = $(this).find("#newInterState").val();
+	    var aStart = $(this).find("#newInternStartDate").val();
+	    var aEnd = $(this).find("#newInternEndDate").val();
+	    var aType = $(this).find("#newInterType").val();
+	    var aDuty = $(this).find("#newInterDuty").val();
+	    
+		if(aName!=""){
+			i++;
+			activitiesList+="{\"jobCompany\":\""+aName+"\"," +
+	        				" \"jobCity\":\""+aCity+"\"," +
+	        				" \"jobState\":\""+aState+"\"," +
+	        				" \"jobStartDate\":\""+aStart+"\"," +
+	        				" \"jobEndDate\":\""+aEnd+"\"," +
+	        				" \"jobType\":\""+aType+"\"," +
+					        " \"jobDuty\":\""+aDuty+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+	
+	return activitiesList;
+	
+}
+
+function handleJsonConferencesTable(){
+	
+	var activitiesList="[";
+	var i = 0;
+	$("#tableConferences > tbody > tr").each(function(index){
+		
+		var conferenceName = $(this).find("#newConfsN").val();
+	    var conferenceDate = $(this).find("#newConfsDate").val();
+	    var conferencePresentationTitle = $(this).find("#newConfsPreTitle").val();
+	    var conferencePresentationType = $(this).find("#newConfsPreType").val();
+	    
+//	    alert(conferencePresentationType);
+	    
+		if(conferenceName!=""){
+			i++;
+			activitiesList+="{\"conferenceName\":\""+conferenceName+"\"," +
+	        				" \"conferenceDate\":\""+conferenceDate+"\"," +
+	        				" \"conferencePresentationTitle\":\""+conferencePresentationTitle+"\"," +
+					        " \"conferencePresentationType\":\""+conferencePresentationType+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+	
+	return activitiesList;
+	
+}
+
+function handleJsonPublicationTable(){
+	
+	var activitiesList="[";
+	var i = 0;
+	$("#tablePublications > tbody > tr").each(function(index){
+		var publication = $(this).find("#newpublications").val();
+	    
+		if(publication!=""){
+			i++;
+			activitiesList+="{\"publication\":\""+publication+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+	
+	return activitiesList;
+	
+}
+
+function parseJsonInternTables(){
+	var interns = JSON.parse(intern_list);
+	for (var i in interns) {
+	    var aName = interns[i].jobCompany;
+	    var aCity = interns[i].jobCity;
+	    var aState = interns[i].jobState;
+	    var aStart = interns[i].jobStartDate;
+	    var aEnd = interns[i].jobEndDate;
+	    var aType = interns[i].jobType;
+	    var aDuty = interns[i].jobDuty;
+	    
+	    var markup = "<tr>"+
+		 "<td><a href='javascript:void(0);' id='removeinterns'"+
+		 "Title='Remove Entry'><span><i class='fa fa-times'"+
+		 "aria-hidden='true'></i></span></a></td>"+
+		 "<td></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInterCN' name='newInterCN' placeholder='Company Name' type='text' value='"+aName+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInterCity' name='newInterCity' placeholder='city' type='text' value='"+aCity+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInterState' name='newInterState' placeholder='state' type='text' value='"+aState+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInternStartDate' name='newInternStartDate' placeholder='MM/DD/YYYY' type='text' value='"+aStart+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInternEndDate' name='newInternEndDate' placeholder='MM/DD/YYYY' type='text' value='"+aEnd+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInterType' name='newInterType' placeholder='job type' type='text' value='"+aType+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newInterDuty' name='newInterDuty' placeholder='duty' type='text' value='"+aDuty+"'/></td>"+
+		 "</tr>";
+	    $("#tableIntern > tbody ").append(markup);
+		$('#tableIntern #newInternStartDate').datepicker();	
+		$('#tableIntern #newInternEndDate').datepicker();	
+	}
+}
+
+function parseJsonConferenceTables(){
+	var conferences = JSON.parse(conferences_list);
+	for (var i in conferences) {
+	    var conferenceName = conferences[i].conferenceName;
+	    var conferenceDate = conferences[i].conferenceDate;
+	    var conferencePresentationTitle = conferences[i].conferencePresentationTitle;
+	    var conferencePresentationType = conferences[i].conferencePresentationType;
+	    var selectstr = selectOption(conferencePresentationType);
+//	    alert(selectstr);
+	    var markup = "<tr>"+
+		 "<td><a href='javascript:void(0);' id='removeconferences'"+
+		 "Title='Remove Entry'><span><i class='fa fa-times'"+
+		 "aria-hidden='true'></i></span></a></td>"+
+		 "<td></td>"+
+		 "<td><input class='form-control form-control-sm' id='newConfsN' name='newConfsN' placeholder='Conference Name' type='text' value='"+conferenceName+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newConfsDate' name='newConfsDate' placeholder='MM/DD/YYYY' type='text' value='"+conferenceDate+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newConfsPreTitle' name='newConfsPreTitle' placeholder='Presentation Title' type='text' value='"+conferencePresentationTitle+"'/></td>"+
+		 "<td>" +selectstr+"</td>"+
+		 "</tr>";
+	    $("#tableConferences > tbody ").append(markup);
+		$('#tableConferences #newConfsDate').datepicker();	
+//		$('#tableConferences #newConfsPreType option[value='+conferencePresentationType+']').attr('selected','selected');
+	}
+}
+
+function parseJsonPublicationTables(){
+	var publication_obj = JSON.parse(publication_list);
+	for (var i in publication_obj) {
+	    var publication = publication_obj[i].publication;
+//		alert(publication);
+
+	    var markup = "<tr>"+
+		 "<td><a href='javascript:void(0);' id='removepublications'"+
+		 "Title='Remove Entry'><span><i class='fa fa-times'"+
+		 "aria-hidden='true'></i></span></a></td>"+
+		 "<td><textarea class='form-control' id='newpublications' rows='2'"+
+		 "placeholder='Example: Mohammadlou, Hassan Beik, and Hamid Ekhteraei Toussi. “Parametric Studies on Elastoplastic Buckling of Rectangular FGM Thin Plates.” " +
+		 "Aerospace Science and Technology, vol. 69, 2017. https://www.sciencedirect.com/science/article/pii/S127096381730651X'"+
+		 ">"+publication+"</textarea></td>"+
+		 "</tr>";
+	    //console.log(markup);
+	    $("#tablePublications > tbody ").append(markup);
+	}
+}
 
 function buildmentorListTable(mentorList){
 	    var table = $('#mentordataTable').DataTable( {
@@ -143,6 +401,8 @@ function buildmentorListTable(mentorList){
 
 		});
 }
+
+
 function initFormYesNo(){
 	if($('input[name=graduated]:checked').val()==1){
 		$('#Graduated_Degree_label').show();
@@ -185,7 +445,15 @@ function initFormYesNo(){
 
 function submitYearlyForm(){
 	var activitiesList=dealCollegeActivities();
+	activitiesList+=dealUniversityActivities();
 	$('#activitiesList').val(activitiesList);
+	internList=handleJsonInternTable();
+	confsList=handleJsonConferencesTable();
+	publicationList=handleJsonPublicationTable();
+//	alert(publicationList);
+	$('#internList').val(internList);
+	$('#confsList').val(confsList);
+	$('#publicationList').val(publicationList);
 	$('#yearlyForm').submit();
 }
 
@@ -204,7 +472,29 @@ function dealCollegeActivities(){
 		college_jstr+= " ,\"spring\": \""+springchecked+"\"";
 		college_jstr+= " ,\"summer\": \""+summerchecked+"\"},";
 		
-		alert(activity_abr+"  "+activity_fullname+"\n "+fallchecked+" "+springchecked+" "+summerchecked);
+//		alert(activity_abr+"  "+activity_fullname+"\n "+fallchecked+" "+springchecked+" "+summerchecked);
+	});
+//	college_jstr = college_jstr.substring(0, college_jstr.length - 1)
+//	college_jstr+="]";
+	return college_jstr;
+}
+
+function dealUniversityActivities(){
+	var college_jstr="";
+	$('#university_acts_div > div').each(function(){
+		var activity_abr = $(this).find('label').attr('id');
+		var activity_fullname = $(this).find('label').text();
+		activity_fullname = activity_fullname.substring(0, activity_fullname.length - 1)
+		var fallchecked   = $(this).find('div:nth-child(2) > input').is(':checked');
+		var springchecked = $(this).find('div:nth-child(3) > input').is(':checked');
+		var summerchecked = $(this).find('div:nth-child(4) > input').is(':checked');
+		college_jstr+="{ \"abr\" : \""+activity_abr+"\" ";
+		college_jstr+=" ,\"fullname\": \""+activity_fullname+"\"";
+		college_jstr+= " ,\"fall\": \""+fallchecked+"\"";
+		college_jstr+= " ,\"spring\": \""+springchecked+"\"";
+		college_jstr+= " ,\"summer\": \""+summerchecked+"\"},";
+		
+//		alert(activity_abr+"  "+activity_fullname+"\n "+fallchecked+" "+springchecked+" "+summerchecked);
 	});
 	college_jstr = college_jstr.substring(0, college_jstr.length - 1)
 	college_jstr+="]";
@@ -226,12 +516,55 @@ function initActivitiesList(){
 	    $('#'+activity_abr).nextAll().eq(0).find('input').prop("checked",fallchecked);
 	    $('#'+activity_abr).nextAll().eq(1).find('input').prop("checked",springchecked);
 	    $('#'+activity_abr).nextAll().eq(2).find('input').prop("checked",summerchecked);
-	   
 	}
 }
 
 
-
+function selectOption(conferencePresentationType){
+	switch(conferencePresentationType){
+	case 'Oral': 
+		return "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+		"<option value=''>-- select one --</option>"+
+		"<option value='Oral' selected='selected'>Oral</option>"+
+		"<option value='Poster'>Poster</option>"+
+		"<option value='OralandPoster'>Oral and Poster</option>"+
+		"<option value='Other'>Other</option>"+
+	    "</select>";
+	case 'Poster':
+		 return "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+			"<option value=''>-- select one --</option>"+
+			"<option value='Oral'>Oral</option>"+
+			"<option value='Poster'  selected='selected'>Poster</option>"+
+			"<option value='OralandPoster'>Oral and Poster</option>"+
+			"<option value='Other'>Other</option>"+
+		    "</select>";
+	case 'OralandPoster': 
+		return "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+		"<option value=''>-- select one --</option>"+
+		"<option value='Oral'>Oral</option>"+
+		"<option value='Poster'>Poster</option>"+
+		"<option value='OralandPoster'  selected='selected'>Oral and Poster</option>"+
+		"<option value='Other'>Other</option>"+
+	    "</select>";
+	case 'Other': 
+		return "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+		"<option value=''>-- select one --</option>"+
+		"<option value='Oral'>Oral</option>"+
+		"<option value='Poster'>Poster</option>"+
+		"<option value='OralandPoster'>Oral and Poster</option>"+
+		"<option value='Other'  selected='selected'>Other</option>"+
+	    "</select>";
+	default: 
+		return "<select class='form-control form-control-sm' id='newConfsPreType' name='newConfsPreType'>"+
+		"<option value=''>-- select one --</option>"+
+		"<option value='Oral'>Oral</option>"+
+		"<option value='Poster'>Poster</option>"+
+		"<option value='OralandPoster'>Oral and Poster</option>"+
+		"<option value='Other'>Other</option>"+
+	    "</select>";
+	}
+	
+}
 
 
 

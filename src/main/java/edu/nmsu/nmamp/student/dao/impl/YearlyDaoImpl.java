@@ -77,8 +77,14 @@ public class YearlyDaoImpl implements Schemacode {
 							
 							bean.setActivities_list(reSet.getString("Activities_list"));
 							System.out.println(bean.getActivities_list());
+							bean.setActivities_comments(reSet.getString("Activities_comments"));
 							
+							bean.setIntern_json(reSet.getString("intern_json"));
+							bean.setIntern_comments(reSet.getString("intern_comments"));
 							
+							bean.setConference_json(reSet.getString("conference_json"));
+							
+							bean.setPublication_json(reSet.getString("publication_json"));
 //							System.out.println(bean);
 							return bean;
 						}
@@ -92,7 +98,7 @@ public class YearlyDaoImpl implements Schemacode {
 	public int UpdateYearBeanByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList, int student_id,String queryYear) {
 		StringBuilder updateSql = new StringBuilder();
 		updateSql.append("update selfreport_data set "
-				+ "Activities_list=?"
+				+ "Activities_list=?, Activities_comments=?, intern_json=?, conference_json=?,publication_json=?,intern_comments=? "
 				+ " where user_id='" + student_id + "' and semester='"+queryYear+"'");
 		System.out.println(activitiesList);
 		System.out.println(updateSql);
@@ -100,6 +106,11 @@ public class YearlyDaoImpl implements Schemacode {
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, activitiesList);
+				ps.setString(2, bean.getActivities_comments());
+				ps.setString(3, bean.getIntern_json());
+				ps.setString(4, bean.getConference_json());
+				ps.setString(5, bean.getPublication_json());
+				ps.setString(6, bean.getIntern_comments());
 			}
 		});
 	}
