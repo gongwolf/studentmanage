@@ -137,11 +137,15 @@ public class studentManageController {
 		String activitiesList = request.getParameter("activitiesList");
 		String queryYear = request.getParameter("queryYear");
 		String intern_json = request.getParameter("internList");
-		System.out.println(activitiesList);
-		System.out.println(queryYear);
+//		System.out.println(activitiesList);
+//		System.out.println(queryYear);
 		bean.setIntern_json(intern_json);
 		bean.setConference_json(request.getParameter("confsList"));
 		bean.setPublication_json(request.getParameter("publicationList"));
+		bean.setVolunteer_json(request.getParameter("volunteerList"));
+		bean.setTravel_json(request.getParameter("travelList"));
+//		System.out.println(bean.getVolunteer_json());
+//		System.out.println(bean.getTravel_json());
 		YearDao.UpdateYearBeanByUseIdAndYear(bean, activitiesList, student_id, queryYear);
 		System.out.println("=========================================================");
 

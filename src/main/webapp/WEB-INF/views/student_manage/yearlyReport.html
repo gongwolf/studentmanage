@@ -263,7 +263,7 @@
 									class="col-form-label-sm text-right"> To:</label>
 								<div class="col-sm-3" id="Transfered_To_DIv">
 									<select class="form-control form-control-sm" id="Transfered_to"
-										th:field="*{transfered_from}">
+										th:field="*{transfered_to}">
 										<option value="">-- Select One --</option>
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
@@ -417,7 +417,8 @@
 								<label class="col-sm-2 " style="margin-bottom: 0px">Activities
 									Comments:</label>
 								<textarea class="form-control" id="activity_comments" rows="3"
-									th:field="*{activities_comments}" th:value="${activities_comments}"></textarea>
+									th:field="*{activities_comments}"
+									th:value="${activities_comments}"></textarea>
 							</div>
 							<hr>
 							<!-- Internship/Co-ops -->
@@ -450,7 +451,8 @@
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Internship/Co-ops
 									Comments:</label>
-								<textarea class="form-control" id="intern_comments" rows="3" th:field="*{intern_comments}" th:value="${intern_comments}"></textarea>
+								<textarea class="form-control" id="intern_comments" rows="3"
+									th:field="*{intern_comments}" th:value="${intern_comments}"></textarea>
 							</div>
 							<hr>
 							<!-- Conference -->
@@ -537,8 +539,6 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 								</table>
 							</div>
 							<input type="hidden" id="publicationList" name="publicationList">
-							<button type="button" class="btn btn-primary float-right"
-								onClick='submitYearlyForm()'>Submit</button>
 							<hr>
 
 							<!-- Volunteer experiences -->
@@ -547,108 +547,58 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 									experiences:</label>
 								<table class="table table-hover table-bordered small-text"
 									id="tableVolunteerExps">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 5%"></th>
-										<th style="width: 30%">Organization Name</th>
-										<th style="width: 12%">Start Date</th>
-										<th style="width: 12%">End Date</th>
-										<th style="width: 36%">Duties</th>
-
-									</tr>
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreVolunteer" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 30%">Organization Name</th>
+											<th style="width: 12%">Start Date</th>
+											<th style="width: 12%">End Date</th>
+											<th style="width: 36%">Duties</th>
+										</tr>
+									</thead>
 									<tbody>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td><small>Environmental Science Student
-													Organization</small></td>
-											<td><input
-												class="form-control form-control-sm newVolunteerStartDate"
-												name="newVolunteerStartDate " placeholder="MM/DD/YYYY"
-												type="text" /></td>
-											<td><input
-												class="form-control form-control-sm newVolunteerEndDate"
-												name="newVolunteerEndDate " placeholder="MM/DD/YYYY"
-												type="text" /></td>
-											<td><small>Advances environmental knowledge and
-													awareness at NMSU and in the community.</small></td>
-										</tr>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td><small>Science Alliance</small></td>
-											<td><input
-												class="form-control form-control-sm newVolunteerStartDate"
-												name="newVolunteerStartDate " placeholder="MM/DD/YYYY"
-												type="text" /></td>
-											<td><input
-												class="form-control form-control-sm newVolunteerEndDate"
-												name="newVolunteerEndDate " placeholder="MM/DD/YYYY"
-												type="text" /></td>
-											<td><small>Science Alliance is a joint
-													organization combining the Society for the Advancement of
-													Chicanos and Native Americans in Science (SACNAS) and an
-													education program of the Ecological Society of America:
-													Strategies for Ecology Education, Diversity, and
-													Sustainability (SEEDS).</small></td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
+							<input type="hidden" id="volunteerList" name="volunteerList">
+
 							<hr>
 							<!-- International experiences -->
 							<div class="form-group">
 								<label class="col-sm-2" for="International_exp">International
 									experiences:</label>
 								<table class="table table-hover table-bordered small-text"
-									id="tableInternationalExps">
-									<tr class="tr-header">
-										<th style="width: 5%"><a href="javascript:void(0);"
-											id="addMoreActivities" title="Add Entry"><span><i
-													class="fa fa-plus" aria-hidden="true"></i></span></a></th>
-										<th style="width: 5%"></th>
-										<th style="width: 10%">City</th>
-										<th style="width: 10%">State</th>
-										<th style="width: 10%">Country</th>
-										<th style="width: 12%">Start Date</th>
-										<th style="width: 12%">End Date</th>
-										<th style="width: 36%">Purpose</th>
-
-									</tr>
-									<tbody>
-										<tr>
-											<td><a href='javascript:void(0);' id='removeActivity'
-												Title='Remove Entry'><span><i class='fa fa-times'
-														aria-hidden='true'></i></span></a></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><input
-												class="form-control form-control-sm newInterStartDate"
-												name="newInterStartDate " placeholder="MM/DD/YYYY"
-												type="text" /></td>
-											<td><input
-												class="form-control form-control-sm newInterEndDate"
-												name="newInterEndDate " placeholder="MM/DD/YYYY" type="text" /></td>
-											<td></td>
+									id="tableTravel">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreTravels" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 12%">City</th>
+											<th style="width: 12%">State</th>
+											<th style="width: 14%">Start Date</th>
+											<th style="width: 14%">End Date</th>
+											<th style="width: 38%">Purpose</th>
 										</tr>
+									</thead>
+									<tbody>
 									</tbody>
 								</table>
 							</div>
+							<input type="hidden" id="travelList" name="travelList">
 							<hr>
 							<!-- notes and comments -->
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Notes
 									and Comments:</label>
-								<textarea class="form-control" id="notes_and_comments" rows="3"></textarea>
+								<textarea class="form-control" id="notes_and_comments" rows="3" th:field="*{notesAndComments}" th:value="${notesAndComments}"></textarea>
 							</div>
+							<button type="button" class="btn btn-primary float-right"
+								onClick='submitYearlyForm()'>Submit</button>
 						</form>
 					</div>
 				</div>
@@ -737,6 +687,8 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 		var intern_list = /*[[${YearlyBean.intern_json}]]*/;
 		var conferences_list = /*[[${YearlyBean.conference_json}]]*/;
 		var publication_list = /*[[${YearlyBean.publication_json}]]*/;
+		var volunteer_list = /*[[${YearlyBean.volunteer_json}]]*/;
+		var travel_list=/*[[${YearlyBean.travel_json}]]*/;
 		/*]]>
 		 */
 	</script>

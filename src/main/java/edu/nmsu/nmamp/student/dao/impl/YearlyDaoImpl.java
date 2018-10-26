@@ -85,7 +85,12 @@ public class YearlyDaoImpl implements Schemacode {
 							bean.setConference_json(reSet.getString("conference_json"));
 							
 							bean.setPublication_json(reSet.getString("publication_json"));
-//							System.out.println(bean);
+
+							bean.setVolunteer_json(reSet.getString("volunteer_json"));
+							
+							bean.setTravel_json(reSet.getString("travel_json"));
+							
+							bean.setNotesAndComments(reSet.getString("comments"));
 							return bean;
 						}
 					});
@@ -98,7 +103,11 @@ public class YearlyDaoImpl implements Schemacode {
 	public int UpdateYearBeanByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList, int student_id,String queryYear) {
 		StringBuilder updateSql = new StringBuilder();
 		updateSql.append("update selfreport_data set "
-				+ "Activities_list=?, Activities_comments=?, intern_json=?, conference_json=?,publication_json=?,intern_comments=? "
+				+ "Activities_list=?, Activities_comments=?, intern_json=?, conference_json=?,publication_json=?,intern_comments=?, volunteer_json=?,travel_json=?, "
+				+ "comments=?, select_school=?, minor=?,changed_major=?,major=?,course_taken=?,gpa=?,semester_gpa=?,credits=?,semester_credits=?,"
+				+ "graduated=?,graduated_degree=?,graduated_field=?,graduated_semester=?,"
+				+ "Transfered=?,Transfered_from=?,Transfered_to=?,Transfered_AA_Degree=?,Transfered_credits=?,withdrew=?,withdrew_reason=?,"
+				+ "Fin_AMP=?,Fin_AMP_type=?,Fin_AMP_summer=?"
 				+ " where user_id='" + student_id + "' and semester='"+queryYear+"'");
 		System.out.println(activitiesList);
 		System.out.println(updateSql);
@@ -111,6 +120,33 @@ public class YearlyDaoImpl implements Schemacode {
 				ps.setString(4, bean.getConference_json());
 				ps.setString(5, bean.getPublication_json());
 				ps.setString(6, bean.getIntern_comments());
+				ps.setString(7, bean.getVolunteer_json());
+				ps.setString(8, bean.getTravel_json());
+				ps.setString(9, bean.getNotesAndComments());
+				ps.setString(10, bean.getAcdemic_school());
+				ps.setString(11, bean.getMinor());
+				ps.setString(12, String.valueOf(bean.getChanged_major()));
+				ps.setString(13, bean.getMajor());
+				ps.setString(14, bean.getCourse_taken());
+				ps.setFloat(15,bean.getGpa());
+				ps.setFloat(16, bean.getSemester_gpa());
+				ps.setInt(17, bean.getCredits());
+				ps.setInt(18, bean.getSemester_credits());
+				ps.setString(19,bean.getGraduated());
+				ps.setString(20,bean.getGraduated_degree());
+				ps.setString(21,bean.getGraduated_field());
+				ps.setString(22,bean.getGraduated_semester());
+				ps.setString(23,bean.getTransfered());
+				ps.setString(24,bean.getTransfered_from());
+				ps.setString(25,bean.getTransfered_to());
+				ps.setString(26,bean.getTransfered_AA_degree());
+				ps.setString(27,bean.getTransfered_credits());
+				ps.setString(28,bean.getWithdrew());
+				ps.setString(29,bean.getWithdrew_reason());
+				ps.setString(30,bean.getFin_amp());
+				ps.setString(31,bean.getFin_amp_type());
+				ps.setString(32,bean.getFin_amp_summer());
+				
 			}
 		});
 	}

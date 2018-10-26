@@ -104,15 +104,20 @@ function parseJsonTables(){
 	parseJsonInternTables();
 	parseJsonConferenceTables();
 	parseJsonPublicationTables();
+	parseJsonVolunteerTables();
+	parseJsonTravelTables();
+	
 }
 
 function initActionsOfJsonTables(){
-	initActionsOfInternTabls();
+	initActionsOfInternTables();
 	initActionsOfConferencesTables();
-	initActopmsOfPublicationsTables();
+	initActionsOfPublicationsTables();
+	initActionsOfVolunteerTables();
+	initActionsOfTravelTables();
 }
 
-function initActionsOfInternTabls(){
+function initActionsOfInternTables(){
 	$('#addMoreInterns > span > i').click(function(){
 		var markup = "<tr>"+
 					 "<td><a href='javascript:void(0);' id='removeinterns'"+
@@ -170,7 +175,7 @@ function initActionsOfConferencesTables(){
 	});
 }
 
-function initActopmsOfPublicationsTables(){
+function initActionsOfPublicationsTables(){
 	$('#addMorePublications > span > i').click(function(){
 		var markup = "<tr>"+
 					 "<td><a href='javascript:void(0);' id='removepublications'"+
@@ -189,7 +194,56 @@ function initActopmsOfPublicationsTables(){
 //		alert("click remove activity button");
 		$(this).parent().parent().parent().parent().remove();
 	});
+}
+
+function initActionsOfVolunteerTables(){
+	$('#addMoreVolunteer > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removeVolunteerExps'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td><input class='form-control form-control-sm' id='newVolunteerOrg' name='newVolunteerOrg' placeholder='Organization Name' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newVolunteerStartDate' name='newVolunteerStartDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newVolunteerEndDate' name='newVolunteerEndDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><small><textarea class='form-control' id='newVolunteerDuty' name='newVolunteerDuty' row='2' " +
+					 "placeholder='Example: Advances environmental knowledge and awareness at NMSU and in the community.'></textarea></small></td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tableVolunteerExps > tbody ").append(markup);
+		$('#tableVolunteerExps #newVolunteerStartDate').datepicker();	
+		$('#tableVolunteerExps #newVolunteerEndDate').datepicker();	
+	});
 	
+	$('#tableVolunteerExps').on('click','#removeVolunteerExps > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
+}
+
+function initActionsOfTravelTables(){
+	$('#addMoreTravels > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removetravels'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td><input class='form-control form-control-sm' id='newTravelCity' name='newTravelCity' placeholder='City' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newTravelState' name='newTravelState' placeholder='State' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newTravelStartDate' name='newTravelStartDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newTravelEndDate' name='newTravelEndDate' placeholder='MM/DD/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newTravelPurpose' name='newTravelPurpose' placeholder='Purpose' type='text' /></td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tableTravel > tbody ").append(markup);
+		$('#tableTravel #newTravelStartDate').datepicker();	
+		$('#tableTravel #newTravelEndDate').datepicker();	
+	});
+	
+	$('#tableTravel').on('click','#removetravels > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
 }
 
 function handleJsonInternTable(){
@@ -280,6 +334,62 @@ function handleJsonPublicationTable(){
 	
 }
 
+function handleJsonVolunteerTable(){
+	var activitiesList="[";
+	var i = 0;
+	$("#tableVolunteerExps > tbody > tr").each(function(index){
+		var volunteerOrg = $(this).find("#newVolunteerOrg").val();
+	    var volunteerStartDate = $(this).find("#newVolunteerStartDate").val();
+	    var volunteerEndDate = $(this).find("#newVolunteerEndDate").val();
+	    var volunteerDuty = $(this).find("#newVolunteerDuty").val();
+//	    alert(conferencePresentationType);
+	    
+		if(volunteerOrg!=""){
+			i++;
+			activitiesList+="{\"volunteerOrg\":\""+volunteerOrg+"\"," +
+	        				" \"volunteerStartDate\":\""+volunteerStartDate+"\"," +
+	        				" \"volunteerEndDate\":\""+volunteerEndDate+"\"," +
+					        " \"volunteerDuty\":\""+volunteerDuty+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+//	alert(activitiesList);
+	return activitiesList;
+}
+
+function handleJsonTravelTable(){
+	var activitiesList="[";
+	var i = 0;
+	$("#tableTravel > tbody > tr").each(function(index){
+	    var travelCity = $(this).find("#newTravelCity").val();
+	    var travelState =$(this).find("#newTravelState").val();
+	    var travelStartDate = $(this).find("#newTravelStartDate").val();
+	    var travelEndDate = $(this).find("#newTravelEndDate").val();
+	    var travelPurpose = $(this).find("#newTravelPurpose").val();
+//	    alert(conferencePresentationType);
+	    
+		if(travelPurpose!=""){
+			i++;
+			activitiesList+="{\"travelCity\":\""+travelCity+"\"," +
+	        				" \"travelState\":\""+travelState+"\"," +
+	        				" \"travelStartDate\":\""+travelStartDate+"\"," +
+	        				" \"travelEndDate\":\""+travelEndDate+"\"," +
+					        " \"travelPurpose\":\""+travelPurpose+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+//	alert(activitiesList);
+	return activitiesList;
+}
+
 function parseJsonInternTables(){
 	var interns = JSON.parse(intern_list);
 	for (var i in interns) {
@@ -339,8 +449,6 @@ function parseJsonPublicationTables(){
 	var publication_obj = JSON.parse(publication_list);
 	for (var i in publication_obj) {
 	    var publication = publication_obj[i].publication;
-//		alert(publication);
-
 	    var markup = "<tr>"+
 		 "<td><a href='javascript:void(0);' id='removepublications'"+
 		 "Title='Remove Entry'><span><i class='fa fa-times'"+
@@ -352,6 +460,58 @@ function parseJsonPublicationTables(){
 		 "</tr>";
 	    //console.log(markup);
 	    $("#tablePublications > tbody ").append(markup);
+	}
+}
+
+function parseJsonTravelTables(){
+	var travel = JSON.parse(travel_list);
+	for (var i in travel) {
+	    var travelCity = travel[i].travelCity;
+	    var travelState = travel[i].travelState;
+	    var travelStartDate = travel[i].travelStartDate;
+	    var travelEndDate = travel[i].travelEndDate;
+	    var travelPurpose = travel[i].travelPurpose;
+	    var markup = "<tr>"+
+		 "<td><a href='javascript:void(0);' id='removetravels'"+
+		 "Title='Remove Entry'><span><i class='fa fa-times'"+
+		 "aria-hidden='true'></i></span></a></td>"+
+		 "<td></td>"+
+		 "<td><input class='form-control form-control-sm' id='newTravelCity' name='newTravelCity' placeholder='City' type='text' value='"+travelCity+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newTravelState' name='newTravelState' placeholder='State' type='text' value='"+travelState+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newTravelStartDate' name='newTravelStartDate' placeholder='MM/DD/YYYY' type='text' value='"+travelStartDate+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newTravelEndDate' name='newTravelEndDate' placeholder='MM/DD/YYYY' type='text' value='"+travelEndDate+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newTravelPurpose' name='newTravelPurpose' placeholder='Purpose' type='text' value='"+travelPurpose+"'/></td>"+
+		 "</tr>";
+	    //console.log(markup);
+	     $("#tableTravel > tbody ").append(markup);
+	     $('#tableTravel #newTravelStartDate').datepicker();	
+	     $('#tableTravel #newTravelEndDate').datepicker();	
+	}
+}
+
+function parseJsonVolunteerTables(){
+	var volunteers = JSON.parse(volunteer_list);
+	for (var i in volunteers) {
+	    var volunteerOrg = volunteers[i].volunteerOrg;
+	    var volunteerStartDate = volunteers[i].volunteerStartDate;
+	    var volunteerEndDate = volunteers[i].volunteerEndDate;
+	    var volunteerDuty = volunteers[i].volunteerDuty;
+//	    alert(selectstr);
+		var markup = "<tr>"+
+				     "<td><a href='javascript:void(0);' id='removeVolunteerExps'"+
+				     "Title='Remove Entry'><span><i class='fa fa-times'"+
+				     "aria-hidden='true'></i></span></a></td>"+
+				     "<td></td>"+
+				     "<td><input class='form-control form-control-sm' id='newVolunteerOrg' name='newVolunteerOrg' placeholder='Organization Name' type='text' value='"+volunteerOrg+"'/></td>"+
+				     "<td><input class='form-control form-control-sm' id='newVolunteerStartDate' name='newVolunteerStartDate' placeholder='MM/DD/YYYY' type='text' value='"+volunteerStartDate+"'/></td>"+
+				     "<td><input class='form-control form-control-sm' id='newVolunteerEndDate' name='newVolunteerEndDate' placeholder='MM/DD/YYYY' type='text'value='"+volunteerEndDate+"'/></td>"+
+				     "<td><small><textarea class='form-control' id='newVolunteerDuty' name='newVolunteerDuty' row='2' " +
+				     "placeholder='Example: Advances environmental knowledge and awareness at NMSU and in the community.'>"+volunteerDuty+"</textarea></small></td>"+
+				     "</tr>";
+//			console.log(markup);
+		$("#tableVolunteerExps > tbody ").append(markup);
+		$('#tableVolunteerExps #newVolunteerStartDate').datepicker();	
+		$('#tableVolunteerExps #newVolunteerEndDate').datepicker();	
 	}
 }
 
@@ -402,7 +562,6 @@ function buildmentorListTable(mentorList){
 		});
 }
 
-
 function initFormYesNo(){
 	if($('input[name=graduated]:checked').val()==1){
 		$('#Graduated_Degree_label').show();
@@ -446,14 +605,18 @@ function initFormYesNo(){
 function submitYearlyForm(){
 	var activitiesList=dealCollegeActivities();
 	activitiesList+=dealUniversityActivities();
-	$('#activitiesList').val(activitiesList);
 	internList=handleJsonInternTable();
 	confsList=handleJsonConferencesTable();
 	publicationList=handleJsonPublicationTable();
+	volunteerList=handleJsonVolunteerTable();
+	travelList=handleJsonTravelTable();
 //	alert(publicationList);
+	$('#activitiesList').val(activitiesList);
 	$('#internList').val(internList);
 	$('#confsList').val(confsList);
 	$('#publicationList').val(publicationList);
+	$('#volunteerList').val(volunteerList);
+	$('#travelList').val(travelList);
 	$('#yearlyForm').submit();
 }
 

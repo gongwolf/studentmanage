@@ -53,6 +53,15 @@ public class StudentYearlyReportBean {
 	//publication Json
 	String publication_json;
 	
+	//volunteer experiences Json 
+	String volunteer_json;
+	
+	//travel_json
+	String travel_json;
+	
+	
+	//Notes and comments
+	String notesAndComments;
 	
 	
 	public int getStudent_id() {
@@ -258,6 +267,25 @@ public class StudentYearlyReportBean {
 	}
 	public void setPublication_json(String publication_json) {
 		this.publication_json = publication_json;
+	}
+	public String getVolunteer_json() {
+		return volunteer_json;
+	}
+	public void setVolunteer_json(String volunteer_json) {
+		this.volunteer_json = volunteer_json;
+	}
+	public String getTravel_json() {
+		return travel_json;
+	}
+	public void setTravel_json(String travel_json) {
+		this.travel_json = travel_json;
+	}
+	
+	public String getNotesAndComments() {
+		return notesAndComments;
+	}
+	public void setNotesAndComments(String notesAndComments) {
+		this.notesAndComments = notesAndComments;
 	}
 	@Override
 	public String toString() {
