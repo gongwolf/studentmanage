@@ -235,7 +235,12 @@ public class StudentDAOImpl implements Schemacode {
 				ps.setString(28, String.valueOf(bean.getDisability_type()));
 				ps.setString(29, bean.getHigh_shcool_name());
 				ps.setString(30, bean.getHigh_shcool_GPA());
-				ps.setInt(31, Integer.parseInt(bean.getHigh_shcool_workhours()));
+//				ps.setInt(31, Integer.parseInt(bean.getHigh_shcool_workhours().equals("")?"0":bean.getHigh_shcool_workhours()));
+				if(!bean.getHigh_shcool_workhours().equals("")){
+					ps.setInt(31, Integer.parseInt(bean.getHigh_shcool_workhours()));
+				}else {
+					ps.setNull(31, java.sql.Types.INTEGER);
+				}
 				String strHs_test=bean.getHigh_school_testing().toString();
 				ps.setString(32, strHs_test.substring(1,strHs_test.length()-1));
 				ps.setString(33, bean.getComments());

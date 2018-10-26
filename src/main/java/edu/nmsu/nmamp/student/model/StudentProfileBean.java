@@ -378,29 +378,32 @@ public class StudentProfileBean {
 				+ ", high_shcool_GPA=" + high_shcool_GPA + ", high_shcool_workhours=" + high_shcool_workhours
 				+ ", high_school_testing=" + high_school_testing + ", highschool_activities=" + highschool_activities
 				+ ", recommendation_file_name=" + recommendation_file_name + ", hs_transcript_file_name="
-				+ hs_transcript_file_name + ", getParent_address_line1()=" + getParent_address_line1()
-				+ ", getParent_address_line2()=" + getParent_address_line2() + ", getParent_address_city()="
-				+ getParent_address_city() + ", getParent_address_county()=" + getParent_address_county()
-				+ ", getParent_address_zip()=" + getParent_address_zip() + ", getStudent_id()=" + getStudent_id()
-				+ ", getFirstName()=" + getFirstName() + ", getMiddleName()=" + getMiddleName() + ", getLastName()="
-				+ getLastName() + ", getGender()=" + getGender() + ", getBirthDate()=" + getBirthDate()
-				+ ", getPhone_num()=" + getPhone_num() + ", getLanguage_at_home()=" + getLanguage_at_home()
-				+ ", getFirst_gen_college_student()=" + getFirst_gen_college_student() + ", getCurrent_address_line1()="
-				+ getCurrent_address_line1() + ", getCurrent_address_line2()=" + getCurrent_address_line2()
-				+ ", getCurrent_address_city()=" + getCurrent_address_city() + ", getCurrent_address_county()="
-				+ getCurrent_address_county() + ", getCurrent_address_zip()=" + getCurrent_address_zip()
-				+ ", getCurrent_address_state()=" + getCurrent_address_state() + ", getParent_address_state()="
-				+ getParent_address_state() + ", getRecommendation_file_name()=" + getRecommendation_file_name()
-				+ ", getHs_transcript_file_name()=" + getHs_transcript_file_name() + ", getVeteran()=" + getVeteran()
-				+ ", getExpected_highest_degree()=" + getExpected_highest_degree() + ", getSsn_last_four()="
-				+ getSsn_last_four() + ", getFamily_income()=" + getFamily_income() + ", getEthnicity()="
-				+ getEthnicity() + ", getRace()=" + getRace() + ", getDisability()=" + getDisability()
-				+ ", getDisability_type()=" + getDisability_type() + ", getHigh_shcool_name()=" + getHigh_shcool_name()
-				+ ", getHigh_shcool_GPA()=" + getHigh_shcool_GPA() + ", getHigh_shcool_workhours()="
-				+ getHigh_shcool_workhours() + ", getHigh_school_testing()=" + getHigh_school_testing()
-				+ ", getHighschool_activities()=" + getHighschool_activities() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ hs_transcript_file_name + ", comments=" + comments + ", getParent_address_line1()="
+				+ getParent_address_line1() + ", getParent_address_line2()=" + getParent_address_line2()
+				+ ", getParent_address_city()=" + getParent_address_city() + ", getParent_address_county()="
+				+ getParent_address_county() + ", getParent_address_zip()=" + getParent_address_zip()
+				+ ", getStudent_id()=" + getStudent_id() + ", getFirstName()=" + getFirstName() + ", getMiddleName()="
+				+ getMiddleName() + ", getLastName()=" + getLastName() + ", getGender()=" + getGender()
+				+ ", getBirthDate()=" + getBirthDate() + ", getPhone_num()=" + getPhone_num()
+				+ ", getLanguage_at_home()=" + getLanguage_at_home() + ", getFirst_gen_college_student()="
+				+ getFirst_gen_college_student() + ", getCurrent_address_line1()=" + getCurrent_address_line1()
+				+ ", getCurrent_address_line2()=" + getCurrent_address_line2() + ", getCurrent_address_city()="
+				+ getCurrent_address_city() + ", getCurrent_address_county()=" + getCurrent_address_county()
+				+ ", getCurrent_address_zip()=" + getCurrent_address_zip() + ", getCurrent_address_state()="
+				+ getCurrent_address_state() + ", getParent_address_state()=" + getParent_address_state()
+				+ ", getRecommendation_file_name()=" + getRecommendation_file_name() + ", getHs_transcript_file_name()="
+				+ getHs_transcript_file_name() + ", getVeteran()=" + getVeteran() + ", getExpected_highest_degree()="
+				+ getExpected_highest_degree() + ", getSsn_last_four()=" + getSsn_last_four() + ", getFamily_income()="
+				+ getFamily_income() + ", getEthnicity()=" + getEthnicity() + ", getRace()=" + getRace()
+				+ ", getDisability()=" + getDisability() + ", getDisability_type()=" + getDisability_type()
+				+ ", getHigh_shcool_name()=" + getHigh_shcool_name() + ", getHigh_shcool_GPA()=" + getHigh_shcool_GPA()
+				+ ", getHigh_shcool_workhours()=" + getHigh_shcool_workhours() + ", getHigh_school_testing()="
+				+ getHigh_school_testing() + ", getHighschool_activities()=" + getHighschool_activities()
+				+ ", getComments()=" + getComments() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
+
+	
 	
 
 }

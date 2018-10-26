@@ -219,6 +219,7 @@ public class studentManageController {
 		System.out.println(request.getParameter("activitiesList"));
 		String activitiesList = request.getParameter("activitiesList");
 		studentDAO.updateStudentProfile(bean, activitiesList, student_id);
+		System.out.println(bean);
 		System.out.println("=========================================================");
 
 		return new RedirectView("/studentmanage/student/profile/" + student_id);
