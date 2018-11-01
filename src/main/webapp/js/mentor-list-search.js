@@ -39,8 +39,8 @@ $(document).ready(function(){
 			{"mData":"deportment"},
 			{"mData": "",
 				"mRender":function(data, type, full){
-//					var str = '<a href="../mentor/mentor-student-list/'+full.mentor_id+'" id="MentorStuList btn" class="btn btn-outline-secondary">Student List</a>';
-					var str = '<a href="/studentmanage/home/student-all-list" id="MentorStuList btn" class="btn btn-outline-secondary">Student List</a>';
+					var str='<a href="/studentmanage/mentor/profile/'+full.mentor_id+'" id="mentor-profile-btn" class="btn btn-outline-secondary">Profile</a>';
+					str += '<a href="/studentmanage/mentor/student-list/'+full.mentor_id+'" id="MentorStuList btn" class="btn btn-outline-secondary">Student List</a>';
 //					str+='<a href="../student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
 					return str;
 				 }

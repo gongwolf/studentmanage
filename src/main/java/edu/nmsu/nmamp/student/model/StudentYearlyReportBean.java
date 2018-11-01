@@ -63,7 +63,103 @@ public class StudentYearlyReportBean {
 	//Notes and comments
 	String notesAndComments;
 	
+	String mentor_id;
+	String mentor_name;
 	
+	
+	
+	public StudentYearlyReportBean(int student_id, String firstName, String middleName, String lastName) {
+		super();
+		this.student_id = student_id;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.acdemic_school = null;
+		this.school_level = null;
+		this.major = null;
+		this.minor = null;
+		this.changed_major = -1;
+		this.course_taken = null;
+		this.gpa = 0;
+		this.semester_gpa = 0;
+		this.credits = 0;
+		this.semester_credits = 0;
+		this.graduated = null;
+		this.graduated_degree = null;
+		this.graduated_field = null;
+		this.graduated_semester = null;
+		this.transfered = null;
+		this.transfered_AA_degree = null;
+		this.transfered_from = null;
+		this.transfered_to = null;
+		this.transfered_credits = null;
+		this.withdrew = null;
+		this.withdrew_reason = null;
+		this.fin_amp = null;
+		this.fin_amp_type = null;
+		this.fin_amp_summer = null;
+		this.activities_list = null;
+		this.activities_comments = null;
+		this.intern_json = null;
+		this.intern_comments = null;
+		this.conference_json = null;
+		this.publication_json = null;
+		this.volunteer_json = null;
+		this.travel_json = null;
+		this.notesAndComments = null;
+		this.mentor_id=null;
+	}
+	
+	
+	
+	
+	
+	public StudentYearlyReportBean() {
+		super();
+		this.student_id = -1;
+		this.firstName = null;
+		this.middleName = null;
+		this.lastName = null;
+		this.acdemic_school = null;
+		this.school_level = null;
+		this.major = null;
+		this.minor = null;
+		this.changed_major = -1;
+		this.course_taken = null;
+		this.gpa = 0;
+		this.semester_gpa = 0;
+		this.credits = 0;
+		this.semester_credits = 0;
+		this.graduated = null;
+		this.graduated_degree = null;
+		this.graduated_field = null;
+		this.graduated_semester = null;
+		this.transfered = null;
+		this.transfered_AA_degree = null;
+		this.transfered_from = null;
+		this.transfered_to = null;
+		this.transfered_credits = null;
+		this.withdrew = null;
+		this.withdrew_reason = null;
+		this.fin_amp = null;
+		this.fin_amp_type = null;
+		this.fin_amp_summer = null;
+		this.activities_list = null;
+		this.activities_comments = null;
+		this.intern_json = null;
+		this.intern_comments = null;
+		this.conference_json = null;
+		this.publication_json = null;
+		this.volunteer_json = null;
+		this.travel_json = null;
+		this.notesAndComments = null;
+		this.mentor_id=null;
+	}
+
+
+
+
+
 	public int getStudent_id() {
 		return student_id;
 	}
@@ -287,6 +383,21 @@ public class StudentYearlyReportBean {
 	public void setNotesAndComments(String notesAndComments) {
 		this.notesAndComments = notesAndComments;
 	}
+	
+	public String getMentor_id() {
+		return mentor_id;
+	}
+	public void setMentor_id(String mentor_id) {
+		this.mentor_id = mentor_id;
+	}
+	
+	public String getMentor_name() {
+		return mentor_name;
+	}
+	public void setMentor_name(String mentor_name) {
+		this.mentor_name = mentor_name;
+	}
+	
 	@Override
 	public String toString() {
 		return "StudentYearlyReportBean [student_id=" + student_id + ", firstName=" + firstName + ", middleName="

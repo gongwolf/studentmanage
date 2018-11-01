@@ -10,6 +10,7 @@ public class StudentSummaryBean {
 	private String middle_name;
 	private String last_name;
 	private String recommendation_file_name;
+	private String isActive;
 
 	@DateTimeFormat(pattern="MM/dd/yyyy")
 	private Date birthDate;
@@ -61,6 +62,14 @@ public class StudentSummaryBean {
 
 	public void setRecommendation_file_name(String recommendation_file_name) {
 		this.recommendation_file_name = recommendation_file_name;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 
 

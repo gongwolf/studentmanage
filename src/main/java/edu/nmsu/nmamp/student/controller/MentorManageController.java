@@ -24,10 +24,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
+import edu.nmsu.nmamp.student.dao.impl.MentorDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.YearlyDaoImpl;
 import edu.nmsu.nmamp.student.model.ApplicationBean;
+import edu.nmsu.nmamp.student.model.MentorBean;
 import edu.nmsu.nmamp.student.model.MentorSearchBean;
 import edu.nmsu.nmamp.student.model.MentorSummaryBean;
+import edu.nmsu.nmamp.student.model.StudentPostActiveBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.User;
 import edu.nmsu.nmamp.student.model.YearlyBean;
@@ -42,6 +45,9 @@ public class MentorManageController {
 	
 	@Autowired
 	private AdminDAOImpl adminDAO;
+	
+	@Autowired
+	private MentorDAOImpl mentorDAO;
 
 	@Autowired private ObjectMapper objectMapper; 
 	private static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class); 
@@ -49,14 +55,29 @@ public class MentorManageController {
 	
 	private static final String MentorProfile = "/mentor_manage/mentor-profile";
 	private static final String MentorListPage = "/mentor_manage/mentor-list";
+	private static final String StudentListPage = "/student_manage/student-list";
 
-	
 
 	@GetMapping(value = { "mentor/profile/{mentor_id}"})
-	public String studentProfile(ModelMap model, @PathVariable("mentor_id") int user_id, Principal principal) {
+	public String MentorProfile(ModelMap model, @PathVariable("mentor_id") int mentor_id, Principal principal) {
+		if (!model.containsAttribute("MentorBean")) {
+			MentorBean bean = mentorDAO.getMentorInformationByMentorID(mentor_id);
+			if (bean == null) {
+				bean = new MentorBean();
+			}
+			model.addAttribute("MentorBean", bean);
+		}
+		model.addAttribute("state", ProgramCode.STATE_CODE);
+		model.addAttribute("id", mentor_id);
 		model.addAttribute("schools", ProgramCode.CURRENT_ACADEMIC_SCHOOL);
-		System.out.println(MentorProfile+"!!"+ProgramCode.CURRENT_ACADEMIC_SCHOOL);
+		model.addAttribute("prefix",ProgramCode.MENTOR_PREFIX);
 		return MentorProfile;
+	}
+	
+	@PostMapping(value = { "mentor/profile/update/{mentor_id}"})
+	public RedirectView UpdateMentorProfile(ModelMap model, @PathVariable("mentor_id") int mentor_id, Principal principal,MentorBean bean) {
+		mentorDAO.updateMentorInformationByMentorID(mentor_id,bean);
+		return new RedirectView("/studentmanage/mentor/profile/" + mentor_id);
 	}
 	
 	
@@ -88,6 +109,35 @@ public class MentorManageController {
 			view.setViewName(MentorListPage);
 //		}
 		return view; 
+	}
+	
+	@GetMapping(value = { "mentor/student-list/{mentor_id}" })
+	public String studentAllList(ModelMap model, Principal principal,@PathVariable("mentor_id") int mentor_id) {
+		User userDetails = userDAO.get(principal.getName());
+		// System.out.println("Student all list " + principal.getName()+"
+		// "+userDetails.getPassword()+" "+userDetails.getRole());
+
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		String condition = "all";
+
+		List<StudentSummaryBean> studentList = mentorDAO.getStudentListSummaryFollowMentor(ic, condition,mentor_id);
+
+		// for(StudentSummaryBean sb:studentList)
+		// {
+		// System.out.println(sb);
+		// }
+		try {
+			model.addAttribute("studentList", objectMapper.writeValueAsString(studentList));
+			System.out.println(objectMapper.writeValueAsString(studentList));
+		} catch (JsonProcessingException e) {
+			logger.error(e.getMessage());
+		}
+
+		return StudentListPage;
 	}
 
 

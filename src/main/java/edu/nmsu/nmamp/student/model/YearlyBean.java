@@ -28,6 +28,7 @@ public class YearlyBean {
 	String Volunteer;
 	String Internation_exp;
 	String meetingNotes;
+
 	public int getYear() {
 		return year;
 	}

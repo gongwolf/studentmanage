@@ -40,6 +40,19 @@ $(document).ready(function(){
 			{"mData": "birthDate"},
 			{"mData": "",
 				"mRender":function(data, type, full){
+					if(full.isActive==1){
+						return "Grudated";
+					}else if(full.isActive==0){
+						return "Active";
+					}else if(full.isActive==2){
+						return "No yearly report";
+					}else{
+						return "No Info";
+					}
+				 }
+			},
+			{"mData": "",
+				"mRender":function(data, type, full){
 					var str='<a href="/studentmanage/student/profile/'+full.user_id+'" id="studentprofile-btn" class="btn btn-outline-secondary">Profile</a>';
 					str+='&nbsp;&nbsp;<a href="/studentmanage/student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
 					str+='&nbsp;&nbsp;<a href="/studentmanage/student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';

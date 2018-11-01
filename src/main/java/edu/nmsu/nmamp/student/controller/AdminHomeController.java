@@ -1,6 +1,10 @@
 package edu.nmsu.nmamp.student.controller;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -85,7 +89,7 @@ public class AdminHomeController {
 	}
 
 	@GetMapping(value = { "home/student-all-list" })
-	public String studentAllList(ModelMap model, Principal principal) {
+	public String studentAllList(ModelMap model, Principal principal) throws ParseException {
 		User userDetails = userDAO.get(principal.getName());
 		// System.out.println("Student all list " + principal.getName()+"
 		// "+userDetails.getPassword()+" "+userDetails.getRole());
@@ -96,8 +100,33 @@ public class AdminHomeController {
 		}
 
 		String condition = "all";
+		
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		System.out.println(year + "  " + month);
 
-		List<StudentSummaryBean> studentList = adminDAO.getStudentListSummary(ic, condition);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sdf.parse(year + "-08-15");
+		Date nowdate = new Date();
+
+		String queryYear;
+		//If current date is after the 08/15 of current year, the query is current year self report
+		//otherwise, the check the previous year self report
+		if (date1.before(nowdate)) {
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		} else {
+			c.add(Calendar.YEAR, -1);
+			year = c.get(Calendar.YEAR);
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		}
+
+
+		List<StudentSummaryBean> studentList = adminDAO.getStudentListSummary(ic, condition,queryYear);
 
 		// for(StudentSummaryBean sb:studentList)
 		// {
@@ -105,7 +134,7 @@ public class AdminHomeController {
 		// }
 		try {
 			model.addAttribute("studentList", objectMapper.writeValueAsString(studentList));
-			System.out.println(objectMapper.writeValueAsString(studentList));
+//			System.out.println(objectMapper.writeValueAsString(studentList));
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage());
 		}

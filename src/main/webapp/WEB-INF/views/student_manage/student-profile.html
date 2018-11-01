@@ -25,10 +25,15 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Student Permanent Information <span
-							id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
 							on <Strong>10/08/2018 11:11:11</Strong></span>
-
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link active" href="#"><i class="fas fa-table"></i> Student Permanent Information</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/student/yearlyreport/}+${id}">Yearly Report</a></li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/student/postAMPActivities/}+${id}">Post Activities</a>
+							</li>
+						</ul>
 					</div>
 					<div class="card-body">
 						<form id="profileForm" th:object="${studentBean}"
@@ -307,8 +312,8 @@
 								</select>
 								<div id="div_disa_type" class="col-sm-9">
 									<label for="Disability_type" class="col-sm-2 col-form-label-sm">
-										Disability Type:</label><select class="custom-select col-sm-7" name="disability_type"
-										th:field="*{disability_type}">
+										Disability Type:</label><select class="custom-select col-sm-7"
+										name="disability_type" th:field="*{disability_type}">
 										<option th:each="entry:${dis_type}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
@@ -322,8 +327,7 @@
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
 										id="highschool_name" placeholder="High School Name"
-										th:field="*{high_shcool_name}"
-										th:value="${high_shcool_name}" />
+										th:field="*{high_shcool_name}" th:value="${high_shcool_name}" />
 								</div>
 							</div>
 							<div class="form-group row">
@@ -332,8 +336,7 @@
 								<div class="col-sm-1">
 									<input type="text" class="form-control form-control-sm"
 										id="highschool_GPA" placeholder="GPA"
-										th:field="*{high_shcool_GPA}"
-										th:value="${high_shcool_GPA}" >
+										th:field="*{high_shcool_GPA}" th:value="${high_shcool_GPA}">
 								</div>
 								<label for="highschool_workhours"
 									class="col-sm-2 col-form-label-sm"> Hours worked during
@@ -342,7 +345,7 @@
 									<input type="text" class="form-control form-control-sm"
 										id="highschool_workhours" placeholder="hours"
 										th:field="*{high_shcool_workhours}"
-										th:value="${high_shcool_workhours}" >
+										th:value="${high_shcool_workhours}">
 								</div>
 								<label for="highschool_tesing"
 									class="col-sm-2 col-form-label-sm"> High school
@@ -350,7 +353,8 @@
 								<div class="form-check form-check-inline"
 									th:each="entry:${hs_testing}">
 									<label class="form-check-input"> <input type="checkbox"
-										name="hs_testing" th:value="${entry}" th:field="*{high_school_testing}"><span
+										name="hs_testing" th:value="${entry}"
+										th:field="*{high_school_testing}"><span
 										th:text="${entry}"></span>
 									</label>
 								</div>
@@ -363,8 +367,8 @@
 										th:href="@{'/student/profile/downloadTranscriptFile/'+${id}}"
 										th:text="${studentBean.hs_transcript_file_name}"></a>
 								</p>
-								<input class="form-control" type="file"
-									name="TranscriptFile" id="TranscriptFile">
+								<input class="form-control" type="file" name="TranscriptFile"
+									id="TranscriptFile">
 							</div>
 							<div class="form-group">
 								<button class="btn btn-primary" type="submit" id="uploadTrscBtn">Upload</button>
@@ -408,8 +412,8 @@
 							<hr>
 							<div class="form-group ">
 								<label class="col-sm-2 col-form-label-sm" for="Comments">Comments:</label>
-								<textarea class="form-control" id="Comments" rows="3" th:field="*{comments}"
-										th:value="${comments}" ></textarea>
+								<textarea class="form-control" id="Comments" rows="3"
+									th:field="*{comments}" th:value="${comments}"></textarea>
 							</div>
 							<hr>
 							<button type="button" class="btn btn-primary float-right"

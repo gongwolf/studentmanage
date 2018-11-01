@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,15 +22,18 @@ public class AdminDAOImpl implements Schemacode {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<StudentSummaryBean> getStudentListSummary(String ic, String condition) {
+	public List<StudentSummaryBean> getStudentListSummary(String ic, String condition, String queryYear) {
 		StringBuilder sql = new StringBuilder();
 		Object[] params = null;
 
 		if (ic.equals("admin") && condition.equals("all")) {
-			sql.append("select * from profile_student");
+			sql.append("select a.*,c.graduated from profile_student a \n");
+			sql.append("left join (select user_id,graduated from selfreport_data b where b.semester='")
+					.append(queryYear).append("') c \n");
+			sql.append("on a.user_id=c.user_id");
 		}
 
-		// System.out.println(sql);
+		System.out.println(sql);
 
 		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<StudentSummaryBean>>() {
 
@@ -43,11 +47,30 @@ public class AdminDAOImpl implements Schemacode {
 					bean.setLast_name(reSet.getString("last_name"));
 					bean.setMiddle_name(reSet.getString("middle_name"));
 					bean.setBirthDate(reSet.getDate("birth_date"));
+//					bean.setIsActive(reSet.getString("graduated"));
+					bean.setIsActive(getActiveStatusOfStudent(bean.getUser_id(), queryYear));
 					studentList.add(bean);
 				}
 				return studentList;
 			}
+
 		});
+	}
+
+	private String getActiveStatusOfStudent(int user_id, String queryYear) {
+//		System.out.println(user_id + "    " + queryYear);
+		StringBuilder sql = new StringBuilder();
+		sql.append("select user_id,semester,graduated from selfreport_data where user_id = '" + user_id
+				+ "' order by semester");
+		List<Map<String, Object>> reSets = jdbcTemplate.queryForList(sql.toString());
+		
+		if (reSets.isEmpty()) {
+			return "2";
+		}
+		
+//		System.out.println(reSets.size());
+		Map<String, Object> last_row = reSets.get(reSets.size()-1);
+		return (String) last_row.get("graduated");
 	}
 
 	public List<MentorSummaryBean> getMentortListSummary(String ic, String condition) {
@@ -202,7 +225,7 @@ public class AdminDAOImpl implements Schemacode {
 			if (!department.isEmpty()) {
 				sql.append(" mentor_department LIKE '%" + department + "%' AND");
 			}
-			
+
 			if (!intitutionAbbr.isEmpty()) {
 				sql.append(" mentor_institution = '" + intitutionAbbr + "' AND");
 			}

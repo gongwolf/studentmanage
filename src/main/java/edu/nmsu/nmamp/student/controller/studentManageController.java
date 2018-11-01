@@ -43,6 +43,7 @@ import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.StudentDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.YearlyDaoImpl;
 import edu.nmsu.nmamp.student.model.ApplicationBean;
+import edu.nmsu.nmamp.student.model.StudentPostActiveBean;
 import edu.nmsu.nmamp.student.model.StudentProfileBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.StudentYearlyReportBean;
@@ -107,6 +108,11 @@ public class studentManageController {
 
 		if (!model.containsAttribute("YearlyBean")) {
 			StudentYearlyReportBean bean = YearDao.getYearBeanByUseIdAndYear(student_id, queryYear);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+
+				bean = new StudentYearlyReportBean(student_id,sbean.getFirst_name(),sbean.getMiddle_name(),sbean.getLast_name());
+			}
 			model.addAttribute("YearlyBean", bean);
 
 			if (bean.getActivities_list() != null) {
@@ -137,15 +143,15 @@ public class studentManageController {
 		String activitiesList = request.getParameter("activitiesList");
 		String queryYear = request.getParameter("queryYear");
 		String intern_json = request.getParameter("internList");
-//		System.out.println(activitiesList);
-//		System.out.println(queryYear);
+		// System.out.println(activitiesList);
+		// System.out.println(queryYear);
 		bean.setIntern_json(intern_json);
 		bean.setConference_json(request.getParameter("confsList"));
 		bean.setPublication_json(request.getParameter("publicationList"));
 		bean.setVolunteer_json(request.getParameter("volunteerList"));
 		bean.setTravel_json(request.getParameter("travelList"));
-//		System.out.println(bean.getVolunteer_json());
-//		System.out.println(bean.getTravel_json());
+		// System.out.println(bean.getVolunteer_json());
+		// System.out.println(bean.getTravel_json());
 		YearDao.UpdateYearBeanByUseIdAndYear(bean, activitiesList, student_id, queryYear);
 		System.out.println("=========================================================");
 
@@ -171,10 +177,29 @@ public class studentManageController {
 		return studentProfile;
 	}
 
-	@GetMapping(value = { "student/postAMPActivities/{user_id}" })
-	public String studentPostAMPACTs(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
-		System.out.println(studentPostAMPActs + "!!");
+	@GetMapping(value = { "student/postAMPActivities/{student_id}" })
+	public String studentPostAMPACTs(ModelMap model, @PathVariable("student_id") int student_id, Principal principal) {
+		if (!model.containsAttribute("studentPostBean")) {
+			StudentPostActiveBean bean = studentDAO.getPostActiveByStudentID(student_id);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+				String fname = sbean.getFirst_name() + " ";
+				String lname = sbean.getMiddle_name() == null ? sbean.getLast_name()
+						: sbean.getMiddle_name() + " " + sbean.getLast_name();
+				bean = new StudentPostActiveBean(student_id, fname + lname);
+			}
+			model.addAttribute("studentPostBean", bean);
+		}
+		model.addAttribute("state", ProgramCode.STATE_CODE);
+		model.addAttribute("id", student_id);
 		return studentPostAMPActs;
+	}
+
+	@PostMapping(value = { "student/postAMPActivities/update/{student_id}" })
+	public RedirectView studentUpdatePostAMPACTs(ModelMap model, @PathVariable("student_id") int student_id,
+			Principal principal, StudentPostActiveBean bean) {
+		studentDAO.updateStudentPostActiveByStudentID(student_id, bean);
+		return new RedirectView("/studentmanage/student/postAMPActivities/" + student_id);
 	}
 
 	@PostMapping("student/search-student/{criteria}")

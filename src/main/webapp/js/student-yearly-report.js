@@ -491,6 +491,7 @@ function parseJsonTravelTables(){
 
 function parseJsonVolunteerTables(){
 	var volunteers = JSON.parse(volunteer_list);
+//	alert(volunteer_list);
 	for (var i in volunteers) {
 	    var volunteerOrg = volunteers[i].volunteerOrg;
 	    var volunteerStartDate = volunteers[i].volunteerStartDate;

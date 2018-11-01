@@ -23,13 +23,19 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<a href="/studentmanage/student/profile/1111" class="fas fa-table"></a>
-						Student Yearly Report&nbsp;&nbsp;&nbsp; <i
-							class="fa fa-angle-double-left"></i> <span
-							th:text="   ${queryYear}   ">&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;</span>
-						<i class="fa fa-angle-double-right"></i> <span id="edited_info"
-							class="float-right">Edited by <Strong>Admin</Strong> on <Strong>10/08/2018
-								11:11:11</Strong></span>
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><span class="nav-link active" href="#"><a
+									th:href="@{/student/profile/}+${id}" class="fas fa-table"></a>
+									Student Yearly Report&nbsp;&nbsp;&nbsp; <i
+									class="fa fa-angle-double-left"></i> <span
+									th:text="   ${queryYear}   ">&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;</span>
+									<i class="fa fa-angle-double-right"></i> </span></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/postAMPActivities/}+${id}">Post
+									Activities</a></li>
+						</ul>
 					</div>
 					<div class="card-body">
 						<form id="yearlyForm" th:object="${YearlyBean}"
@@ -48,8 +54,10 @@
 								<div class="col-sm-2">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="Mentor"
-										value="Tom Anderson"> <input type="hidden"
-										id="MentorID" value="11111111">
+										value="Tom Anderson" th:field="*{mentor_name}"
+										th:value="${mentor_name}" disabled> <input
+										type="hidden" id="MentorID" value="11111111"
+										th:field="*{mentor_id}" th:value="${mentor_id}">
 								</div>
 								<label id="addMentor"
 									class="col-sm-1 col-form-label-sm fa fa-plus"></label>
@@ -88,6 +96,7 @@
 								<div class="col-sm-4">
 									<select class="form-control form-control-sm" id="Institution"
 										th:field="*{acdemic_school}">
+										<option value="">-- Select One --</option>
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
@@ -595,7 +604,8 @@ https://www.sciencedirect.com/science/article/pii/S127096381730651X"></textarea>
 							<div class="form-group row">
 								<label class="col-sm-2 " style="margin-bottom: 0px">Notes
 									and Comments:</label>
-								<textarea class="form-control" id="notes_and_comments" rows="3" th:field="*{notesAndComments}" th:value="${notesAndComments}"></textarea>
+								<textarea class="form-control" id="notes_and_comments" rows="3"
+									th:field="*{notesAndComments}" th:value="${notesAndComments}"></textarea>
 							</div>
 							<button type="button" class="btn btn-primary float-right"
 								onClick='submitYearlyForm()'>Submit</button>

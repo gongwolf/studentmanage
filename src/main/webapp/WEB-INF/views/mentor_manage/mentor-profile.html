@@ -31,7 +31,8 @@
 						<i class="fas fa-table"></i> Student Profile
 					</div>
 					<div class="card-body">
-						<form>
+						<form th:object="${MentorBean}" id="MentorForm"
+							th:action="@{/mentor/profile/update/}+${id}" method="post">
 							<!-- Student id -->
 							<div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">Mentor
@@ -39,7 +40,8 @@
 								<div class="col-sm-3">
 									<input type="text"
 										class="form-control-plaintext form-control-sm" id="mentor_id"
-										value="1234567890">
+										value="1234567890" th:field="*{mentor_id}"
+										th:value="${mentor_id}" disabled>
 								</div>
 							</div>
 							<!-- Mentor Name -->
@@ -48,10 +50,10 @@
 								first_name"
 									class="col-sm-1 col-form-label-sm">Prefix:</label>
 								<div class="col-sm-1">
-									<select class="form-control form-control-sm" id="Prefix_select">
-										<option value="Null_pfx">Choose ....</option>
-										<option value="Dr">Dr.</option>
-										<option value="Ms.">Ms.</option>
+									<select class="form-control form-control-sm" id="Prefix_select" th:field="*{prefix}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${prefix}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
 									</select>
 								</div>
 								<label for="
@@ -59,13 +61,14 @@
 									class="col-sm-1 col-form-label-sm"> First name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="first_name" placeholder="First Name" value="aaaa">
+										id="first_name" placeholder="First Name" value="aaaa"
+										th:field="*{first_name}" th:value="${first_name}">
 								</div>
 								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
 									name:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="last_name">
+										id="last_name" th:field="*{last_name}" th:value="${last_name}">
 								</div>
 							</div>
 
@@ -73,7 +76,8 @@
 							<div class="form-group row">
 								<label for="Institution" class="col-sm-1 col-form-label-sm">Institution:</label>
 								<div class="col-sm-3">
-									<select class="form-control form-control-sm" id="Institution">
+									<select class="form-control form-control-sm" id="Institution" th:field="*{institution}">
+										<option value="">-- Select One --</option>
 										<option th:each="entry:${schools}" th:value="${entry.key}"
 											th:text="${entry.value}"></option>
 									</select>
@@ -81,9 +85,11 @@
 								<label for="Department" class="col-sm-1 col-form-label-sm">Department:</label>
 								<div class="col-sm-3">
 									<input type="text" class="form-control form-control-sm"
-										id="Department">
+										id="Department" th:field="*{department}"
+										th:value="${department}">
 								</div>
 							</div>
+							<button type="submit" class="btn btn-primary float-right">Submit</button>
 						</form>
 					</div>
 				</div>

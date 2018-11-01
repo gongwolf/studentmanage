@@ -5,18 +5,23 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.nmsu.nmamp.student.dao.Schemacode;
+import edu.nmsu.nmamp.student.model.StudentPostActiveBean;
 import edu.nmsu.nmamp.student.model.StudentProfileBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 
@@ -95,7 +100,7 @@ public class StudentDAOImpl implements Schemacode {
 
 							bean.setRecommendation_file_name(reSet.getString("recommendation_file_name"));
 							bean.setHs_transcript_file_name(reSet.getString("hs_transcript_file_name"));
-							
+
 							bean.setComments(reSet.getString("comments"));
 
 							System.out.println(bean);
@@ -198,8 +203,7 @@ public class StudentDAOImpl implements Schemacode {
 				+ "current_address_line1=?,current_address_line2=?,current_address_city=?,current_address_county=?,current_address_state=?,current_address_zip=?,"
 				+ "parent_address_line1=?,parent_address_line2=?,parent_address_city=?,parent_address_county=?,parent_address_state=?,parent_address_zip=?,"
 				+ "ethnicity=?,race=?,disability=?,disability_type=?,highschool_name=?,highschool_GPA=?,worked_hours_hs=?,high_school_testing=?,"
-				+ "comments=?"
-				+ " where user_id='" + student_id + "'");
+				+ "comments=?" + " where user_id='" + student_id + "'");
 
 		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 			@Override
@@ -229,23 +233,133 @@ public class StudentDAOImpl implements Schemacode {
 				ps.setString(23, bean.getParent_address_state());
 				ps.setString(24, bean.getParent_address_zip());
 				ps.setString(25, String.valueOf(bean.getEthnicity()));
-				String strRace=bean.getRace().toString();
-				ps.setString(26, strRace.substring(1,strRace.length()-1));
+				String strRace = bean.getRace().toString();
+				ps.setString(26, strRace.substring(1, strRace.length() - 1));
 				ps.setString(27, bean.getDisability());
 				ps.setString(28, String.valueOf(bean.getDisability_type()));
 				ps.setString(29, bean.getHigh_shcool_name());
 				ps.setString(30, bean.getHigh_shcool_GPA());
-//				ps.setInt(31, Integer.parseInt(bean.getHigh_shcool_workhours().equals("")?"0":bean.getHigh_shcool_workhours()));
-				if(!bean.getHigh_shcool_workhours().equals("")){
+				// ps.setInt(31,
+				// Integer.parseInt(bean.getHigh_shcool_workhours().equals("")?"0":bean.getHigh_shcool_workhours()));
+				if (!bean.getHigh_shcool_workhours().equals("")) {
 					ps.setInt(31, Integer.parseInt(bean.getHigh_shcool_workhours()));
-				}else {
+				} else {
 					ps.setNull(31, java.sql.Types.INTEGER);
 				}
-				String strHs_test=bean.getHigh_school_testing().toString();
-				ps.setString(32, strHs_test.substring(1,strHs_test.length()-1));
+				String strHs_test = bean.getHigh_school_testing().toString();
+				ps.setString(32, strHs_test.substring(1, strHs_test.length() - 1));
 				ps.setString(33, bean.getComments());
 			}
 		});
+	}
+
+	public StudentPostActiveBean getPostActiveByStudentID(int student_id) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT a.user_id,a.first_name,a.middle_name,a.last_name,b.* \n");
+		sql.append("FROM ").append(TABLE_PROFILE_STUDENT).append(" a,").append(TABLE_STUDENT_POST_ACTIVE)
+				.append(" b \n");
+		sql.append("WHERE a.user_id = b.student_id and a.user_id=?");
+
+		try {
+			StudentPostActiveBean Bean = jdbcTemplate.queryForObject(sql.toString(), new Object[] { student_id },
+					new RowMapper<StudentPostActiveBean>() {
+						@Override
+						public StudentPostActiveBean mapRow(ResultSet reSet, int rowNum) throws SQLException {
+							StudentPostActiveBean bean = new StudentPostActiveBean();
+							bean.setStudent_id(student_id);
+
+							bean.setName(reSet.getString("first_name") + " " + reSet.getString("middle_name") + " "
+									+ reSet.getString("last_name"));
+
+							bean.setEmploymentName(reSet.getString("employmentName"));
+							bean.setOccupation(reSet.getString("occupation"));
+							bean.setPosition(reSet.getString("position"));
+							bean.setEmploy_city(reSet.getString("employ_city"));
+							bean.setEmploy_county(reSet.getString("employ_county"));
+							bean.setEmploy_state(reSet.getString("employ_state"));
+
+							bean.setGrud_school_name(reSet.getString("grud_school_name"));
+							bean.setGrud_city(reSet.getString("grud_city"));
+							bean.setGrud_county(reSet.getString("grud_county"));
+							bean.setGrud_state(reSet.getString("grud_state"));
+							bean.setSubsquent_degree(reSet.getString("subsquent_degree"));
+							return bean;
+						}
+					});
+			return Bean;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	public void updateStudentPostActiveByStudentID(int student_id, StudentPostActiveBean bean) {
+		// TODO Auto-generated method stub
+		boolean existed = existedInPostActiveTable(student_id);
+		if (existed) {
+			System.out.println("in table :" + bean);
+			StringBuilder updateSql = new StringBuilder();
+			updateSql.append("update " + TABLE_STUDENT_POST_ACTIVE
+					+ " set employmentName=?,occupation=?,position=?,"
+					+ "employ_city=?,employ_county=?,employ_state=?,grud_school_name=?,"
+					+ "grud_city=?,grud_county=?,grud_state=?,subsquent_degree=? where student_id='" + student_id
+					+ "'");
+			jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps) throws SQLException {
+					ps.setString(1, bean.getEmploymentName());
+					ps.setString(2, bean.getOccupation());
+					ps.setString(3, bean.getPosition());
+					ps.setString(4, bean.getEmploy_city());
+					ps.setString(5, bean.getEmploy_county());
+					ps.setString(6, bean.getEmploy_state());
+					ps.setString(7, bean.getGrud_school_name());
+					ps.setString(8, bean.getGrud_city());
+					ps.setString(9, bean.getGrud_county());
+					ps.setString(10, bean.getGrud_state());
+					ps.setString(11, bean.getSubsquent_degree());
+				}
+			});
+		} else {
+			System.out.println("not in table :" + bean);
+			StringBuilder insertSql = new StringBuilder();
+			insertSql.append("insert into " + TABLE_STUDENT_POST_ACTIVE
+					+ " (student_id,employmentName,occupation,position,employ_city,"
+					+ "employ_county,employ_state,grud_school_name,grud_city,grud_county,"
+					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?) ");
+			jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps) throws SQLException {
+					ps.setInt(1, bean.getStudent_id());
+					ps.setString(2, bean.getEmploymentName());
+					ps.setString(3, bean.getOccupation());
+					ps.setString(4, bean.getPosition());
+					ps.setString(5, bean.getEmploy_city());
+					ps.setString(6, bean.getEmploy_county());
+					ps.setString(7, bean.getEmploy_state());
+					ps.setString(8, bean.getGrud_school_name());
+					ps.setString(9, bean.getGrud_city());
+					ps.setString(10, bean.getGrud_county());
+					ps.setString(11, bean.getGrud_state());
+					ps.setString(12, bean.getSubsquent_degree());
+				}
+			});
+		}
+
+	}
+
+	private boolean existedInPostActiveTable(int student_id) {
+		int result = jdbcTemplate.queryForObject(
+				"SELECT COUNT(*) FROM " + TABLE_STUDENT_POST_ACTIVE + " where student_id='" + student_id + "'",
+				Integer.class);
+		// int result = jdbcTemplate
+		// .queryForObject("SELECT COUNT(*) FROM application_list where
+		// application_id='"
+		// + application_id + "' and user_id='"+user_id+"'", Integer.class);
+		if (result != 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
