@@ -24,14 +24,14 @@ public class YearlyDaoImpl implements Schemacode {
 	public StudentYearlyReportBean getYearBeanByUseIdAndYear(int student_id, String queryYear) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select c.*,CONCAT(d.mentor_first_name, ' ', mentor_last_name) as mentor_name from \n");
-		
+
 		sql.append("( SELECT a.*,");
 		sql.append("b.first_name as b_first_name,b.middle_name as b_middle_name,b.last_name as b_last_name \n");
 		sql.append("FROM ").append(TABLE_SELFREPORT_DATA).append(" a,  \n");
 		sql.append(TABLE_PROFILE_STUDENT).append(" b \n");
 		sql.append("WHERE a.user_id = ? and a.semester=? and a.user_id = b.user_id) c ");
-		sql.append("left join \n" + TABLE_PROFILE_MENTOR +" d on c.mentor_id = d.mentor_id");
-		 System.out.println(student_id+" "+queryYear+" "+sql);
+		sql.append("left join \n" + TABLE_PROFILE_MENTOR + " d on c.mentor_id = d.mentor_id");
+		System.out.println(student_id + " " + queryYear + " " + sql);
 		try {
 			StudentYearlyReportBean Bean = jdbcTemplate.queryForObject(sql.toString(),
 					new Object[] { student_id, queryYear }, new RowMapper<StudentYearlyReportBean>() {
@@ -94,10 +94,10 @@ public class YearlyDaoImpl implements Schemacode {
 							bean.setTravel_json(reSet.getString("travel_json"));
 
 							bean.setNotesAndComments(reSet.getString("comments"));
-							
+
 							bean.setMentor_id(reSet.getString("mentor_id"));
 							bean.setMentor_name(reSet.getString("mentor_name"));
-							
+
 							return bean;
 						}
 					});
@@ -118,10 +118,11 @@ public class YearlyDaoImpl implements Schemacode {
 					+ "comments=?, select_school=?, minor=?,changed_major=?,major=?,course_taken=?,gpa=?,semester_gpa=?,credits=?,semester_credits=?,"
 					+ "graduated=?,graduated_degree=?,graduated_field=?,graduated_semester=?,"
 					+ "Transfered=?,Transfered_from=?,Transfered_to=?,Transfered_AA_Degree=?,Transfered_credits=?,withdrew=?,withdrew_reason=?,"
-					+ "Fin_AMP=?,Fin_AMP_type=?,Fin_AMP_summer=?,mentor_id=?" + " where user_id='" + student_id + "' and semester='"
-					+ queryYear + "'");
-			System.out.println(activitiesList);
-			System.out.println(updateSql);
+					+ "Fin_AMP=?,Fin_AMP_type=?,Fin_AMP_summer=?,mentor_id=?" + " where user_id='" + student_id
+					+ "' and semester='" + queryYear + "'");
+			// System.out.println(activitiesList);
+			// System.out.println(updateSql);
+			System.out.println(bean);
 			return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
@@ -136,7 +137,11 @@ public class YearlyDaoImpl implements Schemacode {
 					ps.setString(9, bean.getNotesAndComments());
 					ps.setString(10, bean.getAcdemic_school());
 					ps.setString(11, bean.getMinor());
-					ps.setString(12, String.valueOf(bean.getChanged_major()));
+					if (bean.getChanged_major() == -1) {
+						ps.setNull(12, java.sql.Types.INTEGER);
+					} else {
+						ps.setInt(12, bean.getChanged_major());
+					}
 					ps.setString(13, bean.getMajor());
 					ps.setString(14, bean.getCourse_taken());
 					ps.setFloat(15, bean.getGpa());

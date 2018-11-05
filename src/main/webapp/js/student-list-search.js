@@ -32,7 +32,7 @@ $(document).ready(function(){
 			{"mData":""},
 			{"mData":"user_id",
 				"mRender":function(data, type, full){
-				return '<a href="../student/profile/'+full.user_id+'" id="user_id" >'+full.user_id+'</a>';}
+				return '<a href="/studentmanage/student/profile/'+full.user_id+'" id="user_id" >'+full.user_id+'</a>';}
 			}, 
 			{"mData":"first_name"},
 			{"mData": "middle_name"},
