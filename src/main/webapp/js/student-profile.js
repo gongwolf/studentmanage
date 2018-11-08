@@ -21,6 +21,21 @@ jQuery(document).ready(function($) {
 	    }
 	  });
 	
+	if($('#hs_testing').val()==""){
+		$('#test_scores').hide();
+	}else{
+		$('#test_scores').show();
+	}
+	
+	$('#hs_testing').change(function() {
+	    var val = $(this).val();
+	    if(val!=""){
+	    	$('#test_scores').show();
+	    }else{
+	    	$('#test_scores').hide();
+	    }
+	  });
+	
 	parseActivities(student_activities);
 	
 	
@@ -205,6 +220,11 @@ function parseActivities(student_activities){
 
 function submitProfileForm()
 {
+	$('#profileForm').submit();
+}
+
+function submitHighSchoolForm()
+{
 	var activitiesList="{\"activities\":[";
 	var i = 0;
 	$("#tableActitvities > tbody > tr").each(function(index){
@@ -227,9 +247,8 @@ function submitProfileForm()
 		activitiesList = activitiesList+"]}";
 	}
 	$('#activitiesList').val(activitiesList);
-	$('#profileForm').submit();
+	$('#HighSchoolForm').submit();
 }
-
 function escapeSpecialChars(jsonString) {
     return jsonString.replace(/\n/g, "\\n")
         .replace(/\r/g, "\\r")

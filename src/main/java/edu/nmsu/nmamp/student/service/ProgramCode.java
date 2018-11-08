@@ -280,6 +280,15 @@ public class ProgramCode {
 			put("OT", "Other Non-Citizen");
 		}
 	};
+	
+	public static final HashMap<String, String> LANGUAGE_AT_HOME = new LinkedHashMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("ENG", "English");
+			put("SPA", "Spanish");
+			put("OT", "Other");
+		}
+	};
 
 	public static final HashMap<String, String> YES_NO = new LinkedHashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
@@ -332,7 +341,12 @@ public class ProgramCode {
 	public static final String[] APPLICATION_STATUS = { "Started", "Completed", "Review", "Admitted", "Denied" };
 
 	//high school testing
-	public static final String[] HIGH_SCHOOL_TESTINGS = { "ACT","SAT" };
+	public static final HashMap<String, String> HIGH_SCHOOL_TESTINGS = new HashMap<String, String>() {
+		{
+			put("SAT", "SAT");
+			put("ACT", "ACT");
+		}
+	};
 
 	
 	// mentor prefix
@@ -474,15 +488,26 @@ public class ProgramCode {
 	};
 
 	
+	public static final TreeMap<Integer, String> Ethnicity_List = new TreeMap<Integer, String>() {
+		{
+			put(1, "Hispanic or Latino");
+			put(2, "Not hispanic or latino");
+			put(3, "Not reported");
+		}
+	};
+	
 	public static final TreeMap<Integer, String> FAMILY_INCOME = new TreeMap<Integer, String>() {
 		{
 			put(-1,"-- Select One --");
-			put(0, "0 ~ 9999 / year");
-			put(1, "10000 ~ 19999 / year");
-			put(2, "19999 ~ 49999 / year");
-			put(3, "49999 ~ 99999 / year");
-			put(4, "more than 99999 / year");
-			put(5, "Do not want to provide");
+			put(0, "Less than $25,000");
+			put(1, "$25,000 to $34,999");
+			put(2, "$35,000 to $49,999");
+			put(3, "$50,000 to $74,999");
+			put(4, "$75,000 to $99,999");
+			put(5, "$100,000 to $149,999");
+			put(6, "$150,000 to $199,999");
+			put(7, "$200,000 or more");
+
 		}
 	};
 	
@@ -526,6 +551,22 @@ public class ProgramCode {
 			put("U_URS","NMSU Undergraduate Research Scholars (URS)");
 			put("U_SCCORE","SCCORE Host University");
 			put("U_UPD","University Professional Development");
+		}
+	};
+	
+	public static final TreeMap<String, String> Discipline_List = new TreeMap<String, String>() {
+		{
+			put("AS","Agricultural Sciences");
+			put("NRC","Natural Resources and Conservation");
+			put("ARC","Architecture");
+			put("CIS","Computer and Information Sciences");
+			put("ENGI","Engineering");
+			put("ET","Engineering Technologies");
+			put("BS","Biological Sciences");
+			put("MATH","Mathematics");
+			put("IS","Interdisciplinary Studies");
+			put("PS","Physical Sciences");
+			put("BM","Business and Management");
 		}
 	};
 }

@@ -59,6 +59,7 @@ public class StudentDAOImpl implements Schemacode {
 							bean.setSsn_last_four(reSet.getString("ssn_last_four"));
 							bean.setFamily_income(
 									reSet.getString("Family_income") == null ? -1 : reSet.getInt("Family_income"));
+							bean.setPell_grant_eligiblity(reSet.getString("Pell_Grant_Eligibility"));
 
 							/*********** current address ******************/
 							bean.setCurrent_address_line1(reSet.getString("current_address_line1"));
@@ -90,13 +91,28 @@ public class StudentDAOImpl implements Schemacode {
 
 							/*********** HighSchool ******************/
 							bean.setHigh_shcool_name(reSet.getString("highschool_name"));
+							bean.setHigh_school_city(reSet.getString("high_school_city"));
+							bean.setHigh_school_state(reSet.getString("high_school_state"));
 							bean.setHigh_shcool_GPA(reSet.getString("highschool_GPA"));
 							bean.setHigh_shcool_workhours(reSet.getString("worked_hours_hs"));
 							String hs_testing = reSet.getString("high_school_testing");
-							if (hs_testing != null) {
-								bean.setHigh_school_testing((Arrays.asList(hs_testing.trim().split("\\s*,\\s*"))));
-							}
+							bean.setHigh_school_testing(hs_testing);
+//							if (hs_testing != null) {
+//								bean.setHigh_school_testing((Arrays.asList(hs_testing.trim().split("\\s*,\\s*"))));
+//							}
 							bean.setHighschool_activities(reSet.getString("highschool_activities"));
+							
+							/**************High school scores***********************/
+							bean.setHigh_school_act_total_score(reSet.getString("high_school_act_total_score"));
+							bean.setHigh_school_act_reading_score(reSet.getString("high_school_act_reading_score"));
+							bean.setHigh_school_act_writing_score(reSet.getString("high_school_act_writing_score"));
+							bean.setHigh_school_act_math_score(reSet.getString("high_school_act_math_score"));
+							bean.setHigh_school_act_sci_score(reSet.getString("high_school_act_sci_score"));
+							bean.setHigh_school_sat_total_score(reSet.getString("high_school_sat_total_score"));
+							bean.setHigh_school_sat_reading_score(reSet.getString("high_school_sat_reading_score"));
+							bean.setHigh_school_sat_writing_score(reSet.getString("high_school_sat_writing_score"));
+							bean.setHigh_school_sat_math_score(reSet.getString("high_school_sat_math_score"));
+							bean.setHigh_school_sat_sci_score(reSet.getString("high_school_sat_sci_score"));
 
 							bean.setRecommendation_file_name(reSet.getString("recommendation_file_name"));
 							bean.setHs_transcript_file_name(reSet.getString("hs_transcript_file_name"));
@@ -360,6 +376,73 @@ public class StudentDAOImpl implements Schemacode {
 		} else {
 			return false;
 		}
+	}
+
+	public int updateStudentProfileForm(StudentProfileBean bean, int student_id) {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append("update profile_student set "
+				+ "first_name=?,middle_name=?,last_name=?,birth_date=?,veteran=?,first_gen_college_student=?,"
+				+ "Language_at_home=?,ssn_last_four=?,Family_income=?,"
+				+ "current_address_line1=?,current_address_line2=?,current_address_city=?,current_address_county=?,current_address_state=?,current_address_zip=?,"
+				+ "ethnicity=?,race=?,disability=?,disability_type=?,Pell_Grant_Eligibility=? "
+				+ " where user_id='" + student_id + "'");
+
+		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, bean.getFirstName());
+				ps.setString(2, bean.getMiddleName());
+				ps.setString(3, bean.getLastName());
+				ps.setDate(4, new java.sql.Date(bean.getBirthDate().getTime()));
+				ps.setString(5, String.valueOf(bean.getVeteran()));
+				ps.setString(6, String.valueOf(bean.getFirst_gen_college_student()));
+				ps.setString(7, bean.getLanguage_at_home());
+				ps.setString(8, bean.getSsn_last_four());
+				ps.setString(9, String.valueOf(bean.getFamily_income()));
+				ps.setString(10, bean.getCurrent_address_line1());
+				ps.setString(11, bean.getCurrent_address_line2());
+				ps.setString(12, bean.getCurrent_address_city());
+				ps.setString(13, bean.getCurrent_address_county());
+				ps.setString(14, bean.getCurrent_address_state());
+				ps.setString(15, bean.getCurrent_address_zip());
+				ps.setString(16, String.valueOf(bean.getEthnicity()));
+				String strRace = bean.getRace().toString();
+				ps.setString(17, strRace.substring(1, strRace.length() - 1));
+				ps.setString(18, bean.getDisability());
+				ps.setString(19, String.valueOf(bean.getDisability_type()));
+				ps.setString(20, bean.getPell_grant_eligiblity());
+			}
+		});
+		
+	}
+
+	public int updateStudentHighSchoolForm(StudentProfileBean bean, int student_id) {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append("update profile_student set "
+				+ "high_school_act_total_score=?,high_school_act_reading_score=?,high_school_act_writing_score=?,high_school_act_math_score=?,high_school_act_sci_score=?,"
+				+ "high_school_sat_total_score=?,high_school_sat_reading_score=?,high_school_sat_writing_score=?,high_school_sat_math_score=?,high_school_sat_sci_score=?,"
+				+ "high_school_testing=?,highschool_activities=?,comments=?"
+				+ " where user_id='" + student_id + "'");
+
+		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, bean.getHigh_school_act_total_score());
+				ps.setString(2, bean.getHigh_school_act_reading_score());
+				ps.setString(3, bean.getHigh_school_act_writing_score());
+				ps.setString(4, bean.getHigh_school_act_math_score());
+				ps.setString(5, bean.getHigh_school_act_sci_score());
+				ps.setString(6, bean.getHigh_school_sat_total_score());
+				ps.setString(7, bean.getHigh_school_sat_reading_score());
+				ps.setString(8, bean.getHigh_school_sat_writing_score());
+				ps.setString(9, bean.getHigh_school_sat_math_score());
+				ps.setString(10, bean.getHigh_school_sat_sci_score());
+				ps.setString(11, bean.getHigh_school_testing());
+				ps.setString(12, bean.getHighschool_activities());
+				ps.setString(13, bean.getComments());
+			}
+		});
+		
 	}
 
 }

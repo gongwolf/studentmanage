@@ -106,6 +106,7 @@ function parseJsonTables(){
 	parseJsonPublicationTables();
 	parseJsonVolunteerTables();
 	parseJsonTravelTables();
+	parseJsonCourseTables();
 	
 }
 
@@ -115,6 +116,7 @@ function initActionsOfJsonTables(){
 	initActionsOfPublicationsTables();
 	initActionsOfVolunteerTables();
 	initActionsOfTravelTables();
+	initActionsOfCourseWorkTables();
 }
 
 function initActionsOfInternTables(){
@@ -246,6 +248,27 @@ function initActionsOfTravelTables(){
 	});
 }
 
+function initActionsOfCourseWorkTables(){
+	$('#addMoreCourses > span > i').click(function(){
+		var markup = "<tr>"+
+					 "<td><a href='javascript:void(0);' id='removecources'"+
+					 "Title='Remove Entry'><span><i class='fa fa-times'"+
+					 "aria-hidden='true'></i></span></a></td>"+
+					 "<td></td>"+
+					 "<td><input class='form-control form-control-sm' id='newCourseName' name='newCourseName' placeholder='Course Name' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newCourseSemester' name='newCourseSemester' placeholder='semester/YYYY' type='text' /></td>"+
+					 "<td><input class='form-control form-control-sm' id='newCourseNotes' name='newCourseNotes' placeholder='Notes' type='text' /></td>"+
+					 "</tr>";
+//		console.log(markup);
+		$("#tableCoursework > tbody ").append(markup);	
+	});
+	
+	$('#tableCoursework').on('click','#removecources > span > i',function(){
+//		alert("click remove activity button");
+		$(this).parent().parent().parent().parent().remove();
+	});
+}
+
 function handleJsonInternTable(){
 	
 	var activitiesList="[";
@@ -282,7 +305,6 @@ function handleJsonInternTable(){
 }
 
 function handleJsonConferencesTable(){
-	
 	var activitiesList="[";
 	var i = 0;
 	$("#tableConferences > tbody > tr").each(function(index){
@@ -388,6 +410,32 @@ function handleJsonTravelTable(){
 	}
 //	alert(activitiesList);
 	return activitiesList;
+}
+
+function handleJsonCourseTable(){
+	var activitiesList="[";
+	var i = 0;
+	$("#tableCoursework > tbody > tr").each(function(index){
+	    var CourseName = $(this).find("#newCourseName").val();
+	    var CourseSemester =$(this).find("#newCourseSemester").val();
+	    var CourseNotes = $(this).find("#newCourseNotes").val();
+//	    alert(conferencePresentationType);
+	    
+		if(CourseName!=""){
+			i++;
+			activitiesList+="{\"CourseName\":\""+CourseName+"\"," +
+	        				" \"CourseSemester\":\""+CourseSemester+"\"," +
+					        " \"CourseNotes\":\""+CourseNotes+"\"},";
+		}
+	});
+	if(i!=0){
+		activitiesList = activitiesList.slice(0, -1)+"]";
+	}else{
+		activitiesList = "[]";
+	}
+//	alert(activitiesList);
+	return activitiesList;
+	
 }
 
 function parseJsonInternTables(){
@@ -516,6 +564,28 @@ function parseJsonVolunteerTables(){
 	}
 }
 
+function parseJsonCourseTables(){
+	var courses = JSON.parse(course_list);
+//	alert(volunteer_list);
+	for (var i in courses) {
+	    var CourseName = courses[i].CourseName;
+	    var CourseSemester = courses[i].CourseSemester;
+	    var CourseNotes = courses[i].CourseNotes;
+//	    alert(selectstr);
+	    var markup = "<tr>"+
+		 "<td><a href='javascript:void(0);' id='removecources'"+
+		 "Title='Remove Entry'><span><i class='fa fa-times'"+
+		 "aria-hidden='true'></i></span></a></td>"+
+		 "<td></td>"+
+		 "<td><input class='form-control form-control-sm' id='newCourseName' name='newCourseName' placeholder='Course Name' type='text' value='"+CourseName+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newCourseSemester' name='newCourseSemester' placeholder='semester/YYYY' type='text' value='"+CourseSemester+"'/></td>"+
+		 "<td><input class='form-control form-control-sm' id='newCourseNotes' name='newCourseNotes' placeholder='Notes' type='text' value='"+CourseNotes+"'/></td>"+
+		 "</tr>";
+	    //console.log(markup);
+	    $("#tableCoursework > tbody ").append(markup);	
+	}
+}
+
 function buildmentorListTable(mentorList){
 	    var table = $('#mentordataTable').DataTable( {
 		"aaData": mentorList, 
@@ -611,6 +681,7 @@ function submitYearlyForm(){
 	publicationList=handleJsonPublicationTable();
 	volunteerList=handleJsonVolunteerTable();
 	travelList=handleJsonTravelTable();
+	coursetakenjson=handleJsonCourseTable();
 //	alert(publicationList);
 	$('#activitiesList').val(activitiesList);
 	$('#internList').val(internList);
@@ -618,6 +689,7 @@ function submitYearlyForm(){
 	$('#publicationList').val(publicationList);
 	$('#volunteerList').val(volunteerList);
 	$('#travelList').val(travelList);
+	$('#coursetakenjson').val(coursetakenjson);
 	$('#yearlyForm').submit();
 }
 
@@ -682,7 +754,6 @@ function initActivitiesList(){
 	    $('#'+activity_abr).nextAll().eq(2).find('input').prop("checked",summerchecked);
 	}
 }
-
 
 function selectOption(conferencePresentationType){
 	switch(conferencePresentationType){

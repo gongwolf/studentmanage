@@ -71,6 +71,9 @@ public class studentManageController {
 	private static final String studentProfile = "/student_manage/student-profile";
 	private static final String studentPostAMPActs = "/student_manage/student-post-activities";
 	private static final String StudentListPage = "/student_manage/student-list";
+	private static final String studentProfileForm = "/student_manage/student-profile-form";
+	private static final String studentHighschoolForm = "/student_manage/student-highschool-form";
+	private static final String studentYearlyReportForm = "/student_manage/student-yearlyreport-form";
 
 	@GetMapping(value = { "student/yearlyreport/{student_id}" })
 	public String studentYearlyReport(ModelMap model, @PathVariable("student_id") int student_id, Principal principal)
@@ -111,7 +114,8 @@ public class studentManageController {
 			if (bean == null) {
 				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
 
-				bean = new StudentYearlyReportBean(student_id,sbean.getFirst_name(),sbean.getMiddle_name(),sbean.getLast_name());
+				bean = new StudentYearlyReportBean(student_id, sbean.getFirst_name(), sbean.getMiddle_name(),
+						sbean.getLast_name());
 			}
 			model.addAttribute("YearlyBean", bean);
 
@@ -315,4 +319,211 @@ public class studentManageController {
 		byte[] content = studentDAO.downloadTranscript(student_id);
 		FileCopyUtils.copy(content, response.getOutputStream());
 	}
+
+	@RequestMapping(value = { "student/{user_id}/profile" }, method = { RequestMethod.GET, RequestMethod.POST })
+	public String studentProfileForm(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
+		if (!model.containsAttribute("studentBean")) {
+			StudentProfileBean bean = studentDAO.getStudentProfileByStudentID(user_id);
+			model.addAttribute("studentBean", bean);
+		}
+		model.addAttribute("gender", ProgramCode.GENDER);
+		model.addAttribute("state", ProgramCode.STATE_CODE);
+		model.addAttribute("yesno", ProgramCode.YES_NO);
+		model.addAttribute("familyincome", ProgramCode.FAMILY_INCOME);
+		model.addAttribute("race", ProgramCode.CHECKBOX_RACE);
+		model.addAttribute("disability", ProgramCode.DISABILITY_STATUS);
+		model.addAttribute("dis_type", ProgramCode.DISABILITY_TYPE);
+		model.addAttribute("hs_testing", ProgramCode.HIGH_SCHOOL_TESTINGS);
+		model.addAttribute("ethnicity_list", ProgramCode.Ethnicity_List);
+		model.addAttribute("lang_at_home", ProgramCode.LANGUAGE_AT_HOME);
+		model.addAttribute("id", user_id);
+		return studentProfileForm;
+	}
+
+	@PostMapping("student/{student_id}/profile/update")
+	public RedirectView studentProfileFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
+			StudentProfileBean bean, Principal principal, HttpServletRequest request) {
+		System.out.println("=================  update:" + student_id + "=================");
+		System.out.println(bean);
+		model.addAttribute("studentBean", bean);
+		// System.out.println(request.getParameter("activitiesList"));
+		// String activitiesList = request.getParameter("activitiesList");
+		studentDAO.updateStudentProfileForm(bean, student_id);
+		System.out.println(bean);
+		System.out.println("=========================================================");
+
+		return new RedirectView("/studentmanage/student/" + student_id + "/profile/");
+	}
+
+	@RequestMapping(value = { "student/{user_id}/highschool" }, method = { RequestMethod.GET })
+	public String studentHighschoolForm(ModelMap model, @PathVariable("user_id") int user_id, Principal principal) {
+		if (!model.containsAttribute("studentBean")) {
+			StudentProfileBean bean = studentDAO.getStudentProfileByStudentID(user_id);
+			model.addAttribute("studentBean", bean);
+		}
+		model.addAttribute("gender", ProgramCode.GENDER);
+		model.addAttribute("state", ProgramCode.STATE_CODE);
+		model.addAttribute("yesno", ProgramCode.YES_NO);
+		model.addAttribute("familyincome", ProgramCode.FAMILY_INCOME);
+		model.addAttribute("race", ProgramCode.CHECKBOX_RACE);
+		model.addAttribute("disability", ProgramCode.DISABILITY_STATUS);
+		model.addAttribute("dis_type", ProgramCode.DISABILITY_TYPE);
+		model.addAttribute("hs_testing", ProgramCode.HIGH_SCHOOL_TESTINGS);
+		model.addAttribute("ethnicity_list", ProgramCode.Ethnicity_List);
+		model.addAttribute("lang_at_home", ProgramCode.LANGUAGE_AT_HOME);
+		model.addAttribute("id", user_id);
+		return studentHighschoolForm;
+	}
+
+	@PostMapping("student/{student_id}/highschool/update")
+	public RedirectView studentHighschoolFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
+			StudentProfileBean bean, Principal principal, HttpServletRequest request) {
+		System.out.println("=================  update:" + student_id + "=================");
+		model.addAttribute("studentBean", bean);
+		System.out.println(bean.getHigh_school_testing());
+		String total_score = request.getParameter("total_score");
+		String reading_score = request.getParameter("reading_score");
+		String writing_score = request.getParameter("writing_score");
+		String sci_score = request.getParameter("sci_score");
+		String math_score = request.getParameter("math_score");
+		System.out.println("score:   " + total_score + " " + reading_score + " " + writing_score + " " + sci_score + " "
+				+ math_score);
+		if (bean.getHigh_school_testing().equals("ACT")) {
+			bean.setHigh_school_act_total_score(total_score);
+			bean.setHigh_school_act_reading_score(reading_score);
+			bean.setHigh_school_act_math_score(math_score);
+			bean.setHigh_school_act_sci_score(sci_score);
+			bean.setHigh_school_act_writing_score(writing_score);
+		} else if (bean.getHigh_school_testing().equals("SAT")) {
+			bean.setHigh_school_sat_total_score(total_score);
+			bean.setHigh_school_sat_reading_score(reading_score);
+			bean.setHigh_school_sat_math_score(math_score);
+			bean.setHigh_school_sat_sci_score(sci_score);
+			bean.setHigh_school_sat_writing_score(writing_score);
+		} else {
+			bean.setHigh_school_sat_total_score("");
+			bean.setHigh_school_sat_reading_score("");
+			bean.setHigh_school_sat_math_score("");
+			bean.setHigh_school_sat_sci_score("");
+			bean.setHigh_school_sat_writing_score("");
+			bean.setHigh_school_act_total_score("");
+			bean.setHigh_school_act_reading_score("");
+			bean.setHigh_school_act_math_score("");
+			bean.setHigh_school_act_sci_score("");
+			bean.setHigh_school_act_writing_score("");
+		}
+		String activitiesList = request.getParameter("activitiesList");
+		bean.setHighschool_activities(activitiesList);
+		studentDAO.updateStudentHighSchoolForm(bean, student_id);
+
+		System.out.println("=========================================================");
+
+		return new RedirectView("/studentmanage/student/" + student_id + "/highschool/");
+	}
+
+	@RequestMapping(value = { "student/{student_id}/yearlyreport" }, method = { RequestMethod.GET })
+	public String studentYearlyReportForm(ModelMap model, @PathVariable("student_id") int student_id,
+			Principal principal) throws ParseException, JsonProcessingException {
+		User userDetails = userDAO.get(principal.getName());
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		System.out.println(year + "  " + month);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sdf.parse(year + "-09-01");
+		Date nowdate = new Date();
+
+		String queryYear;
+		if (date1.before(nowdate)) {
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		} else {
+			c.add(Calendar.YEAR, -1);
+			year = c.get(Calendar.YEAR);
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		}
+
+		System.out.println(student_id + ":" + year + "  " + month + "     " + nowdate + "    " + date1.before(nowdate)
+				+ "  " + queryYear);
+
+		ArrayList<String> queryyear_list = new ArrayList<>();
+		queryyear_list.add(queryYear);
+		for (int i = 1; i <= 6; i++) {
+			Calendar c_tmp = Calendar.getInstance();
+			c_tmp.set(Calendar.YEAR, year);
+			c_tmp.add(Calendar.YEAR, -1);
+			year = c_tmp.get(Calendar.YEAR);
+			c_tmp.add(Calendar.YEAR, -1);
+			int byear = c_tmp.get(Calendar.YEAR);
+			String t_queryyear = "Fall " + byear + " - Summer " + year;
+			queryyear_list.add(t_queryyear);
+		}
+
+		if (!model.containsAttribute("YearlyBean")) {
+			StudentYearlyReportBean bean = YearDao.getYearBeanByUseIdAndYear(student_id, queryYear);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+
+				bean = new StudentYearlyReportBean(student_id, sbean.getFirst_name(), sbean.getMiddle_name(),
+						sbean.getLast_name());
+			}
+			model.addAttribute("YearlyBean", bean);
+
+			if (bean.getActivities_list() != null) {
+				model.addAttribute("activities_list", bean.getActivities_list());
+			} else {
+				model.addAttribute("activities_list", "null");
+			}
+		}
+
+		model.addAttribute("id", student_id);
+		model.addAttribute("schools", ProgramCode.ACADEMIC_SCHOOL);
+		model.addAttribute("schools_level", objectMapper.writeValueAsString(ProgramCode.SCHOOL_LEVEL));
+		model.addAttribute("queryYear", queryYear);
+		model.addAttribute("yesno", ProgramCode.YES_NO);
+		model.addAttribute("gradu_semester", ProgramCode.Graduated_Semeter);
+		model.addAttribute("fin_amp_sup_type", ProgramCode.Finacial_AMP_Type);
+		model.addAttribute("college_acts", ProgramCode.COLLEGE_ACTIVITIES);
+		model.addAttribute("university_acts", ProgramCode.UNIVERSITY_ACTIVITIES);
+		model.addAttribute("yearlist", queryyear_list.toArray(new String[queryyear_list.size()]));
+		model.addAttribute("college_list", ProgramCode.ACADEMIC_YEAR);
+		model.addAttribute("discipline_list", ProgramCode.Discipline_List);
+
+		// System.out.println(studentYearlyReport);
+		return studentYearlyReportForm;
+	}
+
+	@PostMapping("student/{student_id}/yearlyreport/update")
+	public RedirectView studentYearlyReportFormtUpdate(ModelMap model, @PathVariable("student_id") int student_id,
+			StudentYearlyReportBean bean, Principal principal, HttpServletRequest request) {
+		System.out.println("=================  update yearly report:" + student_id + "=================");
+		String activitiesList = request.getParameter("activitiesList");
+		String queryYear = request.getParameter("queryYear");
+		String intern_json = request.getParameter("internList");
+		// System.out.println(activitiesList);
+		// System.out.println(queryYear);
+		bean.setIntern_json(intern_json);
+		bean.setConference_json(request.getParameter("confsList"));
+		bean.setPublication_json(request.getParameter("publicationList"));
+		bean.setVolunteer_json(request.getParameter("volunteerList"));
+		bean.setTravel_json(request.getParameter("travelList"));
+		bean.setCourse_taken(request.getParameter("coursetakenjson"));
+		// System.out.println(bean.getVolunteer_json());
+		// System.out.println(bean.getTravel_json());
+		YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		System.out.println("=========================================================");
+
+		return new RedirectView("/studentmanage/student/" + student_id+"/yearlyreport");
+
+	}
+
 }

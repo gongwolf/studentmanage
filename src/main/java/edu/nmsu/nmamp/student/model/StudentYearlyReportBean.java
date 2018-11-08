@@ -8,6 +8,9 @@ public class StudentYearlyReportBean {
 	
 	String acdemic_school;
 	String school_level;
+	String college_level;
+
+	String discipline;
 	String major;
 	String minor;
 	int changed_major;
@@ -108,6 +111,8 @@ public class StudentYearlyReportBean {
 		this.travel_json = null;
 		this.notesAndComments = null;
 		this.mentor_id=null;
+		this.college_level=null;
+		this.discipline=null;
 	}
 	
 	
@@ -154,6 +159,9 @@ public class StudentYearlyReportBean {
 		this.travel_json = null;
 		this.notesAndComments = null;
 		this.mentor_id=null;
+		this.college_level=null;
+		this.discipline=null;
+
 	}
 
 
@@ -398,6 +406,21 @@ public class StudentYearlyReportBean {
 		this.mentor_name = mentor_name;
 	}
 	
+	public String getCollege_level() {
+		return college_level;
+	}
+
+	public void setCollege_level(String college_level) {
+		this.college_level = college_level;
+	}
+	
+	public String getDiscipline() {
+		return discipline;
+	}
+
+	public void setDiscipline(String discipline) {
+		this.discipline = discipline;
+	}
 	@Override
 	public String toString() {
 		return "StudentYearlyReportBean [student_id=" + student_id + ", firstName=" + firstName + ", middleName="

@@ -50,14 +50,30 @@ public class StudentProfileBean {
 	
 	/**********high school*************/
 	String high_shcool_name;
+	String high_school_state;
+	String high_school_city;
 	String high_shcool_GPA;
 	String high_shcool_workhours;
-	List<String> high_school_testing;
+	String high_school_testing;
 	String highschool_activities;
+	
+
+	String high_school_act_total_score;
+	String high_school_act_reading_score;
+	String high_school_act_writing_score;
+	String high_school_act_math_score;
+	String high_school_act_sci_score;
+	String high_school_sat_total_score;
+	String high_school_sat_reading_score;
+	String high_school_sat_writing_score;
+	String high_school_sat_math_score;
+	String high_school_sat_sci_score;
 	
 	
 	String recommendation_file_name;
 	String hs_transcript_file_name;
+	
+	String pell_grant_eligiblity;
 
 	String comments;
 	public String getParent_address_line1() {
@@ -335,13 +351,15 @@ public class StudentProfileBean {
 		this.high_shcool_workhours = high_shcool_workhours;
 	}
 
-	public List<String> getHigh_school_testing() {
-		if(high_school_testing == null) return null; 
-		return new ArrayList<String>(high_school_testing);
+	public String getHigh_school_testing() {
+//		if(high_school_testing == null) return null; 
+//		return new ArrayList<String>(high_school_testing);
+		return high_school_testing;
 	}
-	public void setHigh_school_testing(List<String> high_school_testing) {
-		if(high_school_testing == null) return; 
-		this.high_school_testing = new ArrayList<>(high_school_testing);
+	public void setHigh_school_testing(String high_school_testing) {
+//		if(high_school_testing == null) return; 
+//		this.high_school_testing = new ArrayList<>(high_school_testing);
+		this.high_school_testing = high_school_testing;
 	}
 
 	public String getHighschool_activities() {
@@ -360,6 +378,110 @@ public class StudentProfileBean {
 		this.comments = comments;
 	}
 
+	public String getPell_grant_eligiblity() {
+		return pell_grant_eligiblity;
+	}
+
+	public void setPell_grant_eligiblity(String pell_grant_eligiblity) {
+		this.pell_grant_eligiblity = pell_grant_eligiblity;
+	}
+
+	public String getHigh_school_state() {
+		return high_school_state;
+	}
+
+	public void setHigh_school_state(String high_school_state) {
+		this.high_school_state = high_school_state;
+	}
+
+	public String getHigh_school_city() {
+		return high_school_city;
+	}
+
+	public void setHigh_school_city(String high_school_city) {
+		this.high_school_city = high_school_city;
+	}
+	
+	public String getHigh_school_act_total_score() {
+		return high_school_act_total_score;
+	}
+
+	public void setHigh_school_act_total_score(String high_school_act_total_score) {
+		this.high_school_act_total_score = high_school_act_total_score;
+	}
+
+	public String getHigh_school_act_reading_score() {
+		return high_school_act_reading_score;
+	}
+
+	public void setHigh_school_act_reading_score(String high_school_act_reading_score) {
+		this.high_school_act_reading_score = high_school_act_reading_score;
+	}
+
+	public String getHigh_school_act_writing_score() {
+		return high_school_act_writing_score;
+	}
+
+	public void setHigh_school_act_writing_score(String high_school_act_writing_score) {
+		this.high_school_act_writing_score = high_school_act_writing_score;
+	}
+
+	public String getHigh_school_act_math_score() {
+		return high_school_act_math_score;
+	}
+
+	public void setHigh_school_act_math_score(String high_school_act_math_score) {
+		this.high_school_act_math_score = high_school_act_math_score;
+	}
+
+	public String getHigh_school_act_sci_score() {
+		return high_school_act_sci_score;
+	}
+
+	public void setHigh_school_act_sci_score(String high_school_act_sci_score) {
+		this.high_school_act_sci_score = high_school_act_sci_score;
+	}
+
+	public String getHigh_school_sat_total_score() {
+		return high_school_sat_total_score;
+	}
+
+	public void setHigh_school_sat_total_score(String high_school_sat_total_score) {
+		this.high_school_sat_total_score = high_school_sat_total_score;
+	}
+
+	public String getHigh_school_sat_reading_score() {
+		return high_school_sat_reading_score;
+	}
+
+	public void setHigh_school_sat_reading_score(String high_school_sat_reading_score) {
+		this.high_school_sat_reading_score = high_school_sat_reading_score;
+	}
+
+	public String getHigh_school_sat_writing_score() {
+		return high_school_sat_writing_score;
+	}
+
+	public void setHigh_school_sat_writing_score(String high_school_sat_writing_score) {
+		this.high_school_sat_writing_score = high_school_sat_writing_score;
+	}
+
+	public String getHigh_school_sat_math_score() {
+		return high_school_sat_math_score;
+	}
+
+	public void setHigh_school_sat_math_score(String high_school_sat_math_score) {
+		this.high_school_sat_math_score = high_school_sat_math_score;
+	}
+
+	public String getHigh_school_sat_sci_score() {
+		return high_school_sat_sci_score;
+	}
+
+	public void setHigh_school_sat_sci_score(String high_school_sat_sci_score) {
+		this.high_school_sat_sci_score = high_school_sat_sci_score;
+	}
+
 	@Override
 	public String toString() {
 		return "StudentProfileBean [student_id=" + student_id + ", firstName=" + firstName + ", middleName="
@@ -375,32 +497,52 @@ public class StudentProfileBean {
 				+ parent_address_county + ", parent_address_state=" + parent_address_state + ", parent_address_zip="
 				+ parent_address_zip + ", ethnicity=" + ethnicity + ", race=" + race + ", disability=" + disability
 				+ ", disability_type=" + disability_type + ", high_shcool_name=" + high_shcool_name
+				+ ", high_school_state=" + high_school_state + ", high_school_city=" + high_school_city
 				+ ", high_shcool_GPA=" + high_shcool_GPA + ", high_shcool_workhours=" + high_shcool_workhours
 				+ ", high_school_testing=" + high_school_testing + ", highschool_activities=" + highschool_activities
+				+ ", high_school_act_total_score=" + high_school_act_total_score + ", high_school_act_reading_score="
+				+ high_school_act_reading_score + ", high_school_act_writing_score=" + high_school_act_writing_score
+				+ ", high_school_act_math_score=" + high_school_act_math_score + ", high_school_act_sci_score="
+				+ high_school_act_sci_score + ", high_school_sat_total_score=" + high_school_sat_total_score
+				+ ", high_school_sat_reading_score=" + high_school_sat_reading_score
+				+ ", high_school_sat_writing_score=" + high_school_sat_writing_score + ", high_school_sat_math_score="
+				+ high_school_sat_math_score + ", high_school_sat_sci_score=" + high_school_sat_sci_score
 				+ ", recommendation_file_name=" + recommendation_file_name + ", hs_transcript_file_name="
-				+ hs_transcript_file_name + ", comments=" + comments + ", getParent_address_line1()="
-				+ getParent_address_line1() + ", getParent_address_line2()=" + getParent_address_line2()
-				+ ", getParent_address_city()=" + getParent_address_city() + ", getParent_address_county()="
-				+ getParent_address_county() + ", getParent_address_zip()=" + getParent_address_zip()
-				+ ", getStudent_id()=" + getStudent_id() + ", getFirstName()=" + getFirstName() + ", getMiddleName()="
-				+ getMiddleName() + ", getLastName()=" + getLastName() + ", getGender()=" + getGender()
-				+ ", getBirthDate()=" + getBirthDate() + ", getPhone_num()=" + getPhone_num()
-				+ ", getLanguage_at_home()=" + getLanguage_at_home() + ", getFirst_gen_college_student()="
-				+ getFirst_gen_college_student() + ", getCurrent_address_line1()=" + getCurrent_address_line1()
-				+ ", getCurrent_address_line2()=" + getCurrent_address_line2() + ", getCurrent_address_city()="
-				+ getCurrent_address_city() + ", getCurrent_address_county()=" + getCurrent_address_county()
-				+ ", getCurrent_address_zip()=" + getCurrent_address_zip() + ", getCurrent_address_state()="
-				+ getCurrent_address_state() + ", getParent_address_state()=" + getParent_address_state()
-				+ ", getRecommendation_file_name()=" + getRecommendation_file_name() + ", getHs_transcript_file_name()="
-				+ getHs_transcript_file_name() + ", getVeteran()=" + getVeteran() + ", getExpected_highest_degree()="
-				+ getExpected_highest_degree() + ", getSsn_last_four()=" + getSsn_last_four() + ", getFamily_income()="
-				+ getFamily_income() + ", getEthnicity()=" + getEthnicity() + ", getRace()=" + getRace()
-				+ ", getDisability()=" + getDisability() + ", getDisability_type()=" + getDisability_type()
-				+ ", getHigh_shcool_name()=" + getHigh_shcool_name() + ", getHigh_shcool_GPA()=" + getHigh_shcool_GPA()
-				+ ", getHigh_shcool_workhours()=" + getHigh_shcool_workhours() + ", getHigh_school_testing()="
-				+ getHigh_school_testing() + ", getHighschool_activities()=" + getHighschool_activities()
-				+ ", getComments()=" + getComments() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ hs_transcript_file_name + ", pell_grant_eligiblity=" + pell_grant_eligiblity + ", comments="
+				+ comments + ", getParent_address_line1()=" + getParent_address_line1() + ", getParent_address_line2()="
+				+ getParent_address_line2() + ", getParent_address_city()=" + getParent_address_city()
+				+ ", getParent_address_county()=" + getParent_address_county() + ", getParent_address_zip()="
+				+ getParent_address_zip() + ", getStudent_id()=" + getStudent_id() + ", getFirstName()="
+				+ getFirstName() + ", getMiddleName()=" + getMiddleName() + ", getLastName()=" + getLastName()
+				+ ", getGender()=" + getGender() + ", getBirthDate()=" + getBirthDate() + ", getPhone_num()="
+				+ getPhone_num() + ", getLanguage_at_home()=" + getLanguage_at_home()
+				+ ", getFirst_gen_college_student()=" + getFirst_gen_college_student() + ", getCurrent_address_line1()="
+				+ getCurrent_address_line1() + ", getCurrent_address_line2()=" + getCurrent_address_line2()
+				+ ", getCurrent_address_city()=" + getCurrent_address_city() + ", getCurrent_address_county()="
+				+ getCurrent_address_county() + ", getCurrent_address_zip()=" + getCurrent_address_zip()
+				+ ", getCurrent_address_state()=" + getCurrent_address_state() + ", getParent_address_state()="
+				+ getParent_address_state() + ", getRecommendation_file_name()=" + getRecommendation_file_name()
+				+ ", getHs_transcript_file_name()=" + getHs_transcript_file_name() + ", getVeteran()=" + getVeteran()
+				+ ", getExpected_highest_degree()=" + getExpected_highest_degree() + ", getSsn_last_four()="
+				+ getSsn_last_four() + ", getFamily_income()=" + getFamily_income() + ", getEthnicity()="
+				+ getEthnicity() + ", getRace()=" + getRace() + ", getDisability()=" + getDisability()
+				+ ", getDisability_type()=" + getDisability_type() + ", getHigh_shcool_name()=" + getHigh_shcool_name()
+				+ ", getHigh_shcool_GPA()=" + getHigh_shcool_GPA() + ", getHigh_shcool_workhours()="
+				+ getHigh_shcool_workhours() + ", getHigh_school_testing()=" + getHigh_school_testing()
+				+ ", getHighschool_activities()=" + getHighschool_activities() + ", getComments()=" + getComments()
+				+ ", getPell_grant_eligiblity()=" + getPell_grant_eligiblity() + ", getHigh_school_state()="
+				+ getHigh_school_state() + ", getHigh_school_city()=" + getHigh_school_city()
+				+ ", getHigh_school_act_total_score()=" + getHigh_school_act_total_score()
+				+ ", getHigh_school_act_reading_score()=" + getHigh_school_act_reading_score()
+				+ ", getHigh_school_act_writing_score()=" + getHigh_school_act_writing_score()
+				+ ", getHigh_school_act_math_score()=" + getHigh_school_act_math_score()
+				+ ", getHigh_school_act_sci_score()=" + getHigh_school_act_sci_score()
+				+ ", getHigh_school_sat_total_score()=" + getHigh_school_sat_total_score()
+				+ ", getHigh_school_sat_reading_score()=" + getHigh_school_sat_reading_score()
+				+ ", getHigh_school_sat_writing_score()=" + getHigh_school_sat_writing_score()
+				+ ", getHigh_school_sat_math_score()=" + getHigh_school_sat_math_score()
+				+ ", getHigh_school_sat_sci_score()=" + getHigh_school_sat_sci_score() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
 	

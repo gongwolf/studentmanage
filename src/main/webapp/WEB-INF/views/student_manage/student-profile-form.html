@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='Student Permanent Information')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<div class="card mb-3">
+					<div class="card-header">
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i> Student Profile</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/highschool'">High School</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
+									Academic-AMP</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/otheractivities'">Other Activities</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
+						</ul>
+					</div>
+					<div class="card-body">
+						<form id="profileForm" th:object="${studentBean}"
+							th:action="@{/student/}+${id}+'/profile/update/'" method="post"
+							enctype="multipart/form-data">
+							<!-- Student id -->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										th:field="*{student_id}" th:value="${student_id}" disabled>
+								</div>
+							</div>
+							<!-- Student Name -->
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="first_name" placeholder="First Name"
+										th:field="*{firstName}" th:value="${firstName}">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control form-control-sm"
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control form-control-sm"
+										id="last_name" th:field="*{lastName}" th:value="${lastName}">
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm " for="ssn_last_four">
+									Last 4 digital of SSN:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="ssn_last_four"
+										name="ssn_last_four" placeholder="Last 4 digital of SSN"
+										type="text" th:field="*{ssn_last_four}"
+										th:value="${ssn_last_four}" />
+								</div>
+								<label class="control-label col-form-label-sm col-sm-1"
+									for="Gender"> Gender: </label>
+								<div class="col-sm-2">
+									<select id="gender" th:field="*{gender}"
+										class="form-control form-control-sm">
+										<option value="">--</option>
+										<option th:each="entry:${gender}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label class="control-label col-form-label-sm col-sm-1 date"
+									for="birthDate"> DOB: </label>
+								<div class="col-sm-3">
+									<input class="form-control form-control-sm" id="birthDate"
+										name="birthDate" placeholder="MM/DD/YYYY" type="text"
+										th:field="*{birthDate}" th:value="${birthDate}" /> <span
+										class="glyphicon glyphicon-th"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<label for="Ethnicity" class="col-sm-1 col-form-label-sm">
+									Ethnicity:</label>
+								<div class="col-sm-3">
+									<select id="ethnicity" th:field="*{ethnicity}"
+										class="form-control form-control-sm">
+										<option value="-1">--</option>
+										<option th:each="entry:${ethnicity_list}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label for="Disability" class="col-sm-1 col-form-label-sm">
+									Disability:</label>
+								<div class="col-sm-1">
+									<select class="form-control form-control-sm" name="disability"
+										id="disability" th:field="*{disability}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${disability}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+
+								<div id="div_disa_type" class="form-group col-sm-6">
+									<label for="Disability_type" class="col-sm-2 col-form-label-sm">
+										Disability Type:</label> <select
+										class="form-control form-control-sm col-sm-8"
+										style="display: inline" name="disability_type"
+										th:field="*{disability_type}">
+										<option th:each="entry:${dis_type}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label for="Race" class="col-sm-1 col-form-label-sm">
+										Race:</label>
+									<div class="form-check form-check-inline"
+										th:each="entry:${race}">
+										<label class="checkbox inline"> <input type="checkbox"
+											name="race" th:value="${entry.key}" th:field="*{race}"><span
+											th:text="${entry.value}"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group required row">
+								<label class="control-label col-form-label-sm col-sm-1"
+									for="Veteran"> Veteran: </label>
+								<div class="col-sm-1">
+									<select id="veteran" th:field="*{veteran}"
+										class="form-control form-control-sm">
+										<option value="-1">--</option>
+										<option th:each="entry:${yesno}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label class="control-label col-form-label-sm col-sm-2"
+									for="LanguageatHome"> Language spoken at home: </label>
+								<div class="col-sm-3">
+									<select id="LanguageatHome" th:field="*{language_at_home}"
+										class="form-control form-control-sm">
+										<option value="">--</option>
+										<option th:each="entry:${lang_at_home}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label class="control-label col-form-label-sm col-sm-3"
+									for="FirstGen"> Do either of your parents have a
+									college or University Bachelor's degree?: </label>
+								<div class="col-sm-1">
+									<select id="first_gen_college_student"
+										th:field="*{first_gen_college_student}"
+										class="form-control form-control-sm">
+										<option value="-1">--</option>
+										<option th:each="entry:${yesno}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+
+
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm " for="family_income">
+									Total annual household income?</label>
+								<div class="col-sm-2">
+									<select id="family_income" th:field="*{family_income}"
+										class="form-control form-control-sm">
+										<option th:each="entry:${familyincome}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<label class="control-label col-form-label-sm col-sm-2"
+									for="FirstGen"> Pell Grant Eligiblity: </label>
+								<div class="col-sm-1">
+									<select id="pell_grant_eligiblity"
+										th:field="*{pell_grant_eligiblity}"
+										class="form-control form-control-sm">
+										<option value="">--</option>
+										<option th:each="entry:${yesno}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+							<hr>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm" for="C_Address_1">
+									Current Address: </label>
+								<div class="col-sm-4">
+									<input class="form-control form-control-sm" id="C_Address_1"
+										name="C_Address_1" placeholder="line1" type="text"
+										th:field="*{current_address_line1}"
+										th:value="${current_address_line1}" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<div class="col-sm-4 offset-sm-2">
+									<input class="form-control form-control-sm" id="C_Address_2"
+										name="C_Address_2" placeholder="line2" type="text"
+										th:field="*{current_address_line2}"
+										th:value="${current_address_line2}" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-1 col-form-label-sm" for="City">
+									City:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="City"
+										name="City" placeholder="city" type="text"
+										th:field="*{current_address_city}"
+										th:value="${current_address_city}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="County">
+									County:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="County"
+										name="County" placeholder="County" type="text"
+										th:field="*{current_address_county}"
+										th:value="${current_address_county}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="State">
+									State:</label>
+								<div class="col-sm-2">
+									<select name="current_address_state"
+										th:field="*{current_address_state}"
+										class="form-control form-control-sm">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${state}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="ZipCode">
+									ZipCode:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="ZipCode"
+										name="ZipCode" placeholder="Zip" type="text"
+										th:field="*{current_address_zip}"
+										th:value="${current_address_zip}" />
+								</div>
+							</div>
+							<hr>
+							<button type="button" class="btn btn-primary float-right"
+								onClick='submitProfileForm()'>Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="uploadRecommendModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" id="progressModalHeader">
+					<h1>Uploading...</h1>
+				</div>
+				<div class="modal-body">
+					<div class="progress" id="progress">
+						<div id="progressBar" class="progress-bar progress-bar-success"
+							role="progressbar" aria-valuenow="0" aria-valuemin="0"
+							aria-valuemax="100" style="width: 0%">0%</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:insert="base/layout :: scriptSegment"></div>
+
+	<script th:inline="javascript">
+		/*
+		<![CDATA[*/
+		var student_id = eval(/*[[${id}]]*/);
+		var student_activities = /*[[${studentBean.highschool_activities}]]*/;
+		/*]]>
+		 */
+	</script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/student-profile.js}"></script>
+</body>
+
+</html>
