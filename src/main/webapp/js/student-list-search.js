@@ -32,7 +32,7 @@ $(document).ready(function(){
 			{"mData":""},
 			{"mData":"user_id",
 				"mRender":function(data, type, full){
-				return '<a href="/studentmanage/student/profile/'+full.user_id+'" id="user_id" >'+full.user_id+'</a>';}
+				return '<a href="/studentmanage/student/'+full.user_id+'/profile" id="user_id" >'+full.user_id+'</a>';}
 			}, 
 			{"mData":"first_name"},
 			{"mData": "middle_name"},
@@ -53,9 +53,9 @@ $(document).ready(function(){
 			},
 			{"mData": "",
 				"mRender":function(data, type, full){
-					var str='<a href="/studentmanage/student/profile/'+full.user_id+'" id="studentprofile-btn" class="btn btn-outline-secondary">Profile</a>';
-					str+='&nbsp;&nbsp;<a href="/studentmanage/student/yearlyreport/'+full.user_id+'" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
-					str+='&nbsp;&nbsp;<a href="/studentmanage/student/postAMPActivities/'+full.user_id+'" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
+					var str='<a href="/studentmanage/student/'+full.user_id+'/profile" id="studentprofile-btn" class="btn btn-outline-secondary">Profile</a>';
+					str+='&nbsp;&nbsp;<a href="/studentmanage/student/'+full.user_id+'/yearlyreport" id="yearlyReport" class="btn btn-outline-secondary">Yearly Report</a>';
+					str+='&nbsp;&nbsp;<a href="/studentmanage/student/'+full.user_id+'/postAMPActivities" id="postAMPActivities-btn" class="btn btn-outline-secondary">Post Activities</a>';
 					return str;
 				 }
 			}
