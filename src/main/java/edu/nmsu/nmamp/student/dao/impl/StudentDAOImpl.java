@@ -286,6 +286,10 @@ public class StudentDAOImpl implements Schemacode {
 
 							bean.setName(reSet.getString("first_name") + " " + reSet.getString("middle_name") + " "
 									+ reSet.getString("last_name"));
+							
+							bean.setFirstName(reSet.getString("first_name"));
+							bean.setMiddleName(reSet.getString("middle_name"));
+							bean.setLastName(reSet.getString("last_name"));
 
 							bean.setEmploymentName(reSet.getString("employmentName"));
 							bean.setOccupation(reSet.getString("occupation"));
@@ -299,6 +303,7 @@ public class StudentDAOImpl implements Schemacode {
 							bean.setGrud_county(reSet.getString("grud_county"));
 							bean.setGrud_state(reSet.getString("grud_state"));
 							bean.setSubsquent_degree(reSet.getString("subsquent_degree"));
+							bean.setCompany_comments(reSet.getString("company_comments"));
 							return bean;
 						}
 					});
@@ -316,7 +321,7 @@ public class StudentDAOImpl implements Schemacode {
 			StringBuilder updateSql = new StringBuilder();
 			updateSql.append("update " + TABLE_STUDENT_POST_ACTIVE
 					+ " set employmentName=?,occupation=?,position=?,"
-					+ "employ_city=?,employ_county=?,employ_state=?,grud_school_name=?,"
+					+ "employ_city=?,employ_county=?,employ_state=?,company_comments=?,grud_school_name=?,"
 					+ "grud_city=?,grud_county=?,grud_state=?,subsquent_degree=? where student_id='" + student_id
 					+ "'");
 			jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
@@ -328,11 +333,12 @@ public class StudentDAOImpl implements Schemacode {
 					ps.setString(4, bean.getEmploy_city());
 					ps.setString(5, bean.getEmploy_county());
 					ps.setString(6, bean.getEmploy_state());
-					ps.setString(7, bean.getGrud_school_name());
-					ps.setString(8, bean.getGrud_city());
-					ps.setString(9, bean.getGrud_county());
-					ps.setString(10, bean.getGrud_state());
-					ps.setString(11, bean.getSubsquent_degree());
+					ps.setString(7, bean.getCompany_comments());
+					ps.setString(8, bean.getGrud_school_name());
+					ps.setString(9, bean.getGrud_city());
+					ps.setString(10, bean.getGrud_county());
+					ps.setString(11, bean.getGrud_state());
+					ps.setString(12, bean.getSubsquent_degree());
 				}
 			});
 		} else {
@@ -340,7 +346,7 @@ public class StudentDAOImpl implements Schemacode {
 			StringBuilder insertSql = new StringBuilder();
 			insertSql.append("insert into " + TABLE_STUDENT_POST_ACTIVE
 					+ " (student_id,employmentName,occupation,position,employ_city,"
-					+ "employ_county,employ_state,grud_school_name,grud_city,grud_county,"
+					+ "employ_county,employ_state,company_comments,grud_school_name,grud_city,grud_county,"
 					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?) ");
 			jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 				@Override
@@ -352,11 +358,12 @@ public class StudentDAOImpl implements Schemacode {
 					ps.setString(5, bean.getEmploy_city());
 					ps.setString(6, bean.getEmploy_county());
 					ps.setString(7, bean.getEmploy_state());
-					ps.setString(8, bean.getGrud_school_name());
-					ps.setString(9, bean.getGrud_city());
-					ps.setString(10, bean.getGrud_county());
-					ps.setString(11, bean.getGrud_state());
-					ps.setString(12, bean.getSubsquent_degree());
+					ps.setString(8, bean.getCompany_comments());
+					ps.setString(9, bean.getGrud_school_name());
+					ps.setString(10, bean.getGrud_city());
+					ps.setString(11, bean.getGrud_county());
+					ps.setString(12, bean.getGrud_state());
+					ps.setString(13, bean.getSubsquent_degree());
 				}
 			});
 		}

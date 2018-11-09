@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='Student Permanent Information')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<div class="card mb-3">
+					<div class="card-header">
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i>Yearly Data Academic-AMP</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/otheractivities'">Other
+									Activities</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
+						</ul>
+					</div>
+					<div class="card-body">
+						<form id="otheractivityForm" th:object="${YearlyBean}"
+							th:action="@{/student/}+${id}+'/otheractivities/update'"
+							method="post">
+							<!-- Student id and name-->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
+									ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										value="1234567890" th:field="*{student_id}"
+										th:value="${student_id}" disabled>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="first_name"
+										placeholder="First Name" value="aaaa" th:field="*{firstName}"
+										th:value="${firstName}">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text"
+										class="form-control-plaintext form-control-sm"
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="last_name"
+										th:field="*{lastName}" th:value="${lastName}">
+								</div>
+							</div>
+							<hr>
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments"> Academic
+									Information:</label>
+								<div class="col-sm-4">
+									<select class="form-control form-control-sm"
+										id="current_query_year">
+										<option th:each="entry:${yearlist}" th:value="${entry}"
+											th:text="${entry}"
+											th:selected="${entry} == ${queryYear} ? true : false"></option>
+									</select>
+								</div>
+
+							</div>
+								<hr>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="error-template">
+										<h1 class="text-center">Oops!</h1>
+										<h2>Yearly Report Not Found</h2>
+										<div class="error-details">There is no yearly report of this student on <span th:text="${queryYear}"></span></div>
+										<div class="error-actions text-center">
+											<a href="#"
+												class="btn btn-primary btn-lg"><span
+												class="glyphicon glyphicon-home"></span> Add New </a><a
+												th:href="@{/home/homepage}"
+												class="btn btn-default btn-lg"><span
+												class="glyphicon glyphicon-envelope"></span> Back To Home
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="uploadRecommendModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" id="progressModalHeader">
+					<h1>Uploading...</h1>
+				</div>
+				<div class="modal-body">
+					<div class="progress" id="progress">
+						<div id="progressBar" class="progress-bar progress-bar-success"
+							role="progressbar" aria-valuenow="0" aria-valuemin="0"
+							aria-valuemax="100" style="width: 0%">0%</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:insert="base/layout :: scriptSegment"></div>
+
+
+	<!-- Custom scripts for all pages-->
+</body>
+
+</html>

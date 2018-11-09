@@ -84,6 +84,9 @@ public class YearlyDaoImpl implements Schemacode {
 							bean.setActivities_list(reSet.getString("Activities_list"));
 							System.out.println(bean.getActivities_list());
 							bean.setActivities_comments(reSet.getString("Activities_comments"));
+							
+							//other activities
+							bean.setOtherActivities(reSet.getString("other_activities"));
 
 							bean.setIntern_json(reSet.getString("intern_json"));
 							bean.setIntern_comments(reSet.getString("intern_comments"));
@@ -354,5 +357,30 @@ public class YearlyDaoImpl implements Schemacode {
 				}
 			});
 		}
+	}
+
+	public int UpdateYearBeanActivitiesByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList,
+			int student_id, String queryYear) {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append("update selfreport_data set "
+				+ "other_activities=?,intern_json=?,intern_comments=?,conference_json=?,publication_json=?,volunteer_json=?,travel_json=?,comments=?"
+				+ " where user_id='" + student_id + "' and semester='" + queryYear + "'");
+		// System.out.println(activitiesList);
+		 System.out.println(updateSql);
+		System.out.println(bean);
+		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, bean.getOtherActivities());
+				ps.setString(2, bean.getIntern_json());
+				ps.setString(3, bean.getIntern_comments());
+				ps.setString(4, bean.getConference_json());
+				ps.setString(5, bean.getPublication_json());
+				ps.setString(6, bean.getVolunteer_json());
+				ps.setString(7, bean.getTravel_json());
+				ps.setString(8, bean.getNotesAndComments());
+				
+			}
+		});
 	}
 }

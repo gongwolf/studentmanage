@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='student post AMP activities')">
+<title></title>
+</head>
+<body id="page-top">
+	<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/student-profile.css}" rel="stylesheet"
+		type="text/css">
+	<link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"
+		type="text/css">
+
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+
+				<div class="card mb-3">
+					<div class="card-header">
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
+									Academic-AMP</a></li>
+							<li class="nav-item"><a class="nav-link "
+								th:href="@{/student/}+${id}+'/otheractivities'">Other
+									Activities</a></li>
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i>Post-Graduation</a>
+						</ul>
+					</div>
+					<div class="card-body">
+						<form id="PostActiveForm" th:object="${studentPostBean}"
+							th:action="@{/student/}+${id}+'/postAMPActivities/update'"
+							method="post">
+							<!-- Student id and name-->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
+									ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										value="1234567890" th:field="*{student_id}"
+										th:value="${student_id}" disabled>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="first_name"
+										placeholder="First Name" value="aaaa" th:field="*{firstName}"
+										th:value="${firstName}">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text"
+										class="form-control-plaintext form-control-sm"
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="last_name"
+										th:field="*{lastName}" th:value="${lastName}">
+								</div>
+							</div>
+							<hr>
+							<!-- Employment school  -->
+							<hr>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm" for="Employment_Name">
+									Company Name: </label>
+								<div class="col-sm-3">
+									<input class="form-control form-control-sm"
+										id="Employment_Name" name="Employment_Name"
+										placeholder="Employment Name" type="text"
+										th:field="*{employmentName}" th:value="${employmentName}" />
+								</div>
+								<label class="col-sm-1 col-form-label-sm" for="Occupation">
+									Occupation: </label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="Occupation"
+										name="Occupation" placeholder="Occupation" type="text"
+										th:field="*{occupation}" th:value="${occupation}" />
+								</div>
+								<!-- 
+								<label class="col-sm-1 col-form-label-sm" for="Position">
+									Position: </label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="Position"
+										name="Position" placeholder="Position" type="text"
+										th:field="*{position}" th:value="${position}" />
+								</div>
+								 -->
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-1 col-form-label-sm" for="City">
+									City:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="City"
+										name="City" placeholder="city" type="text"
+										th:field="*{employ_city}" th:value="${employ_city}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="County">
+									County:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="County"
+										name="County" placeholder="County" type="text"
+										th:field="*{employ_county}" th:value="${employ_county}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="State">
+									State:</label>
+								<div class="col-sm-2">
+									<select name="current_address_state" th:field="*{employ_state}"
+										class="form-control form-control-sm">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${state}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm" for="City">
+									Comments:</label>
+								<textarea class="form-control" id="comp_comments" rows="4"
+									th:field="*{company_comments}" th:value="${company_comments}"></textarea>
+							</div>
+							<!-- grad school  -->
+							<hr>
+							<div class="form-group required row">
+								<label class="col-sm-2 col-form-label-sm"
+									for="Graduated_School_Name"> Institution Name: </label>
+								<div class="col-sm-4">
+									<input class="form-control form-control-sm"
+										id="Graduated_School_Name" name="Graduated_School_Name"
+										placeholder="Graduated School Name" type="text"
+										th:field="*{grud_school_name}" th:value="${grud_school_name}" />
+								</div>
+							</div>
+							<div class="form-group required row">
+								<label class="col-sm-1 col-form-label-sm" for="City">
+									City:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="City"
+										name="City" placeholder="city" type="text"
+										th:field="*{grud_city}" th:value="${grud_city}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="County">
+									County:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm" id="County"
+										name="County" placeholder="County" type="text"
+										th:field="*{grud_county}" th:value="${grud_county}" />
+								</div>
+
+								<label class="col-sm-1 col-form-label-sm" for="State">
+									State:</label>
+								<div class="col-sm-2">
+									<select name="current_address_state" th:field="*{grud_state}"
+										class="form-control form-control-sm">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${state}" th:value="${entry.key}"
+											th:text="${entry.value}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<label class="col-sm-2 col-form-label-sm" for="subsequentDegree">
+									Subsequent Degree:</label>
+								<div class="col-sm-2">
+									<input class="form-control form-control-sm"
+										id="subsequentDegree" name="subsequentDegree"
+										placeholder="Subsequent Degree" type="text"
+										th:field="*{subsquent_degree}" th:value="${subsquent_degree}" />
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary float-right">Submit</button>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div th:insert="base/layout :: scriptSegment"></div>
+
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/js/student-post-activities.js}"></script>
+</body>
+
+</html>

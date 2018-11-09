@@ -29,9 +29,9 @@
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/highschool'"><i
-									class="fas fa-table"></i> High School </a></li>
-							<li class="nav-item"><a class="nav-link active" href="#">Yearly
+								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i>Yearly
 									Data Academic-AMP</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/otheractivities'">Other
@@ -564,6 +564,7 @@
 		/*
 		<![CDATA[*/
 		//var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		var student_id = /*[[${id}]]*/;
 		var schools_level = [[${schools_level}]];
 		var schools_level_obj = JSON.parse(schools_level);
 		var activities_list = /*[[${activities_list}]]*/;

@@ -74,6 +74,9 @@ public class studentManageController {
 	private static final String studentProfileForm = "/student_manage/student-profile-form";
 	private static final String studentHighschoolForm = "/student_manage/student-highschool-form";
 	private static final String studentYearlyReportForm = "/student_manage/student-yearlyreport-form";
+	private static final String studentEmptyYearlyReportForm = "/student_manage/student-empty-yearly-report";
+	private static final String studentOtherActivitiestForm = "/student_manage/student-otheractivities-form";
+	private static final String studentPostActivitiestForm = "/student_manage/student-postactivities-form";
 
 	@GetMapping(value = { "student/yearlyreport/{student_id}" })
 	public String studentYearlyReport(ModelMap model, @PathVariable("student_id") int student_id, Principal principal)
@@ -522,8 +525,214 @@ public class studentManageController {
 		YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
 		System.out.println("=========================================================");
 
-		return new RedirectView("/studentmanage/student/" + student_id+"/yearlyreport");
+		return new RedirectView("/studentmanage/student/" + student_id + "/yearlyreport");
 
 	}
 
+	@RequestMapping(value = { "student/{student_id}/otheractivities" }, method = { RequestMethod.GET })
+	public String studentOtherActivitiesForm(ModelMap model, @PathVariable("student_id") int student_id,
+			Principal principal) throws ParseException, JsonProcessingException {
+		User userDetails = userDAO.get(principal.getName());
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		System.out.println(year + "  " + month);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sdf.parse(year + "-09-01");
+		Date nowdate = new Date();
+
+		String queryYear;
+		if (date1.before(nowdate)) {
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		} else {
+			c.add(Calendar.YEAR, -1);
+			year = c.get(Calendar.YEAR);
+			c.add(Calendar.YEAR, -1);
+			int byear = c.get(Calendar.YEAR);
+			queryYear = "Fall " + byear + " - Summer " + year;
+		}
+
+		System.out.println(student_id + ":" + year + "  " + month + "     " + nowdate + "    " + date1.before(nowdate)
+				+ "  " + queryYear);
+
+		ArrayList<String> queryyear_list = new ArrayList<>();
+		queryyear_list.add(queryYear);
+		for (int i = 1; i <= 6; i++) {
+			Calendar c_tmp = Calendar.getInstance();
+			c_tmp.set(Calendar.YEAR, year);
+			c_tmp.add(Calendar.YEAR, -1);
+			year = c_tmp.get(Calendar.YEAR);
+			c_tmp.add(Calendar.YEAR, -1);
+			int byear = c_tmp.get(Calendar.YEAR);
+			String t_queryyear = "Fall " + byear + " - Summer " + year;
+			queryyear_list.add(t_queryyear);
+		}
+
+		if (!model.containsAttribute("YearlyBean")) {
+			StudentYearlyReportBean bean = YearDao.getYearBeanByUseIdAndYear(student_id, queryYear);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+
+				bean = new StudentYearlyReportBean(student_id, sbean.getFirst_name(), sbean.getMiddle_name(),
+						sbean.getLast_name());
+			}
+			model.addAttribute("YearlyBean", bean);
+
+			if (bean.getActivities_list() != null) {
+				model.addAttribute("activities_list", bean.getActivities_list());
+			} else {
+				model.addAttribute("activities_list", "null");
+			}
+		}
+
+		model.addAttribute("id", student_id);
+		model.addAttribute("schools", ProgramCode.ACADEMIC_SCHOOL);
+		model.addAttribute("schools_level", objectMapper.writeValueAsString(ProgramCode.SCHOOL_LEVEL));
+		model.addAttribute("queryYear", queryYear);
+		model.addAttribute("yesno", ProgramCode.YES_NO);
+		model.addAttribute("gradu_semester", ProgramCode.Graduated_Semeter);
+		model.addAttribute("fin_amp_sup_type", ProgramCode.Finacial_AMP_Type);
+		model.addAttribute("college_acts", ProgramCode.COLLEGE_ACTIVITIES);
+		model.addAttribute("university_acts", ProgramCode.UNIVERSITY_ACTIVITIES);
+		model.addAttribute("yearlist", queryyear_list.toArray(new String[queryyear_list.size()]));
+		model.addAttribute("college_list", ProgramCode.ACADEMIC_YEAR);
+		model.addAttribute("discipline_list", ProgramCode.Discipline_List);
+
+		// System.out.println(studentYearlyReport);
+		return studentOtherActivitiestForm;
+	}
+
+	@PostMapping("student/{student_id}/otheractivities/update")
+	public RedirectView studentOtherActivitiesFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
+			StudentYearlyReportBean bean, Principal principal, HttpServletRequest request) {
+		System.out.println("=================  update other activites " + student_id + "=================");
+		String activitiesList = request.getParameter("activitiesList");
+		String queryYear = request.getParameter("queryYear");
+		String intern_json = request.getParameter("internList");
+		// System.out.println(activitiesList);
+		// System.out.println(queryYear);
+		bean.setIntern_json(intern_json);
+		bean.setConference_json(request.getParameter("confsList"));
+		bean.setPublication_json(request.getParameter("publicationList"));
+		bean.setVolunteer_json(request.getParameter("volunteerList"));
+		bean.setTravel_json(request.getParameter("travelList"));
+		bean.setCourse_taken(request.getParameter("coursetakenjson"));
+		// System.out.println(bean.getVolunteer_json());
+		// System.out.println(bean.getTravel_json());
+		YearDao.UpdateYearBeanActivitiesByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		System.out.println("=========================================================");
+
+		return new RedirectView("/studentmanage/student/" + student_id + "/otheractivities");
+
+	}
+
+	@GetMapping(value = { "student/{student_id}/postAMPActivities" })
+	public String studentPostAMPACTsForm(ModelMap model, @PathVariable("student_id") int student_id,
+			Principal principal) {
+		if (!model.containsAttribute("studentPostBean")) {
+			StudentPostActiveBean bean = studentDAO.getPostActiveByStudentID(student_id);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+				String fname = sbean.getFirst_name() + " ";
+				String lname = sbean.getMiddle_name() == null ? sbean.getLast_name()
+						: sbean.getMiddle_name() + " " + sbean.getLast_name();
+				bean = new StudentPostActiveBean(student_id, fname + lname);
+				bean.setFirstName(sbean.getFirst_name());
+				bean.setMiddleName(sbean.getMiddle_name());
+				bean.setLastName(sbean.getLast_name());
+			}
+			model.addAttribute("studentPostBean", bean);
+		}
+		model.addAttribute("state", ProgramCode.STATE_CODE);
+		model.addAttribute("id", student_id);
+		return studentPostActivitiestForm;
+	}
+
+	@PostMapping(value = { "student/{student_id}/postAMPActivities/update" })
+	public RedirectView studentPostAMPACTsFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
+			Principal principal, StudentPostActiveBean bean) {
+		studentDAO.updateStudentPostActiveByStudentID(student_id, bean);
+		return new RedirectView("/studentmanage/student/" + student_id + "/postAMPActivities");
+	}
+
+	@RequestMapping(value = { "student/{student_id}/yearlyreport/{queryyear}" }, method = { RequestMethod.GET })
+	public String studentYearlyReportFormByQueryYear(ModelMap model, @PathVariable("student_id") int student_id,
+			@PathVariable("queryyear") String queryyear, Principal principal)
+			throws ParseException, JsonProcessingException {
+		User userDetails = userDAO.get(principal.getName());
+		String ic = "";
+		if (userDetails.getRole().toString().equals("ADMIN")) {
+			ic = "admin";
+		}
+
+		int year = Integer.parseInt(queryyear.substring(queryyear.length() - 4, queryyear.length()));
+
+		String queryYear = null;
+		ArrayList<String> queryyear_list = new ArrayList<>();
+		
+
+		for (int i = 2; i >= -4; i--) {
+			Calendar c_tmp = Calendar.getInstance();
+			c_tmp.set(Calendar.YEAR, year);
+			c_tmp.add(Calendar.YEAR, i);
+			int t_year = c_tmp.get(Calendar.YEAR);
+			c_tmp.add(Calendar.YEAR, -1);
+			int byear = c_tmp.get(Calendar.YEAR);
+			c_tmp.add(Calendar.YEAR, +1);
+			String t_queryyear = "Fall " + byear + " - Summer " + t_year;
+			System.out.println(t_queryyear);
+			if (i == 0) {
+				queryYear = t_queryyear;
+			}
+			queryyear_list.add(t_queryyear);
+		}
+		System.out.println(year+"   "+queryYear);
+
+		if (!model.containsAttribute("YearlyBean")) {
+			StudentYearlyReportBean bean = YearDao.getYearBeanByUseIdAndYear(student_id, queryYear);
+			if (bean == null) {
+				StudentSummaryBean sbean = studentDAO.getStudentSummaryByStudentID(student_id);
+				bean = new StudentYearlyReportBean(student_id, sbean.getFirst_name(), sbean.getMiddle_name(),
+						sbean.getLast_name());
+				System.out.println("empty yearly bean");
+				model.addAttribute("yearlist", queryyear_list.toArray(new String[queryyear_list.size()]));
+				model.addAttribute("YearlyBean", bean);
+				model.addAttribute("id", student_id);
+				model.addAttribute("queryYear", queryYear);
+				return studentEmptyYearlyReportForm;
+
+			}
+			model.addAttribute("YearlyBean", bean);
+
+			if (bean.getActivities_list() != null) {
+				model.addAttribute("activities_list", bean.getActivities_list());
+			} else {
+				model.addAttribute("activities_list", "null");
+			}
+		}
+
+		model.addAttribute("id", student_id);
+		model.addAttribute("schools", ProgramCode.ACADEMIC_SCHOOL);
+		model.addAttribute("schools_level", objectMapper.writeValueAsString(ProgramCode.SCHOOL_LEVEL));
+		model.addAttribute("queryYear", queryYear);
+		model.addAttribute("yesno", ProgramCode.YES_NO);
+		model.addAttribute("gradu_semester", ProgramCode.Graduated_Semeter);
+		model.addAttribute("fin_amp_sup_type", ProgramCode.Finacial_AMP_Type);
+		model.addAttribute("college_acts", ProgramCode.COLLEGE_ACTIVITIES);
+		model.addAttribute("university_acts", ProgramCode.UNIVERSITY_ACTIVITIES);
+		model.addAttribute("yearlist", queryyear_list.toArray(new String[queryyear_list.size()]));
+		model.addAttribute("college_list", ProgramCode.ACADEMIC_YEAR);
+		model.addAttribute("discipline_list", ProgramCode.Discipline_List);
+		//
+		// // System.out.println(studentYearlyReport);
+		return studentYearlyReportForm;
+	}
 }

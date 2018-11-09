@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head
+	th:include="base/layout :: headerFragment (pageTitle='student yearly report')">
+<title></title>
+<link th:href="@{/js/datatables/datatables.min.css}" rel="stylesheet"
+	type="text/css">
+</head>
+
+<body id="page-top">
+	<nav class="navbar navbar-expand navbar-dark bg-dark static-top"
+		th:replace="base/layout :: header"></nav>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="sidebar navbar-nav"
+			th:insert="base/layout :: siderFragment">
+		</ul>
+
+
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<div class="card mb-3">
+					<div class="card-header">
+						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
+							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
+									Academic-AMP</a></li>
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i>Other Activities</a></li>
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
+						</ul>
+					</div>
+					<div class="card-body">
+						<form id="otheractivityForm" th:object="${YearlyBean}"
+							th:action="@{/student/}+${id}+'/otheractivities/update'"
+							method="post">
+							<!-- Student id and name-->
+							<div class="form-group row">
+								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
+									ID:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="user_id"
+										value="1234567890" th:field="*{student_id}"
+										th:value="${student_id}" disabled>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="
+								first_name"
+									class="col-sm-1 col-form-label-sm"> First name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="first_name"
+										placeholder="First Name" value="aaaa" th:field="*{firstName}"
+										th:value="${firstName}">
+								</div>
+								<label for="middle_name" class="col-sm-1 col-form-label-sm ">Middle
+									name:</label>
+								<div class="col-sm-2">
+									<input type="text"
+										class="form-control-plaintext form-control-sm"
+										id="middle_name" th:field="*{middleName}"
+										th:value="${middleName}">
+								</div>
+								<label for="last_name" class="col-sm-1 col-form-label-sm">Last
+									name:</label>
+								<div class="col-sm-3">
+									<input type="text"
+										class="form-control-plaintext form-control-sm" id="last_name"
+										th:field="*{lastName}" th:value="${lastName}">
+								</div>
+							</div>
+							<hr>
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments"> Academic
+									Information:</label>
+								<div class="col-sm-4">
+									<select class="form-control form-control-sm"
+										id="current_query_year">
+										<option th:each="entry:${yearlist}" th:value="${entry}"
+											th:text="${entry}"
+											th:selected="${entry} == ${queryYear} ? true : false"></option>
+									</select>
+								</div>
+							</div>
+							<hr>
+							<!-- other activities -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Other
+									Activities:</label>
+								<textarea class="form-control" id="notes_and_comments" rows="8"
+									th:field="*{otherActivities}" th:value="${otherActivities}"></textarea>
+							</div>
+							<hr>
+
+							<!-- Internship/Co-ops -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments">Internship/Co-ops:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableIntern">
+									<thead class="tr-header">
+										<tr>
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreInterns" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 10%">Company Name</th>
+											<th style="width: 10%">City</th>
+											<th style="width: 10%">State</th>
+											<th style="width: 10%">Start Date</th>
+											<th style="width: 10%">End Date</th>
+											<th style="width: 10%">Job type</th>
+											<th style="width: 30%">Duties</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="internList" name="internList">
+
+							<!-- Internship comments -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Internship/Co-ops
+									Comments:</label>
+								<textarea class="form-control" id="intern_comments" rows="3"
+									th:field="*{intern_comments}" th:value="${intern_comments}"></textarea>
+							</div>
+							<hr>
+							<!-- Conference -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments">Conferences
+									(other than AMP) :</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableConferences">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreConferences" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 33%">Conference Name</th>
+											<th style="width: 12%">Date</th>
+											<th style="width: 33%">Presentation Title</th>
+											<th style="width: 12%">Presentation Type</th>
+
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="confsList" name="confsList">
+
+							<hr>
+							<!-- Publications -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments">Publications:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tablePublications">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMorePublications" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 80%">Publications</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="publicationList" name="publicationList">
+							<hr>
+
+							<!-- Volunteer experiences -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Volunteer_exp">Volunteer
+									experiences:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableVolunteerExps">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreVolunteer" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 30%">Organization Name</th>
+											<th style="width: 12%">Start Date</th>
+											<th style="width: 12%">End Date</th>
+											<th style="width: 36%">Duties</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="volunteerList" name="volunteerList">
+
+							<hr>
+							<!-- International experiences -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="International_exp">International
+									experiences:</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableTravel">
+									<thead>
+										<tr class="tr-header">
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreTravels" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 12%">City</th>
+											<th style="width: 12%">State</th>
+											<th style="width: 14%">Start Date</th>
+											<th style="width: 14%">End Date</th>
+											<th style="width: 38%">Purpose</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="travelList" name="travelList">
+							<hr>
+							<!-- notes and comments -->
+							<div class="form-group row">
+								<label class="col-sm-2 " style="margin-bottom: 0px">Notes
+									and Comments:</label>
+								<textarea class="form-control" id="notes_and_comments" rows="3"
+									th:field="*{notesAndComments}" th:value="${notesAndComments}"></textarea>
+							</div>
+
+							<hr>
+							<input type="hidden" id="queryYear" name="queryYear"
+								th:value="${queryYear}">
+							<button type="button" class="btn btn-primary float-right"
+								onClick='submitOtherActivitiesForm()'>Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+
+
+		<!-- Logout Modal-->
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ready to
+							Leave?</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">Select "Logout" below if you are
+						ready to end your current session.</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button"
+							data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="login.html">Logout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add Mentor Modal-->
+		<div class="modal fade 	" id="addMentorModel" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add New
+							Mentor?</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered" id="mentordataTable"
+							width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<td><strong>Mentor ID</strong></td>
+									<td><strong>Name</strong></td>
+									<td><strong>Institution</strong></td>
+									<td><strong>Department</strong></td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button"
+							data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="#">Confirm</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:insert="base/layout :: scriptSegment"></div>
+
+
+		<!-- Qixu Ajax script -->
+		<script th:src="@{/js/student-other-activities.js}"></script>
+
+		<script th:inline="javascript">
+		/*
+		<![CDATA[*/
+		//var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		var schools_level = [[${schools_level}]];
+		var schools_level_obj = JSON.parse(schools_level);
+		var activities_list = /*[[${activities_list}]]*/;
+		var intern_list = /*[[${YearlyBean.intern_json}]]*/;
+		var conferences_list = /*[[${YearlyBean.conference_json}]]*/;
+		var publication_list = /*[[${YearlyBean.publication_json}]]*/;
+		var volunteer_list = /*[[${YearlyBean.volunteer_json}]]*/;
+		var travel_list=/*[[${YearlyBean.travel_json}]]*/;
+		var course_list=/*[[${YearlyBean.course_taken}]]*/;
+		/*]]>
+		 */
+	</script>
+</body>
+
+</html>

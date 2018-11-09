@@ -1,11 +1,26 @@
 @charset "UTF-8";
 
 .form-group.required.row .control-label:after {
-  content:"*";
-  color:red;
+	content: "*";
+	color: red;
 }
 
-.radio-inline{
-	all:inital;
-	padding-right:3px;	
+.radio-inline {
+	all: inital;
+	padding-right: 3px;
+}
+
+.error-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.error-actions {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.error-actions .btn {
+	display: inline-block;
+	margin-right: 10px;
 }
