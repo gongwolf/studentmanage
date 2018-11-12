@@ -14,6 +14,12 @@ $(document).ready(
 			initFormYesNo();
 			initActivitiesList();
 			
+			$('#current_query_year').on('change', function() {
+				  var queryyear = $(this).val();
+				  var url = "/studentmanage/student/"+student_id+"/otheractivities/"+queryyear;
+				  window.location.href = url; 
+			});
+			
 			$.ajax({url: "/studentmanage/home/mentor-all-list-json",
 				type: "GET", 
 		        dataType:'json',

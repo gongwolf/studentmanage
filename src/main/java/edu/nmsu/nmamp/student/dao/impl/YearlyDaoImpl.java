@@ -84,8 +84,8 @@ public class YearlyDaoImpl implements Schemacode {
 							bean.setActivities_list(reSet.getString("Activities_list"));
 							System.out.println(bean.getActivities_list());
 							bean.setActivities_comments(reSet.getString("Activities_comments"));
-							
-							//other activities
+
+							// other activities
 							bean.setOtherActivities(reSet.getString("other_activities"));
 
 							bean.setIntern_json(reSet.getString("intern_json"));
@@ -115,7 +115,6 @@ public class YearlyDaoImpl implements Schemacode {
 
 	public int UpdateYearBeanByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList, int student_id,
 			String queryYear) {
-
 		boolean existed = existedInSelfReportTable(student_id, queryYear);
 		if (existed) {
 			StringBuilder updateSql = new StringBuilder();
@@ -314,9 +313,7 @@ public class YearlyDaoImpl implements Schemacode {
 					+ "course_taken,gpa,semester_gpa,credits,semester_credits,"
 					+ "graduated,graduated_degree,graduated_field,graduated_semester,"
 					+ "Transfered,Transfered_from,Transfered_to,Transfered_AA_Degree,Transfered_credits,withdrew,withdrew_reason,"
-					+ "Fin_AMP,Fin_AMP_type,Fin_AMP_summer," 
-					+ "Activities_list, Activities_comments "
-					+ ") values "
+					+ "Fin_AMP,Fin_AMP_type,Fin_AMP_summer," + "Activities_list, Activities_comments " + ") values "
 					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
 			return jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 				@Override
@@ -366,7 +363,7 @@ public class YearlyDaoImpl implements Schemacode {
 				+ "other_activities=?,intern_json=?,intern_comments=?,conference_json=?,publication_json=?,volunteer_json=?,travel_json=?,comments=?"
 				+ " where user_id='" + student_id + "' and semester='" + queryYear + "'");
 		// System.out.println(activitiesList);
-		 System.out.println(updateSql);
+		System.out.println(updateSql);
 		System.out.println(bean);
 		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 			@Override
@@ -379,8 +376,76 @@ public class YearlyDaoImpl implements Schemacode {
 				ps.setString(6, bean.getVolunteer_json());
 				ps.setString(7, bean.getTravel_json());
 				ps.setString(8, bean.getNotesAndComments());
-				
+
 			}
 		});
+	}
+
+	public int CreatedYearBeanByUseIdAndYear(StudentYearlyReportBean bean, String activitiesList, int student_id,
+			String queryYear) {
+		boolean existed = existedInSelfReportTable(student_id, queryYear);
+		if (!existed) {
+			System.out.println("not in table :" + bean);
+			StringBuilder insertSql = new StringBuilder();
+			insertSql.append("insert into " + TABLE_SELFREPORT_DATA
+					+ " ("
+					+"window_id,user_id,semester,first_name,last_name,select_school,college_level,discipline,major,minor,mentor_id,"
+					+ "course_taken,gpa,semester_gpa,credits,semester_credits,"
+					+ "graduated,graduated_degree,graduated_field,graduated_semester,"
+					+ "Transfered,Transfered_from,Transfered_to,Transfered_AA_Degree,Transfered_credits,withdrew,withdrew_reason,"
+					+ "Fin_AMP,Fin_AMP_type,Fin_AMP_summer," + "Activities_list, Activities_comments," 
+					+ "other_activities=?,intern_json=?,intern_comments=?,conference_json=?,publication_json=?,volunteer_json=?,travel_json=?,comments=?"
+					+ ") values "
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+			return jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps) throws SQLException {
+					ps.setInt(1, -1);
+					ps.setInt(2, bean.getStudent_id());
+					ps.setString(3, queryYear);
+					ps.setString(4, bean.getFirstName());
+					ps.setString(5, bean.getLastName());
+					ps.setString(6, bean.getAcdemic_school());
+					ps.setString(7, bean.getCollege_level());
+					ps.setString(8, bean.getDiscipline());
+					ps.setString(9, bean.getMajor());
+					ps.setString(10, bean.getMinor());
+					ps.setString(11, bean.getMentor_id());
+					ps.setString(12, bean.getCourse_taken());
+					ps.setFloat(13, bean.getGpa());
+					ps.setFloat(14, bean.getSemester_gpa());
+					ps.setInt(15, bean.getSemester_credits());
+					ps.setInt(16, bean.getCredits());
+					ps.setString(17, bean.getGraduated());
+					ps.setString(18, bean.getGraduated_degree());
+					ps.setString(19, bean.getGraduated_field());
+					ps.setString(20, bean.getGraduated_semester());
+					ps.setString(21, bean.getTransfered());
+					ps.setString(22, bean.getTransfered_from());
+					ps.setString(23, bean.getTransfered_to());
+					ps.setString(24, bean.getTransfered_AA_degree());
+					ps.setString(25, bean.getTransfered_credits());
+					ps.setString(26, bean.getWithdrew());
+					ps.setString(27, bean.getWithdrew_reason());
+					ps.setString(28, bean.getFin_amp());
+					ps.setString(29, bean.getFin_amp_type());
+					ps.setString(30, bean.getFin_amp_summer());
+					ps.setString(31, activitiesList);
+					ps.setString(32, bean.getActivities_comments());
+					ps.setString(33, bean.getOtherActivities());
+					ps.setString(34, bean.getIntern_json());
+					ps.setString(35, bean.getIntern_comments());
+					ps.setString(36, bean.getConference_json());
+					ps.setString(37, bean.getPublication_json());
+					ps.setString(38, bean.getVolunteer_json());
+					ps.setString(39, bean.getTravel_json());
+					ps.setString(40, bean.getNotesAndComments());
+
+
+				}
+			});
+		}
+		
+		return 0;
 	}
 }

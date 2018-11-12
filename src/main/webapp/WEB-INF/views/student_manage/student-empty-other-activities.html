@@ -33,11 +33,11 @@
 								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
-							<li class="nav-item"><a class="nav-link active" href="#"><i
-									class="fas fa-table"></i>Yearly Data Academic-AMP</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/otheractivities'">Other
-									Activities</a></li>
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
+									Academic-AMP</a></li>
+							<li class="nav-item"><a class="nav-link active" href="#"><i
+									class="fas fa-table"></i>Other Activities</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
 						</ul>
@@ -145,7 +145,7 @@
 
 
 	<!-- Custom scripts for all pages-->
-	<script th:src="@{/js/student-yearly-empty.js}"></script>
+	<script th:src="@{/js/student-other-activities-empty.js}"></script>
 	<script th:inline="javascript">
 		/*
 		<![CDATA[*/

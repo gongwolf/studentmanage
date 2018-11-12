@@ -317,7 +317,7 @@ public class StudentDAOImpl implements Schemacode {
 		// TODO Auto-generated method stub
 		boolean existed = existedInPostActiveTable(student_id);
 		if (existed) {
-			System.out.println("in table :" + bean);
+//			System.out.println("in table :" + bean);
 			StringBuilder updateSql = new StringBuilder();
 			updateSql.append("update " + TABLE_STUDENT_POST_ACTIVE
 					+ " set employmentName=?,occupation=?,position=?,"
@@ -342,12 +342,12 @@ public class StudentDAOImpl implements Schemacode {
 				}
 			});
 		} else {
-			System.out.println("not in table :" + bean);
+//			System.out.println("not in table :" + bean);
 			StringBuilder insertSql = new StringBuilder();
 			insertSql.append("insert into " + TABLE_STUDENT_POST_ACTIVE
 					+ " (student_id,employmentName,occupation,position,employ_city,"
 					+ "employ_county,employ_state,company_comments,grud_school_name,grud_city,grud_county,"
-					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?) ");
+					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
 			jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {

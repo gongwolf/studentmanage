@@ -41,7 +41,7 @@
 					</div>
 					<div class="card-body">
 						<form id="otheractivityForm" th:object="${YearlyBean}"
-							th:action="@{/student/}+${id}+'/otheractivities/update'"
+							th:action="@{/student/}+${id}+'/otheractivities/update/'+${queryYear}"
 							method="post">
 							<!-- Student id and name-->
 							<div class="form-group row">
@@ -328,6 +328,7 @@
 		/*
 		<![CDATA[*/
 		//var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		var student_id = /*[[${id}]]*/;
 		var schools_level = [[${schools_level}]];
 		var schools_level_obj = JSON.parse(schools_level);
 		var activities_list = /*[[${activities_list}]]*/;
