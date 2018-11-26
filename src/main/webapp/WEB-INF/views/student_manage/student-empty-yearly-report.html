@@ -26,8 +26,8 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<span id="edited_info" class="float-right">Edited by <Strong>Admin</Strong>
-							on <Strong>10/08/2018 11:11:11</Strong></span>
+						<span id="edited_info" class="float-right" th:if="${logBean}">Edited by <span th:text="${logBean.firstname}"></span>
+							on <span th:text="${logBean.submitted_time}"></span></span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>

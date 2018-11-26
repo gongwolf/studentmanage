@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+label{
+	font-weight: bold;
+}
+
+#test_scores > label, .radio-inline,.checkbox.inline{
+	font-weight:normal;
+}

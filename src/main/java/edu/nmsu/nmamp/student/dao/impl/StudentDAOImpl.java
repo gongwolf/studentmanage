@@ -313,7 +313,7 @@ public class StudentDAOImpl implements Schemacode {
 		}
 	}
 
-	public void updateStudentPostActiveByStudentID(int student_id, StudentPostActiveBean bean) {
+	public int updateStudentPostActiveByStudentID(int student_id, StudentPostActiveBean bean) {
 		// TODO Auto-generated method stub
 		boolean existed = existedInPostActiveTable(student_id);
 		if (existed) {
@@ -324,7 +324,7 @@ public class StudentDAOImpl implements Schemacode {
 					+ "employ_city=?,employ_county=?,employ_state=?,company_comments=?,grud_school_name=?,"
 					+ "grud_city=?,grud_county=?,grud_state=?,subsquent_degree=? where student_id='" + student_id
 					+ "'");
-			jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
+			return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
 					ps.setString(1, bean.getEmploymentName());
@@ -348,7 +348,7 @@ public class StudentDAOImpl implements Schemacode {
 					+ " (student_id,employmentName,occupation,position,employ_city,"
 					+ "employ_county,employ_state,company_comments,grud_school_name,grud_city,grud_county,"
 					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
-			jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+			return jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
 					ps.setInt(1, bean.getStudent_id());
@@ -391,7 +391,7 @@ public class StudentDAOImpl implements Schemacode {
 				+ "first_name=?,middle_name=?,last_name=?,birth_date=?,veteran=?,first_gen_college_student=?,"
 				+ "Language_at_home=?,ssn_last_four=?,Family_income=?,"
 				+ "current_address_line1=?,current_address_line2=?,current_address_city=?,current_address_county=?,current_address_state=?,current_address_zip=?,"
-				+ "ethnicity=?,race=?,disability=?,disability_type=?,Pell_Grant_Eligibility=? "
+				+ "ethnicity=?,race=?,disability=?,disability_type=?,Pell_Grant_Eligibility=?,gender=? "
 				+ " where user_id='" + student_id + "'");
 
 		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
@@ -418,6 +418,7 @@ public class StudentDAOImpl implements Schemacode {
 				ps.setString(18, bean.getDisability());
 				ps.setString(19, String.valueOf(bean.getDisability_type()));
 				ps.setString(20, bean.getPell_grant_eligiblity());
+				ps.setString(21, bean.getGender());
 			}
 		});
 		

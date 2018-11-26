@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -38,16 +39,19 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.nmsu.nmamp.student.dao.Schemacode;
 import edu.nmsu.nmamp.student.dao.UserDAO;
 import edu.nmsu.nmamp.student.dao.impl.AdminDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.StudentDAOImpl;
 import edu.nmsu.nmamp.student.dao.impl.YearlyDaoImpl;
 import edu.nmsu.nmamp.student.model.ApplicationBean;
+import edu.nmsu.nmamp.student.model.LogBean;
 import edu.nmsu.nmamp.student.model.StudentPostActiveBean;
 import edu.nmsu.nmamp.student.model.StudentProfileBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 import edu.nmsu.nmamp.student.model.StudentYearlyReportBean;
 import edu.nmsu.nmamp.student.model.User;
+import edu.nmsu.nmamp.student.model.UserImpl;
 import edu.nmsu.nmamp.student.model.YearlyBean;
 import edu.nmsu.nmamp.student.service.ProgramCode;
 
@@ -330,6 +334,12 @@ public class studentManageController {
 		if (!model.containsAttribute("studentBean")) {
 			StudentProfileBean bean = studentDAO.getStudentProfileByStudentID(user_id);
 			model.addAttribute("studentBean", bean);
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_PROFILE_STUDENT,
+					"student_profile");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 		model.addAttribute("gender", ProgramCode.GENDER);
 		model.addAttribute("state", ProgramCode.STATE_CODE);
@@ -348,12 +358,19 @@ public class studentManageController {
 	@PostMapping("student/{student_id}/profile/update")
 	public RedirectView studentProfileFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
 			StudentProfileBean bean, Principal principal, HttpServletRequest request) {
+		String current_user = principal.getName();
+		// User u = (User)getAuthentication().getPrincipal();
+		// UserImpl u = (UserImpl) authentication.getPrincipal();
 		System.out.println("=================  update:" + student_id + "=================");
 		System.out.println(bean);
 		model.addAttribute("studentBean", bean);
 		// System.out.println(request.getParameter("activitiesList"));
 		// String activitiesList = request.getParameter("activitiesList");
-		studentDAO.updateStudentProfileForm(bean, student_id);
+		int result = studentDAO.updateStudentProfileForm(bean, student_id);
+		// System.out.println("updated user: "+u.getFirstName()+" "+u.getLastName());
+		if (result == 1) {
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_PROFILE_STUDENT, "student_profile");
+		}
 		System.out.println(bean);
 		System.out.println("=========================================================");
 
@@ -365,6 +382,12 @@ public class studentManageController {
 		if (!model.containsAttribute("studentBean")) {
 			StudentProfileBean bean = studentDAO.getStudentProfileByStudentID(user_id);
 			model.addAttribute("studentBean", bean);
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_PROFILE_STUDENT,
+					"student_highschool");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 		model.addAttribute("gender", ProgramCode.GENDER);
 		model.addAttribute("state", ProgramCode.STATE_CODE);
@@ -419,8 +442,11 @@ public class studentManageController {
 		}
 		String activitiesList = request.getParameter("activitiesList");
 		bean.setHighschool_activities(activitiesList);
-		studentDAO.updateStudentHighSchoolForm(bean, student_id);
-
+		int result = studentDAO.updateStudentHighSchoolForm(bean, student_id);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_PROFILE_STUDENT, "student_highschool");
+		}
 		System.out.println("=========================================================");
 
 		return new RedirectView("/studentmanage/student/" + student_id + "/highschool/");
@@ -494,6 +520,12 @@ public class studentManageController {
 			} else {
 				model.addAttribute("activities_list", "null");
 			}
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_SELFREPORT_DATA,
+					"student_yearlyreport");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 
 		model.addAttribute("id", student_id);
@@ -531,9 +563,12 @@ public class studentManageController {
 		bean.setCourse_taken(request.getParameter("coursetakenjson"));
 		// System.out.println(bean.getVolunteer_json());
 		// System.out.println(bean.getTravel_json());
-		YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		int result = YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_SELFREPORT_DATA, "student_yearlyreport");
+		}
 		System.out.println("=========================================================");
-
 		return new RedirectView("/studentmanage/student/" + student_id + "/yearlyreport/" + queryYear);
 
 	}
@@ -607,6 +642,13 @@ public class studentManageController {
 			} else {
 				model.addAttribute("activities_list", "null");
 			}
+			
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_SELFREPORT_DATA,
+					"student_otheractivities");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 
 		model.addAttribute("id", student_id);
@@ -643,7 +685,11 @@ public class studentManageController {
 		bean.setCourse_taken(request.getParameter("coursetakenjson"));
 		// System.out.println(bean.getVolunteer_json());
 		// System.out.println(bean.getTravel_json());
-		YearDao.UpdateYearBeanActivitiesByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		int result=YearDao.UpdateYearBeanActivitiesByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_SELFREPORT_DATA, "student_otheractivities");
+		}
 		System.out.println("=========================================================");
 
 		return new RedirectView("/studentmanage/student/" + student_id + "/otheractivities");
@@ -666,6 +712,13 @@ public class studentManageController {
 				bean.setLastName(sbean.getLast_name());
 			}
 			model.addAttribute("studentPostBean", bean);
+			
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_SELFREPORT_DATA,
+					"student_postactivities");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 		model.addAttribute("state", ProgramCode.STATE_CODE);
 		model.addAttribute("id", student_id);
@@ -675,7 +728,11 @@ public class studentManageController {
 	@PostMapping(value = { "student/{student_id}/postAMPActivities/update" })
 	public RedirectView studentPostAMPACTsFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
 			Principal principal, StudentPostActiveBean bean) {
-		studentDAO.updateStudentPostActiveByStudentID(student_id, bean);
+		int result=studentDAO.updateStudentPostActiveByStudentID(student_id, bean);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_SELFREPORT_DATA, "student_postactivities");
+		}
 		return new RedirectView("/studentmanage/student/" + student_id + "/postAMPActivities");
 	}
 
@@ -703,13 +760,13 @@ public class studentManageController {
 			int byear = c_tmp.get(Calendar.YEAR);
 			c_tmp.add(Calendar.YEAR, +1);
 			String t_queryyear = "Fall " + byear + " - Summer " + t_year;
-//			System.out.println(t_queryyear);
+			// System.out.println(t_queryyear);
 			if (i == 0) {
 				queryYear = t_queryyear;
 			}
 			queryyear_list.add(t_queryyear);
 		}
-//		System.out.println(year + "   " + queryYear);
+		// System.out.println(year + " " + queryYear);
 
 		if (!model.containsAttribute("YearlyBean")) {
 			StudentYearlyReportBean bean = YearDao.getYearBeanByUseIdAndYear(student_id, queryYear);
@@ -732,6 +789,13 @@ public class studentManageController {
 				model.addAttribute("activities_list", bean.getActivities_list());
 			} else {
 				model.addAttribute("activities_list", "null");
+			}
+			
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_SELFREPORT_DATA,
+					"student_yearlyreport");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
 			}
 		}
 
@@ -832,7 +896,11 @@ public class studentManageController {
 		bean.setCourse_taken(request.getParameter("coursetakenjson"));
 		// System.out.println(bean.getVolunteer_json());
 		// System.out.println(bean.getTravel_json());
-		YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		int result = YearDao.UpdateYearBeanAcdemicByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_SELFREPORT_DATA, "student_yearlyreport");
+		}
 		System.out.println("=========================================================");
 
 		return new RedirectView("/studentmanage/student/" + student_id + "/yearlyreport/" + queryYear);
@@ -893,6 +961,13 @@ public class studentManageController {
 			} else {
 				model.addAttribute("activities_list", "null");
 			}
+			
+			LogBean logbean = adminDAO.getLogInformationByTablenames(Schemacode.TABLE_SELFREPORT_DATA,
+					"student_otheractivities");
+			if (logbean != null) {
+				model.addAttribute("logBean", logbean);
+				System.out.println(logbean);
+			}
 		}
 
 		model.addAttribute("id", student_id);
@@ -930,7 +1005,11 @@ public class studentManageController {
 		bean.setCourse_taken(request.getParameter("coursetakenjson"));
 		// System.out.println(bean.getVolunteer_json());
 		// System.out.println(bean.getTravel_json());
-		YearDao.UpdateYearBeanActivitiesByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		int result = YearDao.UpdateYearBeanActivitiesByUseIdAndYear(bean, activitiesList, student_id, queryYear);
+		if (result == 1) {
+			String current_user = principal.getName();
+			adminDAO.addTableOperationLogs(current_user, Schemacode.TABLE_SELFREPORT_DATA, "student_otheractivities");
+		}
 		System.out.println("=========================================================");
 
 		return new RedirectView("/studentmanage/student/" + student_id + "/otheractivities/" + queryYear);

@@ -37,5 +37,7 @@ public interface Schemacode {
 	static final String TABLE_SELFREPORT_DATA = "selfreport_data";
 	
 	static final String TABLE_STUDENT_POST_ACTIVE="post_amp_activities";
+	
+	static final String TABLE_OPERATION_LOGS="table_operation_logs";
 
 }

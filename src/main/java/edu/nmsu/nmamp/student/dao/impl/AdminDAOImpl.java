@@ -1,19 +1,28 @@
 package edu.nmsu.nmamp.student.dao.impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import edu.nmsu.nmamp.student.dao.Schemacode;
+import edu.nmsu.nmamp.student.model.LogBean;
 import edu.nmsu.nmamp.student.model.MentorSummaryBean;
+import edu.nmsu.nmamp.student.model.StudentProfileBean;
 import edu.nmsu.nmamp.student.model.StudentSummaryBean;
 
 @Repository("AdminDAOImpl")
@@ -263,6 +272,52 @@ public class AdminDAOImpl implements Schemacode {
 				return mentorList;
 			}
 		});
+	}
+	
+	public void addTableOperationLogs(String username,String table,String sub_table) {
+		StringBuilder insertSql = new StringBuilder();
+		insertSql.append("insert into ").append(TABLE_OPERATION_LOGS).append(" (oper_user,oper_table,oper_sub_table,oper_time)");
+		insertSql.append(" values(?,?,?,?)");
+		
+		Date now = new Date();
+		Timestamp now_timestamp = new Timestamp(now.getTime());
+		jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, username);
+				ps.setString(2, table);
+				ps.setString(3, sub_table);
+				ps.setTimestamp(4, now_timestamp);
+			}
+		});
+	}
+
+	public LogBean getLogInformationByTablenames(String tablename,String sub_tablename) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT b.first_name,b.last_name,a.* FROM \n");
+		sql.append("nmamp_student.table_operation_logs a, user b ");
+		sql.append("where a.oper_table='").append(tablename).append("' and a.oper_sub_table='").append(sub_tablename).append("' \n");
+		sql.append("and a.oper_user = b.email \n");
+		sql.append("order by a.oper_time desc limit 1;");
+		try {
+			LogBean logBean = jdbcTemplate.queryForObject(sql.toString(),
+					new Object[] {}, new RowMapper<LogBean>() {
+						@Override
+						public LogBean mapRow(ResultSet reSet, int rowNum) throws SQLException {
+							LogBean bean = new LogBean();
+							bean.setFirstname(reSet.getString("first_name"));
+							bean.setLastname(reSet.getString("last_name"));
+							bean.setUsername(reSet.getString("oper_user"));
+							bean.setTablename(tablename);
+							bean.setSub_tablename(sub_tablename);
+							bean.setSubmitted_time(reSet.getTimestamp("oper_time"));
+							return bean;
+						}
+					});
+			return logBean;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }
