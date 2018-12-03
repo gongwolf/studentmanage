@@ -727,7 +727,11 @@ public class studentManageController {
 
 	@PostMapping(value = { "student/{student_id}/postAMPActivities/update" })
 	public RedirectView studentPostAMPACTsFormUpdate(ModelMap model, @PathVariable("student_id") int student_id,
-			Principal principal, StudentPostActiveBean bean) {
+			Principal principal, StudentPostActiveBean bean, HttpServletRequest request) {
+		bean.setSubDegreeJson(request.getParameter("SubDegreeList"));
+		bean.setWorking_experience_json(request.getParameter("WorkingExpList"));
+		bean.setPost_academic_experience(request.getParameter("PostAcademicList"));
+//		System.out.println("!!!!!"+bean.getWorking_experience_json());
 		int result=studentDAO.updateStudentPostActiveByStudentID(student_id, bean);
 		if (result == 1) {
 			String current_user = principal.getName();

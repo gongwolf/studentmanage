@@ -23,19 +23,20 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<span id="edited_info" class="float-right" th:if="${logBean}">Edited by <span th:text="${logBean.firstname}"></span>
-							on <span th:text="${logBean.submitted_time}"></span></span>
+						<span id="edited_info" class="float-right" th:if="${logBean}">Edited
+							by <span th:text="${logBean.firstname}"></span> on <span
+							th:text="${logBean.submitted_time}"></span>
+						</span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+								th:href="@{/student/}+${id}+'/profile'">General Information</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
 							<li class="nav-item"><a class="nav-link active" href="#"><i
-									class="fas fa-table"></i>Yearly
-									Data Academic-AMP</a></li>
+									class="fas fa-table"></i>Yearly AMP Activities</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/otheractivities'">Other
-									Activities</a></li>
+									Activities (Non-AMP)</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
 						</ul>
@@ -44,8 +45,19 @@
 						<form id="yearlyForm" th:object="${YearlyBean}"
 							th:action="@{/student/}+${id}+'/yearlyreport/update'"
 							method="post">
-							<!-- Student id and name-->
 							<div class="form-group row">
+								<div class="student-title-wrap">
+									<div class="student-title-row">
+										<span
+											th:text="${YearlyBean.firstName}+'   '+${YearlyBean.middleName}+'   '+${YearlyBean.lastName}"></span>
+									</div>
+									<div class="student-title-row">
+										<span th:text="${YearlyBean.student_id}"></span>
+									</div>
+								</div>
+							</div>
+							<!-- Student id and name-->
+							<!-- <div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
 									ID:</label>
 								<div class="col-sm-3">
@@ -82,9 +94,8 @@
 								</div>
 							</div>
 							<hr>
+							-->
 							<div class="form-group row">
-								<label class="col-sm-2" for="Comments"> Academic
-									Information:</label>
 								<div class="col-sm-4">
 									<select class="form-control form-control-sm"
 										id="current_query_year">
@@ -93,7 +104,10 @@
 											th:selected="${entry} == ${queryYear} ? true : false"></option>
 									</select>
 								</div>
+								<label class="col-sm-2" for="Comments"> Academic
+									Information:</label>
 							</div>
+							<hr>
 
 							<!-- College information -->
 							<div class="form-group row">
@@ -106,9 +120,10 @@
 											th:text="${entry.value}"></option>
 									</select>
 								</div>
-								<label for="Institution" class="col-sm-2 col-form-label-sm">Type
+								<label for="Institution"
+									class="col-sm-coustom-1-3-right col-form-label-sm">Type
 									of Institution:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-1-7-left">
 									<input type="text"
 										class="form-control-plaintext form-control-sm"
 										id="school_level" th:field="*{school_level}"
@@ -140,14 +155,16 @@
 											th:value="${entry.key}" th:text="${entry.value}"></option>
 									</select>
 								</div>
-								<label for="major" class="col-sm-1 col-form-label-sm text-right">Major:</label>
-								<div class="col-sm-2">
+								<label for="major"
+									class="col-sm-coustom-0-5-right col-form-label-sm">Major:</label>
+								<div class="col-sm-coustom-2-5-right">
 									<input type="text" class="form-control form-control-sm"
 										id="major" placeholder="Major" th:field="*{major}"
 										th:value="${major}">
 								</div>
-								<label for="minor" class="col-sm-1 col-form-label-sm text-right">Minor:</label>
-								<div class="col-sm-2">
+								<label for="minor"
+									class="col-sm-coustom-0-5-right col-form-label-sm">Minor:</label>
+								<div class="col-sm-coustom-2-5-right">
 									<input type="text" class="form-control form-control-sm"
 										id="minor" placeholder="Minor" th:field="*{minor}"
 										th:value="${minor}">
@@ -234,9 +251,10 @@
 							</div>
 							<!-- Graduated -->
 							<div class="form-group row">
-								<label for="Graduated" class="col-sm-2 col-form-label-sm">
+								<label for="Graduated"
+									class="col-sm-coustom-0-7-right col-form-label-sm">
 									Graduated:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-1-3-left">
 									<label class="radio-inline" style="padding-right: 8px"
 										th:each="entry:${yesno}"> <input type="radio"
 										name="graduated" id="graduated" th:value="${entry.key}"
@@ -275,9 +293,10 @@
 
 							<!-- Transfered -->
 							<div class="form-group row">
-								<label for="Transfered" class="col-sm-2 col-form-label-sm">
+								<label for="Transfered"
+									class="col-sm-coustom-0-7-right col-form-label-sm">
 									Transfered:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-1-3-left">
 									<label class="radio-inline" style="padding-right: 8px"
 										th:each="entry:${yesno}"> <input type="radio"
 										name="transfered" id="transfered" th:value="${entry.key}"
@@ -331,9 +350,10 @@
 							</div>
 							<!-- WithDrew -->
 							<div class="form-group row">
-								<label for="withdrewInYear" class="col-sm-2 col-form-label-sm">
+								<label for="withdrewInYear"
+									class="col-sm-coustom-0-7-right col-form-label-sm">
 									Withdrew:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-1-3-left">
 									<label class="radio-inline" style="padding-right: 8px"
 										th:each="entry:${yesno}"> <input type="radio"
 										name="withdrew" id="withdrew" th:value="${entry.key}"
@@ -350,14 +370,12 @@
 							</div>
 							<hr>
 							<div class="form-group row">
-								<label class="col-sm-2" for="Comments"> AMP and Other
-									Activities:</label>
+								<label class="col-sm-2" for="Comments"> New Mexico AMP Activities:</label>
 							</div>
 							<!-- Financial Support -->
 							<div class="form-group row">
 								<label for="Financial_support"
-									class="col-sm-2 col-form-label-sm"> AMP Financial
-									Support:</label>
+									class="col-sm-2 col-form-label-sm"> AMP Academic Support:</label>
 								<div class="col-sm-2">
 									<label class="radio-inline" style="padding-right: 8px"
 										th:each="entry:${yesno}"> <input type="radio"
@@ -366,10 +384,11 @@
 									</label>
 								</div>
 
+
+								<!-- <div class="col-sm-2" style="display: none"
 								<label id="Fin_sup_selection_label" for="Fin_sup_selection"
 									style="display: none"
 									class="col-sm-1 col-form-label-sm text-right"> type:</label>
-								<div class="col-sm-2" style="display: none"
 									id="Fin_sup_selection_div">
 									<select class="form-control form-control-sm"
 										id="Fin_sup_selection" th:field="*{fin_amp_type}">
@@ -377,7 +396,7 @@
 										<option th:each="entry:${fin_amp_sup_type}"
 											th:value="${entry.key}" th:text="${entry.value}"></option>
 									</select>
-								</div>
+								</div> -->
 								<label for="summur_Financial_support"
 									class="col-sm-3	 col-form-label-sm text-right"> AMP
 									Summer Financial Support:</label>
@@ -396,9 +415,12 @@
 								<div class="row">
 									<label class="col-sm-2 " style="margin-bottom: 0px">Activities:</label>
 									<label class="col-sm-2  offset-sm-3" style="margin-bottom: 0px">Fall
-										<span th:text="${year}"></span>:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Spring
-										<span th:text="${year}"></span>:</label> <label class="col-sm-2 " style="margin-bottom: 0px">Summer
-										<span th:text="${year}"></span>:</label>
+										<span th:text="${year}"></span>:
+									</label> <label class="col-sm-2 " style="margin-bottom: 0px">Spring
+										<span th:text="${year}"></span>:
+									</label> <label class="col-sm-2 " style="margin-bottom: 0px">Summer
+										<span th:text="${year}"></span>:
+									</label>
 								</div>
 								<!-- two years activities -->
 								<div class="row">

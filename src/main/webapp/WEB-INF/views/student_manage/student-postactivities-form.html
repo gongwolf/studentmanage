@@ -28,19 +28,21 @@
 
 				<div class="card mb-3">
 					<div class="card-header">
-						<span id="edited_info" class="float-right" th:if="${logBean}">Edited by <span th:text="${logBean.firstname}"></span>
-							on <span th:text="${logBean.submitted_time}"></span></span>
+						<span id="edited_info" class="float-right" th:if="${logBean}">Edited
+							by <span th:text="${logBean.firstname}"></span> on <span
+							th:text="${logBean.submitted_time}"></span>
+						</span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+								th:href="@{/student/}+${id}+'/profile'">General Information</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
-									Academic-AMP</a></li>
-							<li class="nav-item"><a class="nav-link "
-								th:href="@{/student/}+${id}+'/otheractivities'">Other
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly AMP
 									Activities</a></li>
+							<li class="nav-item"><a class="nav-link "
+								th:href="@{/student/}+${id}+'/otheractivities'">OOther
+									Activities (Non-AMP)</a></li>
 							<li class="nav-item"><a class="nav-link active" href="#"><i
 									class="fas fa-table"></i>Post-Graduation</a>
 						</ul>
@@ -49,8 +51,19 @@
 						<form id="PostActiveForm" th:object="${studentPostBean}"
 							th:action="@{/student/}+${id}+'/postAMPActivities/update'"
 							method="post">
-							<!-- Student id and name-->
 							<div class="form-group row">
+								<div class="student-title-wrap">
+									<div class="student-title-row">
+										<span
+											th:text="${studentPostBean.firstName}+'   '+${studentPostBean.middleName}+'   '+${studentPostBean.lastName}"></span>
+									</div>
+									<div class="student-title-row">
+										<span th:text="${studentPostBean.student_id}"></span>
+									</div>
+								</div>
+							</div>
+							<!-- Student id and name-->
+							<!-- <div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
 									ID:</label>
 								<div class="col-sm-3">
@@ -85,7 +98,7 @@
 										class="form-control-plaintext form-control-sm" id="last_name"
 										th:field="*{lastName}" th:value="${lastName}">
 								</div>
-							</div>
+							</div> -->
 							<hr>
 							<!-- Employment school  -->
 							<hr>
@@ -199,7 +212,85 @@
 										th:field="*{subsquent_degree}" th:value="${subsquent_degree}" />
 								</div>
 							</div>
-							<button type="submit" class="btn btn-primary float-right">Submit</button>
+							<!-- SubsequentDegreeTable -->
+							<div class="form-group row">
+								<!-- <label class="col-sm-2" for="Comments">Internship/Co-ops:</label>-->
+								<table class="table table-hover table-bordered small-text"
+									id="tableSubDegree">
+									<thead class="tr-header">
+										<tr>
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreSubDegreeEvent" title="Add Entry"> <span> <i
+														class="fa fa-plus" aria-hidden="true"></i>
+												</span>
+											</a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 20%">Organization Name</th>
+											<th style="width: 15%">Start Date</th>
+											<th style="width: 15%">End Date</th>
+											<th style="width: 40%">Duties</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="SubDegreeList" name="SubDegreeList">
+							
+							<!-- working experience -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments">Working Experience</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tableWorkingExp">
+									<thead class="tr-header">
+										<tr>
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMoreWorkingExp" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 10%">Company Name</th>
+											<th style="width: 10%">City</th>
+											<th style="width: 10%">State</th>
+											<th style="width: 10%">Start Date</th>
+											<th style="width: 10%">End Date</th>
+											<th style="width: 10%">Job type</th>
+											<th style="width: 30%">Duties</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="WorkingExpList" name="WorkingExpList">
+							
+							
+							<!-- Post-Bachelorette Academic Experience  -->
+							<div class="form-group row">
+								<label class="col-sm-2" for="Comments">Working Experience</label>
+								<table class="table table-hover table-bordered small-text"
+									id="tablePostAcadimic">
+									<thead class="tr-header">
+										<tr>
+											<th style="width: 5%"><a href="javascript:void(0);"
+												id="addMorePostAcademic" title="Add Entry"><span><i
+														class="fa fa-plus" aria-hidden="true"></i></span></a></th>
+											<th style="width: 5%"></th>
+											<th style="width: 20%">Institution Name</th>
+											<th style="width: 10%">City</th>
+											<th style="width: 10%">State</th>
+											<th style="width: 10%">Start Date</th>
+											<th style="width: 10%">End Date</th>
+											<th style="width: 15%">Job type</th>
+											<th style="width: 15%">Degree</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<input type="hidden" id="PostAcademicList" name="PostAcademicList">
+							
+							<button type="button" class="btn btn-primary float-right" onClick='submitPostGraduationForm()'>Submit</button>
 						</form>
 					</div>
 				</div>
@@ -212,6 +303,19 @@
 
 	<!-- Custom scripts for all pages-->
 	<script th:src="@{/js/student-post-activities.js}"></script>
+	
+	<script th:inline="javascript">
+		/*
+		<![CDATA[*/
+		//var yearlyBeans = /*[[${yearlyBeans}]]*/;
+		var student_id = /*[[${id}]]*/;
+		var sub_degree_list=/*[[${studentPostBean.subDegreeJson}]]*/;
+		var working_exp_list=/*[[${studentPostBean.working_experience_json}]]*/;
+		var post_academic_list=/*[[${studentPostBean.post_academic_experience}]]*/;
+		
+		/*]]>
+		 */
+	</script>
 </body>
 
 </html>

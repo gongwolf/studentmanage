@@ -25,19 +25,21 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<span id="edited_info" class="float-right" th:if="${logBean}">Edited by <span th:text="${logBean.firstname}"></span>
-							on <span th:text="${logBean.submitted_time}"></span></span>
+						<span id="edited_info" class="float-right" th:if="${logBean}">Edited
+							by <span th:text="${logBean.firstname}"></span> on <span
+							th:text="${logBean.submitted_time}"></span>
+						</span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+								th:href="@{/student/}+${id}+'/profile'">General Information</a></li>
 							<li class="nav-item"><a class="nav-link active" href="#"><i
 									class="fas fa-table"></i> High School </a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
-									Academic-AMP</a></li>
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly AMP
+									Activities</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/otheractivities'">Other
-									Activities</a></li>
+									Activities (Non-AMP)</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
 						</ul>
@@ -46,17 +48,27 @@
 						<form id="HighSchoolForm" th:object="${studentBean}"
 							th:action="@{/student/}+${id}+'/highschool/update/'"
 							method="post" enctype="multipart/form-data">
-							<!-- Student id -->
-							<div class="form-group row">
-								<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
-								<div class="col-sm-3">
-									<input type="text"
-										class="form-control-plaintext form-control-sm" id="user_id"
-										th:field="*{student_id}" th:value="${student_id}" disabled>
-								</div>
-							</div>
 							<!-- Student Name -->
 							<div class="form-group row">
+								<div class="student-title-wrap">
+									<div class="student-title-row">
+										<span
+											th:text="${studentBean.firstName}+'   '+${studentBean.middleName}+'   '+${studentBean.lastName}"></span>
+									</div>
+									<div class="student-title-row">
+										<span th:text="${studentBean.student_id}"></span>
+									</div>
+								</div>
+							</div>
+							<!-- 
+								<div class="form-group row">
+									<label for="user_id" class="col-sm-1 col-form-label-sm">ID:</label>
+									<div class="col-sm-3">
+										<input type="text"
+											class="form-control-plaintext form-control-sm" id="user_id"
+											th:field="*{student_id}" th:value="${student_id}" disabled>
+									</div>
+								</div>
 								<label for="
 								first_name"
 									class="col-sm-1 col-form-label-sm"> First name:</label>
@@ -81,26 +93,27 @@
 										class="form-control-plaintext form-control-sm" disabled
 										id="last_name" th:field="*{lastName}" th:value="${lastName}">
 								</div>
-							</div>
+								-->
 							<div class="form-group row">
-								<label for="highschool_name" class="col-sm-2 col-form-label-sm">
-									High School Name:</label>
-								<div class="col-sm-3">
+								<label for="highschool_name"
+									class="col-sm-coustom-1-2 col-form-label-sm"> High
+									School Name:</label>
+								<div class="col-sm-coustom-3-8-left">
 									<input type="text" class="form-control form-control-sm"
 										id="highschool_name" placeholder="High School Name"
 										th:field="*{high_shcool_name}" th:value="${high_shcool_name}" />
 								</div>
-								<label class="col-sm-1 col-form-label-sm" for="City">
-									City:</label>
-								<div class="col-sm-2">
+								<label class="col-sm-coustom-0-5-right col-form-label-sm"
+									for="City"> City:</label>
+								<div class=".col-sm-coustom-2-5-left">
 									<input class="form-control form-control-sm" id="City"
 										name="City" placeholder="city" type="text"
 										th:field="*{high_school_city}" th:value="${high_school_city}" />
 								</div>
 
-								<label class="col-sm-1 col-form-label-sm" for="State">
-									State:</label>
-								<div class="col-sm-2">
+								<label class="col-sm-coustom-0-7-right col-form-label-sm"
+									for="State"> State:</label>
+								<div class="col-sm-coustom-2-3-left">
 									<select name="high_school_state"
 										th:field="*{high_school_state}"
 										class="form-control form-control-sm">
@@ -111,16 +124,18 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="highschool_GPA" class="col-sm-2 col-form-label-sm">
-									High School GPA:</label>
-								<div class="col-sm-1">
+								<label for="highschool_GPA"
+									class="col-sm-coustom-1-2 col-form-label-sm"> High
+									School GPA:</label>
+								<div class="col-sm-1-8-left">
 									<input type="text" class="form-control form-control-sm"
 										id="highschool_GPA" placeholder="GPA"
 										th:field="*{high_shcool_GPA}" th:value="${high_shcool_GPA}">
 								</div>
 								<label for="highschool_tesing"
-									class="col-sm-1 col-form-label-sm"> ACT/SAT:</label>
-								<div class="col-sm-1">
+									class="col-sm-coustom-0-7-right col-form-label-sm">
+									ACT/SAT:</label>
+								<div class="col-sm-1-3-right">
 									<select id="hs_testing" th:field="*{high_school_testing}"
 										class="form-control form-control-sm">
 										<option value="">--</option>

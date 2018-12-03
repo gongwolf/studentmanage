@@ -19,6 +19,10 @@ public class StudentPostActiveBean {
 	String grud_county;
 	String grud_state;
 	String subsquent_degree;
+	
+	String subDegreeJson;
+	String working_experience_json;
+	String post_academic_experience;
 
 	public StudentPostActiveBean() {
 		super();
@@ -35,6 +39,12 @@ public class StudentPostActiveBean {
 		this.grud_county = null;
 		this.grud_state = null;
 		this.subsquent_degree = null;
+		this.firstName=null;
+		this.middleName=null;
+		this.lastName = null;
+		this.subDegreeJson=null;
+		this.working_experience_json = null;
+		this.post_academic_experience = null;
 	}
 
 	public StudentPostActiveBean(int student_id, String name) {
@@ -52,6 +62,12 @@ public class StudentPostActiveBean {
 		this.grud_county = null;
 		this.grud_state = null;
 		this.subsquent_degree = null;
+		this.firstName=null;
+		this.middleName=null;
+		this.lastName = null;
+		this.subDegreeJson=null;
+		this.working_experience_json = null;
+		this.post_academic_experience = null;
 	}
 
 	public int getStudent_id() {
@@ -190,4 +206,27 @@ public class StudentPostActiveBean {
 		this.company_comments = company_comments;
 	}
 
+	public String getSubDegreeJson() {
+		return subDegreeJson;
+	}
+
+	public void setSubDegreeJson(String subDegreeJson) {
+		this.subDegreeJson = subDegreeJson;
+	}
+
+	public String getWorking_experience_json() {
+		return working_experience_json;
+	}
+
+	public void setWorking_experience_json(String working_experience_json) {
+		this.working_experience_json = working_experience_json;
+	}
+
+	public String getPost_academic_experience() {
+		return post_academic_experience;
+	}
+
+	public void setPost_academic_experience(String post_academic_experience) {
+		this.post_academic_experience = post_academic_experience;
+	}
 }

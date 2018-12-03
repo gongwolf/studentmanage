@@ -23,18 +23,19 @@
 			<div class="container-fluid">
 				<div class="card mb-3">
 					<div class="card-header">
-						<span id="edited_info" class="float-right" th:if="${logBean}">Edited by <span th:text="${logBean.firstname}"></span>
-							on <span th:text="${logBean.submitted_time}"></span></span>
+						<span id="edited_info" class="float-right" th:if="${logBean}">Edited
+							by <span th:text="${logBean.firstname}"></span> on <span
+							th:text="${logBean.submitted_time}"></span>
+						</span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/profile'">Student Profile</a></li>
+								th:href="@{/student/}+${id}+'/profile'">General Information</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/highschool'"> High School </a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
-									Academic-AMP</a></li>
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly AMP Activities</a></li>
 							<li class="nav-item"><a class="nav-link active" href="#"><i
-									class="fas fa-table"></i>Other Activities</a></li>
+									class="fas fa-table"></i>Other Activities (Non-AMP)</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
 						</ul>
@@ -45,6 +46,17 @@
 							method="post">
 							<!-- Student id and name-->
 							<div class="form-group row">
+								<div class="student-title-wrap">
+									<div class="student-title-row">
+										<span
+											th:text="${YearlyBean.firstName}+'   '+${YearlyBean.middleName}+'   '+${YearlyBean.lastName}"></span>
+									</div>
+									<div class="student-title-row">
+										<span th:text="${YearlyBean.student_id}"></span>
+									</div>
+								</div>
+							</div>
+							<!--  <div class="form-group row">
 								<label for="user_id" class="col-sm-1 col-form-label-sm">Student
 									ID:</label>
 								<div class="col-sm-3">
@@ -80,10 +92,10 @@
 										th:field="*{lastName}" th:value="${lastName}">
 								</div>
 							</div>
+							-->
 							<hr>
 							<div class="form-group row">
-								<label class="col-sm-2" for="Comments"> Academic
-									Information:</label>
+
 								<div class="col-sm-4">
 									<select class="form-control form-control-sm"
 										id="current_query_year">
@@ -92,6 +104,8 @@
 											th:selected="${entry} == ${queryYear} ? true : false"></option>
 									</select>
 								</div>
+								<label class="col-sm-2" for="Comments"> Academic
+									Information:</label>
 							</div>
 							<hr>
 							<!-- other activities -->

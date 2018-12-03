@@ -304,6 +304,9 @@ public class StudentDAOImpl implements Schemacode {
 							bean.setGrud_state(reSet.getString("grud_state"));
 							bean.setSubsquent_degree(reSet.getString("subsquent_degree"));
 							bean.setCompany_comments(reSet.getString("company_comments"));
+							bean.setSubDegreeJson(reSet.getString("subsquent_degree_json"));
+							bean.setWorking_experience_json(reSet.getString("working_experience_json"));
+							bean.setPost_academic_experience(reSet.getString("post_academic_experience"));
 							return bean;
 						}
 					});
@@ -322,7 +325,9 @@ public class StudentDAOImpl implements Schemacode {
 			updateSql.append("update " + TABLE_STUDENT_POST_ACTIVE
 					+ " set employmentName=?,occupation=?,position=?,"
 					+ "employ_city=?,employ_county=?,employ_state=?,company_comments=?,grud_school_name=?,"
-					+ "grud_city=?,grud_county=?,grud_state=?,subsquent_degree=? where student_id='" + student_id
+					+ "grud_city=?,grud_county=?,grud_state=?,subsquent_degree=?,"
+					+ "subsquent_degree_json=?,working_experience_json=?,post_academic_experience=?"
+					+ " where student_id='" + student_id
 					+ "'");
 			return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
 				@Override
@@ -339,6 +344,9 @@ public class StudentDAOImpl implements Schemacode {
 					ps.setString(10, bean.getGrud_county());
 					ps.setString(11, bean.getGrud_state());
 					ps.setString(12, bean.getSubsquent_degree());
+					ps.setString(13, bean.getSubDegreeJson());
+					ps.setString(14, bean.getWorking_experience_json());
+					ps.setString(15, bean.getPost_academic_experience());
 				}
 			});
 		} else {
@@ -347,7 +355,7 @@ public class StudentDAOImpl implements Schemacode {
 			insertSql.append("insert into " + TABLE_STUDENT_POST_ACTIVE
 					+ " (student_id,employmentName,occupation,position,employ_city,"
 					+ "employ_county,employ_state,company_comments,grud_school_name,grud_city,grud_county,"
-					+ "grud_state,subsquent_degree) values " + "(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+					+ "grud_state,subsquent_degree,subsquent_degree_json,working_experience_json,post_academic_experience) values " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
 			return jdbcTemplate.update(insertSql.toString(), new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
@@ -364,6 +372,9 @@ public class StudentDAOImpl implements Schemacode {
 					ps.setString(11, bean.getGrud_county());
 					ps.setString(12, bean.getGrud_state());
 					ps.setString(13, bean.getSubsquent_degree());
+					ps.setString(14, bean.getSubDegreeJson());
+					ps.setString(15, bean.getWorking_experience_json());
+					ps.setString(16, bean.getPost_academic_experience());
 				}
 			});
 		}
@@ -429,7 +440,8 @@ public class StudentDAOImpl implements Schemacode {
 		updateSql.append("update profile_student set "
 				+ "high_school_act_total_score=?,high_school_act_reading_score=?,high_school_act_writing_score=?,high_school_act_math_score=?,high_school_act_sci_score=?,"
 				+ "high_school_sat_total_score=?,high_school_sat_reading_score=?,high_school_sat_writing_score=?,high_school_sat_math_score=?,high_school_sat_sci_score=?,"
-				+ "high_school_testing=?,highschool_activities=?,comments=?"
+				+ "high_school_testing=?,highschool_activities=?,comments=?,"
+				+" highschool_name=?, high_school_city=?,high_school_state=?"
 				+ " where user_id='" + student_id + "'");
 
 		return jdbcTemplate.update(updateSql.toString(), new PreparedStatementSetter() {
@@ -448,6 +460,9 @@ public class StudentDAOImpl implements Schemacode {
 				ps.setString(11, bean.getHigh_school_testing());
 				ps.setString(12, bean.getHighschool_activities());
 				ps.setString(13, bean.getComments());
+				ps.setString(14, bean.getHigh_shcool_name());
+				ps.setString(15,bean.getHigh_school_city());
+				ps.setString(16,bean.getHigh_school_state());
 			}
 		});
 		

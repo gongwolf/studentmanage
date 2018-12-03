@@ -284,8 +284,8 @@ public class YearlyDaoImpl implements Schemacode {
 					ps.setString(7, bean.getCourse_taken());
 					ps.setFloat(8, bean.getGpa());
 					ps.setFloat(9, bean.getSemester_gpa());
-					ps.setInt(10, bean.getSemester_credits());
-					ps.setInt(11, bean.getCredits());
+					ps.setInt(10, bean.getCredits());
+					ps.setInt(11, bean.getSemester_credits());
 					ps.setString(12, bean.getGraduated());
 					ps.setString(13, bean.getGraduated_degree());
 					ps.setString(14, bean.getGraduated_field());
@@ -332,8 +332,8 @@ public class YearlyDaoImpl implements Schemacode {
 					ps.setString(12, bean.getCourse_taken());
 					ps.setFloat(13, bean.getGpa());
 					ps.setFloat(14, bean.getSemester_gpa());
-					ps.setInt(15, bean.getSemester_credits());
-					ps.setInt(16, bean.getCredits());
+					ps.setInt(15, bean.getCredits());
+					ps.setInt(16, bean.getSemester_credits());
 					ps.setString(17, bean.getGraduated());
 					ps.setString(18, bean.getGraduated_degree());
 					ps.setString(19, bean.getGraduated_field());
@@ -414,8 +414,8 @@ public class YearlyDaoImpl implements Schemacode {
 					ps.setString(12, bean.getCourse_taken());
 					ps.setFloat(13, bean.getGpa());
 					ps.setFloat(14, bean.getSemester_gpa());
-					ps.setInt(15, bean.getSemester_credits());
-					ps.setInt(16, bean.getCredits());
+					ps.setInt(15, bean.getCredits());
+					ps.setInt(16, bean.getSemester_credits());
 					ps.setString(17, bean.getGraduated());
 					ps.setString(18, bean.getGraduated_degree());
 					ps.setString(19, bean.getGraduated_field());

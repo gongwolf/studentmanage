@@ -29,14 +29,13 @@
 							on <span th:text="${logBean.submitted_time}"></span></span>
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item"><a class="nav-link active" href="#"><i
-									class="fas fa-table"></i> Student Profile</a></li>
+									class="fas fa-table"></i>General Information</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/highschool'">High School</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly Data
-									Academic-AMP</a></li>
+								th:href="@{/student/}+${id}+'/yearlyreport'">Yearly AMP Activities</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/student/}+${id}+'/otheractivities'">Other Activities</a></li>
+								th:href="@{/student/}+${id}+'/otheractivities'">Other Activities (Non-AMP)</a></li>
 							<li class="nav-item"><a class="nav-link"
 								th:href="@{/student/}+${id}+'/postAMPActivities'">Post-Graduation</a>
 						</ul>
@@ -78,10 +77,10 @@
 										id="last_name" th:field="*{lastName}" th:value="${lastName}">
 								</div>
 							</div>
-							<div class="form-group required row">
-								<label class="col-sm-2 col-form-label-sm " for="ssn_last_four">
+							<div class="form-group required row ">
+								<label class="col-sm-1 col-form-label-sm" for="ssn_last_four" style="width: 12.499999995%">
 									Last 4 digital of SSN:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-3" style="width:20.8333333333%">
 									<input class="form-control form-control-sm" id="ssn_last_four"
 										name="ssn_last_four" placeholder="Last 4 digital of SSN"
 										type="text" th:field="*{ssn_last_four}"
@@ -106,7 +105,7 @@
 										class="glyphicon glyphicon-th"></span>
 								</div>
 							</div>
-							<div class="form-row">
+							<div class="form-group row">
 								<label for="Ethnicity" class="col-sm-1 col-form-label-sm">
 									Ethnicity:</label>
 								<div class="col-sm-3">
@@ -231,27 +230,27 @@
 								</div>
 							</div>
 							<div class="form-group required row">
-								<label class="col-sm-1 col-form-label-sm" for="City">
+								<label class="col-form-label-sm col-sm-coustom-0-5" for="City">
 									City:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-2-5">
 									<input class="form-control form-control-sm" id="City"
 										name="City" placeholder="city" type="text"
 										th:field="*{current_address_city}"
 										th:value="${current_address_city}" />
 								</div>
 
-								<label class="col-sm-1 col-form-label-sm" for="County">
+								<label class="col-form-label-sm col-sm-coustom-0-7" for="County">
 									County:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-2-3">
 									<input class="form-control form-control-sm" id="County"
 										name="County" placeholder="County" type="text"
 										th:field="*{current_address_county}"
 										th:value="${current_address_county}" />
 								</div>
 
-								<label class="col-sm-1 col-form-label-sm" for="State">
+								<label class="col-sm-coustom-0-5 col-form-label-sm" for="State">
 									State:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-2-5">
 									<select name="current_address_state"
 										th:field="*{current_address_state}"
 										class="form-control form-control-sm">
@@ -261,9 +260,9 @@
 									</select>
 								</div>
 
-								<label class="col-sm-1 col-form-label-sm" for="ZipCode">
+								<label class="col-sm-coustom-0-7 col-form-label-sm" for="ZipCode">
 									ZipCode:</label>
-								<div class="col-sm-2">
+								<div class="col-sm-coustom-1-3">
 									<input class="form-control form-control-sm" id="ZipCode"
 										name="ZipCode" placeholder="Zip" type="text"
 										th:field="*{current_address_zip}"
