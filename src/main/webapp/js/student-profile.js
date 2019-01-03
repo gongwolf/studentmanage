@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
 	    }
 	  });
 	
-	parseActivities(student_activities);
+
 	
 	
 	$('#addMoreActivities > span > i').click(function(){
@@ -65,6 +65,8 @@ jQuery(document).ready(function($) {
 //		alert("click remove activity button");
 		$(this).parent().parent().parent().parent().remove();
 	});
+	
+	parseActivities(student_activities);
 	
 //	$('#uploadRecommendModal').modal({
 //	    backdrop: 'static',
@@ -190,6 +192,9 @@ jQuery(document).ready(function($) {
 
 function parseActivities(student_activities){
 	var acts = JSON.parse(student_activities);
+	if(acts==null){
+		return;
+	}
 	var alist = acts.activities;
 	for (var i in alist) {
 	    var aName = alist[i].activityName;

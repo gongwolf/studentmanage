@@ -82,7 +82,7 @@ public class YearlyDaoImpl implements Schemacode {
 							bean.setFin_amp_type(reSet.getString("fin_amp_type"));
 
 							bean.setActivities_list(reSet.getString("Activities_list"));
-							System.out.println(bean.getActivities_list());
+							System.out.println("yearly activities list  "+bean.getActivities_list());
 							bean.setActivities_comments(reSet.getString("Activities_comments"));
 
 							// other activities

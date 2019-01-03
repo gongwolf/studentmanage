@@ -101,6 +101,7 @@ public class StudentDAOImpl implements Schemacode {
 //								bean.setHigh_school_testing((Arrays.asList(hs_testing.trim().split("\\s*,\\s*"))));
 //							}
 							bean.setHighschool_activities(reSet.getString("highschool_activities"));
+							System.out.println("high school activities "+bean.getHighschool_activities());
 							
 							/**************High school scores***********************/
 							bean.setHigh_school_act_total_score(reSet.getString("high_school_act_total_score"));
